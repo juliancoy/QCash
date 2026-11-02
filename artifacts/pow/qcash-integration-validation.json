@@ -1,7 +1,7 @@
 {
   "status": "passed_local_only",
   "name": "QCash",
-  "created_utc": "2026-11-02T00:06:44.100477+00:00",
+  "created_utc": "2026-11-02T00:11:05.491496+00:00",
   "frontend_tests_passed": 12,
   "api_and_retention_tests_passed": 14,
   "frontend_typecheck": "passed",
@@ -44,11 +44,12 @@
     "wallet-network-report-sanitize.json": {
       "status": "passed",
       "binary": "/home/julian/Documents/Organization/pqcoin/build-sanitize/qcash",
-      "work_directory": "/home/julian/Documents/Organization/pqcoin/.deps/wallet-network-8on_5dx3",
+      "work_directory": "/home/julian/Documents/Organization/pqcoin/.deps/wallet-network-vayba3bo",
       "browser": false,
       "chain_id": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "gateway_authentication": "passed",
       "native_signed_queue_gossip_and_confirmation": "passed",
-      "confirmed_transaction": "9a2d94cbcb33c19bb09d82cc1df5ce5d68b997d84b9af060bd56fba5c7e67718",
+      "confirmed_transaction": "7c00b2379ed5f19230b8d9c1cd2856da6441642401e304ab7803ab1f102416c0",
       "reorg_rolls_back_and_requeues_valid_detached_transfer": "passed",
       "restart_history_rebuild_and_idempotent_resubmission": "passed"
     }
@@ -101,14 +102,14 @@
     "pqcoin/CMakeLists.txt": "a34bf42b5d3995bf852a31a08db36601d81f79829a1771db20e1ca582e0f325c",
     "pqcoin/src/pow_main.cpp": "869a5b26bed7ed280e6905ab8305acb6764fa7aaf885eb9ce8e227ee23bf9eb8",
     "pqcoin/tests/qcash_profiles.py": "7a7690c04b8fbe3f87f1a5d2d58076400a274a4d754769cbfd35a5c15f217ca2",
-    "pqcoin/tests/wallet_network.py": "c1bf023f97f42e250524240af17374c141d55f265df35fa182064505527d5c3f",
+    "pqcoin/tests/wallet_network.py": "2dfce72a92b86c3973184ffe5891c30e367fc8c6640ba369c658817c22e61203",
     "pqcoin/tools/run_portal_testnet.py": "5218ac4aed92275fefe3935964209370ebdfcad6d3acd2f2917a4470d0024f35",
     "pqcoin/tools/wallet_gateway.py": "6bd88b0951c45afecc93daca4d81bd827100b3b53c902511f720a17e9b8a1546",
     "pqcoin/tools/deploy_testnet.py": "adc82ed299afad7697631643deb72103a0cf09838faef603746d45f5aa16fd9e"
   },
   "binary_sha256": {
     "pqcoin/build/qcash": "ecc4ac99f3d2ea869eda00f24e764995935780e3ba4597eb6bcd4b7963f0d7fb",
-    "pqcoin/build-sanitize/qcash": "ed3c12f4361d6f4a6ef9977a501909ca28c411600f2156231ff6bc0824d96e64"
+    "pqcoin/build-sanitize/qcash": "4a75ee27cb6efa58db62a7919239fb60a9525f3d12640aa93fc23d1bd95dd327"
   },
   "hosted_gateway_authentication": "passed: unauthenticated direct requests rejected; service secret replaces browser credentials"
 }
