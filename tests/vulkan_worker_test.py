@@ -8,6 +8,7 @@ import sys
 import tempfile
 import time
 import threading
+import fcntl
 import struct
 import unittest
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,21 @@ from vulkan_worker import VulkanWorker
 
 
 class VulkanWorkerTests(unittest.TestCase):
+    def test_blocked_pipe_honors_deadline_and_reaps_child(self):
+        with tempfile.TemporaryDirectory(prefix='qcash-blocked-pipe-') as directory:
+            fake=Path(directory)/'stalled-worker'
+            fake.write_text('#!'+sys.executable+'\nimport os,json,time\n'
+                +'print(json.dumps({"status":"ready","protocol":"qcash-vulkan-worker-v1","worker_pid":os.getpid()}),flush=True)\n'
+                +'time.sleep(120)\n')
+            fake.chmod(0o700)
+            began=time.monotonic()
+            with VulkanWorker(fake,deadline=began+.5) as worker:
+                fcntl.fcntl(worker.process.stdin.fileno(),fcntl.F_SETPIPE_SZ,4096)
+                with self.assertRaises(InterruptedError):
+                    worker.solve('/'+'w'*3000,'/'+'o'*3000,1,'ab'*32,'cd'*32)
+            self.assertLess(time.monotonic()-began,3)
+            self.assertIsNotNone(worker.process.poll())
+
     def test_oversized_private_request_is_rejected(self):
         worker=subprocess.Popen([str(GPU),'serve'],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         try:

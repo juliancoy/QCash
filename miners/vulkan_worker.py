@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import re
 import selectors
+import select
 import signal
 import struct
 import subprocess
@@ -14,6 +15,7 @@ class VulkanWorker:
     def __init__(self, binary, *, deadline, cancelled=lambda: False, options=()):
         self.deadline = deadline
         self.cancelled = cancelled
+        self.closed = False
         self.request_id = 0
         self.active = False
         self.buffer = bytearray()
@@ -23,6 +25,7 @@ class VulkanWorker:
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
             start_new_session=True, bufsize=0)
         self.selector.register(self.process.stdout, selectors.EVENT_READ)
+        os.set_blocking(self.process.stdin.fileno(),False)
         try:
             self.ready = self._read(min(deadline, time.monotonic()+20))
             if (self.ready.get('status') != 'ready' or
@@ -69,19 +72,29 @@ class VulkanWorker:
         self.active = True
         packet = memoryview(struct.pack('!I', len(payload))+payload)
         while packet:
-            written = os.write(self.process.stdin.fileno(), packet)
+            if self.cancelled() or time.monotonic()>=self.deadline:
+                raise InterruptedError('Vulkan worker send deadline reached')
+            try:
+                written = os.write(self.process.stdin.fileno(), packet)
+            except BlockingIOError:
+                select.select([], [self.process.stdin.fileno()], [], .05)
+                continue
             if written <= 0:
                 raise RuntimeError('Vulkan worker input closed')
             packet = packet[written:]
         result = self._read(min(self.deadline, time.monotonic()+seconds+1))
-        if result.get('request_id') != self.request_id or result.get('worker_pid') != self.process.pid:
+        if type(result.get('request_id')) is not int or result.get('request_id') != self.request_id or result.get('worker_pid') != self.process.pid:
             raise RuntimeError('Vulkan worker response identity mismatch')
         if result.get('status') not in ['solved', 'exhausted', 'budget_ended', 'cancelled', 'failed']:
             raise RuntimeError('Invalid Vulkan job result')
+        if result['status']=='solved' and result.get('native_verified') is not True:
+            raise RuntimeError('Vulkan proof was not independently verified')
         self.active = False
         return result
 
     def close(self):
+        if self.closed: return
+        self.closed = True
         if self.active and self.process.poll() is None:
             try: os.killpg(self.process.pid, signal.SIGTERM)
             except ProcessLookupError: pass
