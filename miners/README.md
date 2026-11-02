@@ -282,10 +282,15 @@ The uppercase arguments are placeholders. Choose your own reachable node and
 verify its chain ID and peer identity independently. This does not connect to a
 public hosted mining peer. The controller preserves reward checks, stale-tip
 checks and full-node submission/validation. No wallet private key goes to the GPU.
-Use `--vulkan-device N` for explicit device selection and `--vulkan-batch N` for
-bounded dispatches (default 65,536; maximum 1,048,576). Pipeline and mapped buffers
-are reused within each solve; each controller round currently starts a new GPU
-process/context, so short jobs can be dominated by setup.
+The controller now keeps one GPU process, device, pipeline and mapped buffers
+alive across all work rounds. `vulkan_ready` reports the one-time setup and worker
+PID; subsequent `vulkan_result` records identify each request and the same worker.
+Use `--vulkan-device N` for explicit device selection, `--vulkan-batch N` for
+candidates per dispatch (default 262,144, maximum 1,048,576), and
+`--vulkan-queue-depth N` for dispatches per fence wait (default 4, maximum 16).
+The default group therefore searches up to 1,048,576 candidates per host wait.
+Command buffers are reused when the dispatch shape is unchanged; no per-dispatch
+command recording or host synchronization is needed inside a queued group.
 
 Offline work-file usage:
 
@@ -303,9 +308,11 @@ and before writing a solution; an already submitted GPU dispatch must finish.
 A window that would overflow the 64-bit nonce is rejected; obtain a fresh template.
 Full-node acceptance is still required and is not finality or a reward guarantee.
 
-The kernel specializes for the canonical 268-byte header. It precomputes the fixed
-first 136-byte SHA3 rate block on the CPU, then performs the second absorption and
-Keccak permutation independently for each GPU nonce. SHA3 padding is 0x06, not
+The kernel specializes for the canonical 268-byte header. By default a small GPU
+preparation kernel computes the fixed first 136-byte SHA3 rate block once per job,
+then the mining kernel performs the second absorption and Keccak permutation
+independently for each nonce. `--vulkan-prepare cpu` selects the original CPU prefix
+calculation; neither mode hashes unsuccessful nonces on the CPU. SHA3 padding is 0x06, not
 legacy Ethereum Keccak padding. The big-endian nonce straddles two little-endian
 Keccak lanes; tests cover its 32-bit carry and upper 64-bit boundary. The full
 256-bit target comparison is inclusive.
@@ -325,7 +332,44 @@ python3 tools/plot_mining.py benchmarks/my-gpu.json --output benchmarks/my-gpu.p
 ```
 
 The GPU has separate timestamp-based kernel throughput, dispatch/fence wall
-throughput and per-process verified-proof latency. Those are different costs.
-The CPU baseline recomputes both SHA3 rate blocks; the GPU uses a cached first-block
-state. Small devnet jobs may favor CPU latency despite much higher sustained GPU
-throughput. Board power snapshots are diagnostic, not isolated miner energy use.
+throughput, new-process latency and persistent-worker latency. The latter includes
+private-pipe IPC, work-file read, GPU preparation/search, independent CPU proof
+verification and private solution-file creation, but excludes one-time startup.
+The CPU baseline recomputes both SHA3 rate blocks; the GPU reuses a first-block state.
+Board power snapshots are diagnostic, not isolated miner energy use.
+
+### Shader and host-path tuning
+
+The measured default is `pair32`: pairs of 32-bit words implement exact 64-bit
+Keccak operations. The alternatives `scalar64`, `compact64` and `compact32` remain
+available through `--vulkan-shader NAME`. The compact variants use in-place rho/pi
+and fewer source temporaries; measurements showed they were not the best choice
+on the RTX 3060. Source-level temporary counts do not establish physical register
+use. All variants and both prefix modes are checked against OpenSSL, including
+queued partial workgroups, changing templates, nonce carry and command reuse.
+
+Standalone executable options are `--shader NAME`, `--prepare cpu|gpu`,
+`--queue-depth 1..16`, `--batch 1..1048576` and `--workgroup 32|64|128|256`.
+`info --diagnostics 1` requests `VK_KHR_pipeline_executable_properties` statistics
+when supported. Driver register counts are retained; they do not measure achieved
+occupancy or runtime stalls. Implausible driver fields are flagged without
+replacing them with invented values.
+
+The worker's `serve` command accepts bounded length-prefixed messages only on its
+inherited stdin. It opens no listener. `miners/vulkan_worker.py` is the supported
+local client; it checks protocol/request/PID identity and kills/reaps its process
+group on cancellation. Each job binds its expected chain and reward address, and
+rejection does not poison subsequent jobs. Output files remain exclusive and 0600.
+The parent still checks the chain tip before submitting a candidate. Grouping
+work trades fewer CPU wakeups for bounded extra work when a tip changes; a running
+GPU group cannot be preempted by this interface.
+
+Reproduce the previous/current GPU comparison with a separately built `c3c8ac4`
+baseline executable (see the benchmark report):
+
+```sh
+python3 tools/benchmark_vulkan_optimizations.py --baseline BASELINE_QCASH_VULKAN \
+  --output benchmarks/my-gpu-optimization.json
+python3 tools/plot_vulkan_optimizations.py benchmarks/my-gpu-optimization.json \
+  --output benchmarks/my-gpu-optimization.png
+```

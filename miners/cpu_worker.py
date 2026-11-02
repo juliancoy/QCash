@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Bounded solo-mining controller. Keys stay local; every solution is node-validated."""
 import argparse
+from vulkan_worker import VulkanWorker
 import json
 import os
 from pathlib import Path
@@ -39,7 +40,10 @@ def main():
     parser.add_argument('--backend', choices=['cpu','vulkan','qpu-simulator'], default='cpu')
     parser.add_argument('--vulkan-binary', type=Path, help='Local qcash-vulkan executable; defaults beside --binary')
     parser.add_argument('--vulkan-device', type=int, help='Optional Vulkan enumeration index; default selects a physical GPU')
-    parser.add_argument('--vulkan-batch', type=int, default=65536)
+    parser.add_argument('--vulkan-batch', type=int, default=262144)
+    parser.add_argument('--vulkan-queue-depth', type=int, default=4)
+    parser.add_argument('--vulkan-shader', choices=['scalar64','pair32','compact64','compact32'], default='pair32')
+    parser.add_argument('--vulkan-prepare', choices=['cpu','gpu'], default='gpu')
     parser.add_argument('--simulator-bits', type=int, default=10)
     parser.add_argument('--simulator-shots', type=int, default=128)
     parser.add_argument('--simulator-seed', type=int, default=7)
@@ -51,7 +55,7 @@ def main():
     binary = args.binary.resolve(strict=True)
     gpu = None
     if args.backend=='vulkan':
-        if (args.vulkan_device is not None and not 0<=args.vulkan_device<2**32) or not 1<=args.vulkan_batch<=1048576:
+        if (args.vulkan_device is not None and not 0<=args.vulkan_device<2**32) or not 1<=args.vulkan_batch<=1048576 or not 1<=args.vulkan_queue_depth<=16:
             parser.error('Invalid Vulkan device or batch size')
         gpu = (args.vulkan_binary or binary.with_name('qcash-vulkan')).resolve(strict=True)
     home = args.home.resolve(strict=True)
@@ -98,9 +102,16 @@ def main():
     def report(status, **fields):
         print(json.dumps({'status': status, **fields}), flush=True)
 
+    worker = None
     try:
         command('trust', home, args.peer, args.peer_key)
         state()
+        if args.backend=='vulkan':
+            options=['--batch',args.vulkan_batch,'--queue-depth',args.vulkan_queue_depth,
+                     '--shader',args.vulkan_shader,'--prepare',args.vulkan_prepare]
+            if args.vulkan_device is not None: options += ['--device',args.vulkan_device]
+            worker=VulkanWorker(gpu,deadline=deadline,cancelled=lambda: stopping,options=options)
+            report('vulkan_ready',result=worker.ready)
         # No wallet PEM, browser session, provider credential or signed payment is read.
         for index in range(args.rounds):
             if stopping or time.monotonic() >= deadline:
@@ -114,10 +125,12 @@ def main():
                 if args.backend=='cpu':
                     code, output = command('solve', work, solved, args.attempts, allowed=(0, 3))
                 elif args.backend=='vulkan':
-                    device_options=[] if args.vulkan_device is None else ['--device',args.vulkan_device]
-                    code,output=command('solve',work,solved,args.attempts,'--batch',args.vulkan_batch,
-                        '--seconds',19,*device_options,program=gpu,allowed=(0,3))
-                    report('vulkan_result',result=json.loads(output))
+                    result=worker.solve(work,solved,args.attempts,args.chain_id,args.address)
+                    if result['status'] in ['failed','cancelled']:
+                        raise RuntimeError('Vulkan worker failed or was cancelled')
+                    code=0 if result['status']=='solved' else 3
+                    output=json.dumps(result)
+                    report('vulkan_result',result=result)
                 else:
                     code,output=command(Path(__file__).with_name('quantum_simulator.py'),'--binary',binary,
                         '--work',work,'--output',solved,'--chain-id',args.chain_id,'--address',args.address,
@@ -149,6 +162,8 @@ def main():
     except (OSError, RuntimeError, ValueError, KeyError, UnicodeError):
         report('failed', message='Check node availability, pinned identity, exact chain ID and native miner version.')
         return 2
+    finally:
+        if worker is not None: worker.close()
 
 
 if __name__ == '__main__':

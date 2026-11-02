@@ -2,12 +2,15 @@
 #include <charconv>
 #include <chrono>
 #include <csignal>
+#include <ctime>
 #include <fcntl.h>
 #include <fstream>
 #include <iostream>
 #include <limits>
+#include <poll.h>
 #include <pqcoin/pow.hpp>
 #include <pqcoin/vulkan_miner.hpp>
+#include <sstream>
 #include <stdexcept>
 #include <unistd.h>
 using namespace pqcoin;
@@ -79,90 +82,291 @@ using Clock = std::chrono::steady_clock;
 double seconds(Clock::time_point start) {
   return std::chrono::duration<double>(Clock::now() - start).count();
 }
+
+struct Options {
+  std::optional<std::uint32_t> device;
+  std::uint32_t batch = 262144, group = 64, depth = 4;
+  std::uint64_t seconds = 120;
+  std::string shader = "pair32";
+  bool gpu_prepare = true, diagnostics = false;
+};
+Hash unhash(const std::string &text) {
+  need(text.size() == 64, "Invalid work identity");
+  Hash out{};
+  for (unsigned i = 0; i < 32; i++) {
+    auto digit = [](char c) -> unsigned {
+      if (c >= '0' && c <= '9')
+        return unsigned(c - '0');
+      if (c >= 'a' && c <= 'f')
+        return unsigned(c - 'a' + 10);
+      throw std::runtime_error("Invalid hex");
+    };
+    out[i] = static_cast<unsigned char>((digit(text[2 * i]) << 4) |
+                                        digit(text[2 * i + 1]));
+  }
+  need(out != Hash{}, "Zero work identity");
+  return out;
+}
+std::string path_from_hex(const std::string &text) {
+  need(!text.empty() && text.size() <= 8192 && text.size() % 2 == 0,
+       "Invalid request path");
+  std::string out;
+  for (std::size_t i = 0; i < text.size(); i += 2) {
+    unsigned v{};
+    auto r = std::from_chars(text.data() + i, text.data() + i + 2, v, 16);
+    need(r.ec == std::errc{} && r.ptr == text.data() + i + 2 && v != 0,
+         "Invalid path encoding");
+    out += static_cast<char>(v);
+  }
+  return out;
+}
+void budget_check(const p::Block &block, std::uint64_t budget) {
+  need(block.target != Hash{}, "Zero work target");
+  need(budget >= 1 && budget <= 100000000, "Attempts must be 1..100000000");
+  need(block.nonce <= std::numeric_limits<std::uint64_t>::max() - (budget - 1),
+       "Nonce budget overflows; request fresh work");
+}
+std::string identity(VulkanMiner &miner, const Options &o) {
+  return "\"backend\":\"vulkan-sha3-midstate\",\"device\":" +
+         quoted(miner.device_name()) +
+         ",\"device_index\":" + std::to_string(miner.device_index()) +
+         ",\"workgroup\":" + std::to_string(o.group) +
+         ",\"shader\":" + quoted(o.shader) +
+         ",\"queue_depth\":" + std::to_string(o.depth) +
+         ",\"prefix_preparation\":" + quoted(o.gpu_prepare ? "gpu" : "cpu") +
+         ",\"pipeline_statistics\":" + miner.pipeline_statistics();
+}
+std::string
+solve(VulkanMiner &miner, p::Block block, const char *output,
+      std::uint64_t budget, const Options &o,
+      Clock::time_point worker_deadline = Clock::time_point::max()) {
+  auto began = Clock::now();
+  auto cpu_began = std::clock();
+  auto deadline =
+      std::min(worker_deadline, began + std::chrono::seconds(o.seconds));
+  budget_check(block, budget);
+  miner.prepare(p::header(block), o.gpu_prepare);
+  std::uint64_t done = 0, waits = 0;
+  double gpu = 0;
+  bool timed = true;
+  while (done < budget && !stopping && Clock::now() < deadline) {
+    auto n = static_cast<std::uint32_t>(std::min<std::uint64_t>(
+        std::uint64_t(o.batch) * o.depth, budget - done));
+    auto result = miner.run(block.nonce + done, n, false, o.batch);
+    waits++;
+    if (result.gpu_seconds)
+      gpu += *result.gpu_seconds;
+    else
+      timed = false;
+    auto base = done;
+    done += n;
+    if (stopping)
+      break;
+    if (result.winner) {
+      block.nonce += base + *result.winner;
+      auto digest = p::id(block);
+      need(digest <= block.target,
+           "GPU candidate failed native SHA3 verification");
+      create(output, p::encode_block(block));
+      std::ostringstream out;
+      out << "\"status\":\"solved\",\"blockId\":\"" << hex(digest)
+          << "\",\"native_verified\":true,\"attempts\":" << done
+          << ",\"job_seconds\":" << seconds(began)
+          << ",\"host_waits\":" << waits << ",\"host_cpu_seconds\":"
+          << double(std::clock() - cpu_began) / CLOCKS_PER_SEC;
+      return out.str();
+    }
+  }
+  std::ostringstream out;
+  out << "\"status\":\""
+      << (stopping         ? "cancelled"
+          : done == budget ? "exhausted"
+                           : "budget_ended")
+      << "\",\"attempts\":" << done << ",\"job_seconds\":" << seconds(began)
+      << ",\"host_waits\":" << waits << ",\"host_cpu_seconds\":"
+      << double(std::clock() - cpu_began) / CLOCKS_PER_SEC
+      << ",\"gpu_seconds\":";
+  if (timed)
+    out << gpu;
+  else
+    out << "null";
+  return out.str();
+}
+// Private inherited stdin only: bounded length-prefixed requests, never a port.
+bool read_exact(char *destination, std::size_t bytes,
+                Clock::time_point deadline) {
+  std::size_t done = 0;
+  while (done < bytes) {
+    if (stopping || Clock::now() >= deadline)
+      return false;
+    pollfd fd{STDIN_FILENO, POLLIN, 0};
+    int ready = ::poll(&fd, 1, 100);
+    if (ready < 0 && errno == EINTR)
+      continue;
+    need(ready >= 0, "Worker input failed");
+    if (!ready)
+      continue;
+    auto n = ::read(STDIN_FILENO, destination + done, bytes - done);
+    if (n < 0 && errno == EINTR)
+      continue;
+    if (n == 0) {
+      need(done == 0, "Truncated worker request");
+      return false;
+    }
+    need(n > 0, "Worker input failed");
+    done += static_cast<std::size_t>(n);
+  }
+  return true;
+}
+void serve(VulkanMiner &miner, const Options &o, Clock::time_point began) {
+  auto deadline = began + std::chrono::seconds(o.seconds);
+  std::cout << '{' << identity(miner, o)
+            << ",\"status\":\"ready\",\"protocol\":\"qcash-vulkan-worker-v1\","
+               "\"worker_pid\":"
+            << ::getpid() << ",\"setup_seconds\":" << seconds(began) << '}'
+            << std::endl;
+  std::uint64_t previous = 0;
+  for (unsigned job = 0; job < 1000000 && !stopping; job++) {
+    unsigned char size[4];
+    if (!read_exact(reinterpret_cast<char *>(size), 4, deadline))
+      break;
+    std::uint32_t length = 0;
+    for (auto b : size)
+      length = (length << 8) | b;
+    need(length > 0 && length <= 16384, "Worker frame exceeds bound");
+    std::string frame(length, '\0');
+    need(read_exact(frame.data(), length, deadline), "Truncated worker frame");
+    std::istringstream input(frame);
+    std::string id_text, budget_text, seconds_text, chain, reward, work, out,
+        extra;
+    need(bool(input >> id_text >> budget_text >> seconds_text >> chain >>
+              reward >> work >> out) &&
+             !(input >> extra),
+         "Malformed worker request");
+    auto id = number(id_text.c_str());
+    need(id > previous, "Worker request ID must increase");
+    previous = id;
+    try {
+      auto budget = number(budget_text.c_str()),
+           job_limit = number(seconds_text.c_str());
+      need(job_limit >= 1 && job_limit <= 300, "Invalid job deadline");
+      Options options = o;
+      options.seconds = job_limit;
+      auto block = p::decode_block(read(path_from_hex(work).c_str()));
+      need(block.chain == unhash(chain) && block.miner == unhash(reward),
+           "Work identity mismatch");
+      auto result = solve(miner, block, path_from_hex(out).c_str(), budget,
+                          options, deadline);
+      std::cout << '{' << identity(miner, o) << ',' << result
+                << ",\"request_id\":" << id << ",\"worker_pid\":" << ::getpid()
+                << '}' << std::endl;
+    } catch (const std::exception &) {
+      std::cout << "{\"status\":\"failed\",\"request_id\":" << id
+                << ",\"worker_pid\":" << ::getpid()
+                << ",\"error\":\"Work rejected or device operation failed\"}"
+                << std::endl;
+    }
+  }
+}
 } // namespace
 int main(int argc, char **argv) {
   try {
-    need(argc >= 2,
-         "Usage: qcash-vulkan info | solve WORK OUTPUT ATTEMPTS | bench WORK "
-         "ATTEMPTS REPEATS [--device N --batch N --workgroup N --seconds N]");
-    const std::string command = argv[1];
-    need(command == "info" || command == "solve" || command == "bench",
+    need(argc >= 2, "Usage: qcash-vulkan info | serve | solve WORK OUTPUT "
+                    "ATTEMPTS | bench WORK ATTEMPTS REPEATS [options]");
+    std::string command = argv[1];
+    bool service = command == "serve";
+    need(command == "info" || service || command == "solve" ||
+             command == "bench",
          "Unknown command");
-    need(command == "info" || argc >= 5,
-         "Missing work/output/budget arguments");
-    std::optional<std::uint32_t> device;
-    std::uint32_t batch = 65536, group = 64;
-    std::uint64_t limit = 120;
-    for (int i = command == "info" ? 2 : 5; i < argc; i += 2) {
+    need(command == "info" || service || argc >= 5, "Missing work arguments");
+    Options o;
+    for (int i = (command == "info" || service) ? 2 : 5; i < argc; i += 2) {
       need(i + 1 < argc, "Missing option value");
-      const std::string option = argv[i];
-      auto value = number(argv[i + 1]);
-      if (option == "--seconds") {
-        need(value >= 1 && value <= 300, "Seconds must be 1..300");
-        limit = value;
+      std::string option = argv[i], value = argv[i + 1];
+      if (option == "--shader") {
+        need(value == "scalar64" || value == "pair32" || value == "compact64" ||
+                 value == "compact32",
+             "Unknown shader");
+        o.shader = value;
         continue;
       }
-      need(value <= std::numeric_limits<std::uint32_t>::max(),
-           "Option too large");
-      auto small = static_cast<std::uint32_t>(value);
+      if (option == "--prepare") {
+        need(value == "cpu" || value == "gpu", "Unknown preparation backend");
+        o.gpu_prepare = value == "gpu";
+        continue;
+      }
+      auto n = number(value.c_str());
+      need(n <= std::numeric_limits<std::uint32_t>::max(), "Option too large");
+      auto small = static_cast<std::uint32_t>(n);
       if (option == "--device")
-        device = small;
+        o.device = small;
       else if (option == "--batch")
-        batch = small;
+        o.batch = small;
       else if (option == "--workgroup")
-        group = small;
-      else
+        o.group = small;
+      else if (option == "--diagnostics") {
+        need(n <= 1, "Diagnostics must be 0 or 1");
+        o.diagnostics = n != 0;
+      } else if (option == "--queue-depth")
+        o.depth = small;
+      else if (option == "--seconds") {
+        need(n >= 1 && n <= (service ? 3600U : 300U), "Invalid deadline");
+        o.seconds = n;
+      } else
         throw std::runtime_error("Unknown option");
     }
-    need(batch > 0 && batch <= VulkanMiner::max_batch,
-         "Batch must be 1..1048576");
+    need(o.batch > 0 && o.batch <= VulkanMiner::max_dispatch && o.depth >= 1 &&
+             o.depth <= 16,
+         "Invalid batch or queue depth");
     std::signal(SIGINT, stop);
     std::signal(SIGTERM, stop);
+    std::signal(SIGPIPE, SIG_IGN);
     auto began = Clock::now();
-    VulkanMiner miner(device, group);
-    std::string identity = "\"backend\":\"vulkan-sha3-midstate\",\"device\":" +
-                           quoted(miner.device_name()) + ",\"device_index\":" +
-                           std::to_string(miner.device_index()) +
-                           ",\"workgroup\":" + std::to_string(group);
+    VulkanMiner miner(o.device, o.group, o.shader, o.diagnostics);
+    auto ident = identity(miner, o);
     if (command == "info") {
-      std::cout << '{' << identity << "}\n";
+      std::cout << '{' << ident << "}\n";
       return 0;
     }
+    if (service) {
+      serve(miner, o, began);
+      return stopping ? 130 : 0;
+    }
     auto block = p::decode_block(read(argv[2]));
-    need(block.target != Hash{}, "Zero work target");
     auto budget = number(command == "solve" ? argv[4] : argv[3]);
-    need(budget >= 1 && budget <= 100000000, "Attempts must be 1..100000000");
-    need(block.nonce <=
-             std::numeric_limits<std::uint64_t>::max() - (budget - 1),
-         "Nonce budget overflows; request a fresh work template");
-    miner.prepare(p::header(block));
-    const double setup = seconds(began);
+    budget_check(block, budget);
     if (command == "bench") {
       auto repeats = number(argv[4]);
       need(repeats >= 1 && repeats <= 20, "Repeats must be 1..20");
-      // Independently verify actual shader digests before timing this template.
+      miner.prepare(p::header(block), o.gpu_prepare);
       auto test = miner.run(
           block.nonce,
           static_cast<std::uint32_t>(std::min<std::uint64_t>(budget, 256)),
-          true);
+          true, o.batch);
       for (std::size_t i = 0; i < test.digests.size(); i++) {
         auto check = block;
         check.nonce += i;
         need(p::id(check) == test.digests[i], "GPU SHA3 self-check failed");
       }
-      std::cout << '{' << identity << ",\"setup_seconds\":" << setup
+      // Warm the measured command shape so steady-state results include reuse.
+      auto warm_count = static_cast<std::uint32_t>(
+          std::min<std::uint64_t>(std::uint64_t(o.batch) * o.depth, budget));
+      miner.run(block.nonce, warm_count, false, o.batch);
+      std::cout << '{' << ident << ",\"setup_seconds\":" << seconds(began)
                 << ",\"hashes_per_round\":" << budget << ",\"samples\":[";
       for (std::uint64_t repeat = 0; repeat < repeats; repeat++) {
         auto started = Clock::now();
-        std::uint64_t done = 0;
+        auto cpu = std::clock();
+        std::uint64_t done = 0, waits = 0, records = miner.command_recordings();
         double gpu = 0;
         bool timed = true;
         while (done < budget) {
-          need(!stopping && seconds(began) < double(limit),
+          need(!stopping && seconds(began) < double(o.seconds),
                "Benchmark cancelled or deadline reached");
-          auto n = static_cast<std::uint32_t>(
-              std::min<std::uint64_t>(batch, budget - done));
-          auto result = miner.run(block.nonce + done, n);
+          auto n = static_cast<std::uint32_t>(std::min<std::uint64_t>(
+              std::uint64_t(o.batch) * o.depth, budget - done));
+          auto result = miner.run(block.nonce + done, n, false, o.batch);
+          waits++;
           if (result.winner) {
             auto check = block;
             check.nonce += done + *result.winner;
@@ -177,6 +381,10 @@ int main(int argc, char **argv) {
         if (repeat)
           std::cout << ',';
         std::cout << "{\"wall_seconds\":" << seconds(started)
+                  << ",\"host_cpu_seconds\":"
+                  << double(std::clock() - cpu) / CLOCKS_PER_SEC
+                  << ",\"host_waits\":" << waits << ",\"command_recordings\":"
+                  << miner.command_recordings() - records
                   << ",\"gpu_seconds\":";
         if (timed)
           std::cout << gpu;
@@ -187,47 +395,13 @@ int main(int argc, char **argv) {
       std::cout << "]}\n";
       return 0;
     }
-    std::uint64_t done = 0;
-    double gpu = 0;
-    bool timed = true;
-    while (done < budget && !stopping && seconds(began) < double(limit)) {
-      auto n = static_cast<std::uint32_t>(
-          std::min<std::uint64_t>(batch, budget - done));
-      auto result = miner.run(block.nonce + done, n);
-      if (result.gpu_seconds)
-        gpu += *result.gpu_seconds;
-      else
-        timed = false;
-      auto base = done;
-      done += n;
-      if (stopping)
-        break;
-      if (result.winner) {
-        block.nonce += base + *result.winner;
-        need(p::valid_work(block),
-             "GPU candidate failed native SHA3 verification");
-        create(argv[3], p::encode_block(block));
-        std::cout << '{' << identity << ",\"status\":\"solved\",\"blockId\":\""
-                  << hex(p::id(block))
-                  << "\",\"native_verified\":true,\"attempts\":" << done
-                  << ",\"setup_seconds\":" << setup
-                  << ",\"total_wall_seconds\":" << seconds(began) << "}\n";
-        return 0;
-      }
-    }
-    std::cout << '{' << identity << ",\"status\":\""
-              << (stopping         ? "cancelled"
-                  : done == budget ? "exhausted"
-                                   : "budget_ended")
-              << "\",\"attempts\":" << done << ",\"setup_seconds\":" << setup
-              << ",\"total_wall_seconds\":" << seconds(began)
-              << ",\"gpu_seconds\":";
-    if (timed)
-      std::cout << gpu;
-    else
-      std::cout << "null";
-    std::cout << "}\n";
-    return stopping ? 130 : 3;
+    const auto setup = seconds(began);
+    auto result = solve(miner, block, argv[3], budget, o);
+    std::cout << '{' << ident << ',' << result << ",\"setup_seconds\":" << setup
+              << ",\"total_wall_seconds\":" << seconds(began) << "}\n";
+    return stopping                                         ? 130
+           : result.find("\"solved\"") != std::string::npos ? 0
+                                                            : 3;
   } catch (const std::exception &e) {
     std::cerr << e.what() << '\n';
     return 2;

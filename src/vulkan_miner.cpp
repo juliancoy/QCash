@@ -1,10 +1,15 @@
-#include "mining_spirv.hpp"
+#include "mining_compact32.hpp"
+#include "mining_compact64.hpp"
+#include "mining_pair32.hpp"
+#include "mining_prepare.hpp"
+#include "mining_scalar64.hpp"
 #include <algorithm>
 #include <array>
 #include <bit>
 #include <cstring>
 #include <limits>
 #include <pqcoin/vulkan_miner.hpp>
+#include <sstream>
 #include <stdexcept>
 #include <vulkan/vulkan.h>
 namespace pqcoin {
@@ -68,6 +73,8 @@ struct VulkanMiner::Impl {
   VkPipelineLayout pipeline_layout{};
   VkShaderModule shader{};
   VkPipeline pipeline{};
+  VkShaderModule prepare_shader{};
+  VkPipeline prepare_pipeline{};
   VkDescriptorPool descriptor_pool{};
   VkDescriptorSet descriptors{};
   VkCommandPool command_pool{};
@@ -75,13 +82,17 @@ struct VulkanMiner::Impl {
   VkFence fence{};
   VkQueryPool queries{};
   unsigned timestamp_bits{};
+  bool diagnostics = false;
   struct Buffer {
     VkBuffer buffer{};
     VkDeviceMemory memory{};
     void *mapped{};
     bool coherent{};
-  } input, output;
-  bool prepared = false;
+  } input, output, parameters;
+  bool prepared = false, pending_prepare = false;
+  std::uint32_t cached_count = 0, cached_dispatch = 0;
+  bool cached_prepare = false;
+  std::uint64_t recordings = 0;
   ~Impl() {
     if (device) {
       vkDeviceWaitIdle(device);
@@ -93,6 +104,10 @@ struct VulkanMiner::Impl {
         vkDestroyCommandPool(device, command_pool, nullptr);
       if (pipeline)
         vkDestroyPipeline(device, pipeline, nullptr);
+      if (prepare_pipeline)
+        vkDestroyPipeline(device, prepare_pipeline, nullptr);
+      if (prepare_shader)
+        vkDestroyShaderModule(device, prepare_shader, nullptr);
       if (shader)
         vkDestroyShaderModule(device, shader, nullptr);
       if (pipeline_layout)
@@ -101,7 +116,7 @@ struct VulkanMiner::Impl {
         vkDestroyDescriptorPool(device, descriptor_pool, nullptr);
       if (descriptor_layout)
         vkDestroyDescriptorSetLayout(device, descriptor_layout, nullptr);
-      for (auto *b : {&output, &input}) {
+      for (auto *b : {&parameters, &output, &input}) {
         if (b->mapped)
           vkUnmapMemory(device, b->memory);
         if (b->buffer)
@@ -155,7 +170,8 @@ struct VulkanMiner::Impl {
     vkcheck(flush ? vkFlushMappedMemoryRanges(device, 1, &range)
                   : vkInvalidateMappedMemoryRanges(device, 1, &range));
   }
-  void init(std::optional<std::uint32_t> requested, std::uint32_t workgroup) {
+  void init(std::optional<std::uint32_t> requested, std::uint32_t workgroup,
+            const std::string &variant, bool capture_statistics) {
     need(workgroup == 32 || workgroup == 64 || workgroup == 128 ||
              workgroup == 256,
          "Workgroup must be 32, 64, 128 or 256");
@@ -205,7 +221,7 @@ struct VulkanMiner::Impl {
     need(group <= properties.limits.maxComputeWorkGroupInvocations &&
              group <= properties.limits.maxComputeWorkGroupSize[0],
          "Unsupported workgroup size");
-    need((max_batch + group - 1) / group <=
+    need((max_dispatch + group - 1) / group <=
              properties.limits.maxComputeWorkGroupCount[0],
          "GPU dispatch limit too small");
     float priority = 1;
@@ -219,12 +235,41 @@ struct VulkanMiner::Impl {
     dinfo.queueCreateInfoCount = 1;
     dinfo.pQueueCreateInfos = &qinfo;
     dinfo.pEnabledFeatures = &enabled;
+    VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR executable{
+        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_EXECUTABLE_PROPERTIES_FEATURES_KHR};
+    const char *extension =
+        VK_KHR_PIPELINE_EXECUTABLE_PROPERTIES_EXTENSION_NAME;
+    if (capture_statistics) {
+      std::uint32_t extension_count = 0;
+      vkcheck(vkEnumerateDeviceExtensionProperties(physical, nullptr,
+                                                   &extension_count, nullptr));
+      std::vector<VkExtensionProperties> available(extension_count);
+      vkcheck(vkEnumerateDeviceExtensionProperties(
+          physical, nullptr, &extension_count, available.data()));
+      bool supported =
+          std::any_of(available.begin(), available.end(), [&](const auto &e) {
+            return std::strcmp(e.extensionName, extension) == 0;
+          });
+      if (supported) {
+        VkPhysicalDeviceFeatures2 f{
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2};
+        f.pNext = &executable;
+        vkGetPhysicalDeviceFeatures2(physical, &f);
+        if (executable.pipelineExecutableInfo) {
+          diagnostics = true;
+          dinfo.enabledExtensionCount = 1;
+          dinfo.ppEnabledExtensionNames = &extension;
+          dinfo.pNext = &executable;
+        }
+      }
+    }
     vkcheck(vkCreateDevice(physical, &dinfo, nullptr, &device));
     vkGetDeviceQueue(device, family, 0, &queue);
     buffer(input, sizeof(Job));
+    buffer(parameters, 16);
     buffer(output, 16 + 4096 * 32);
-    VkDescriptorSetLayoutBinding bindings[2]{};
-    for (unsigned i = 0; i < 2; i++) {
+    VkDescriptorSetLayoutBinding bindings[3]{};
+    for (unsigned i = 0; i < 3; i++) {
       bindings[i].binding = i;
       bindings[i].descriptorCount = 1;
       bindings[i].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
@@ -232,11 +277,11 @@ struct VulkanMiner::Impl {
     }
     VkDescriptorSetLayoutCreateInfo linfo{
         VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO};
-    linfo.bindingCount = 2;
+    linfo.bindingCount = 3;
     linfo.pBindings = bindings;
     vkcheck(vkCreateDescriptorSetLayout(device, &linfo, nullptr,
                                         &descriptor_layout));
-    VkPushConstantRange push{VK_SHADER_STAGE_COMPUTE_BIT, 0, 16};
+    VkPushConstantRange push{VK_SHADER_STAGE_COMPUTE_BIT, 0, 8};
     VkPipelineLayoutCreateInfo plinfo{
         VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO};
     plinfo.setLayoutCount = 1;
@@ -245,14 +290,28 @@ struct VulkanMiner::Impl {
     plinfo.pPushConstantRanges = &push;
     vkcheck(vkCreatePipelineLayout(device, &plinfo, nullptr, &pipeline_layout));
     VkShaderModuleCreateInfo sinfo{VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO};
-    sinfo.codeSize = sizeof(mining_spirv);
-    sinfo.pCode = mining_spirv;
+    auto select = [&](auto &code) {
+      sinfo.codeSize = sizeof(code);
+      sinfo.pCode = code;
+    };
+    if (variant == "scalar64")
+      select(mining_scalar64);
+    else if (variant == "pair32")
+      select(mining_pair32);
+    else if (variant == "compact64")
+      select(mining_compact64);
+    else if (variant == "compact32")
+      select(mining_compact32);
+    else
+      throw std::runtime_error("Unknown shader variant");
     vkcheck(vkCreateShaderModule(device, &sinfo, nullptr, &shader));
     VkSpecializationMapEntry entry{0, 0, sizeof(group)};
     VkSpecializationInfo specialization{1, &entry, sizeof(group), &group};
     VkComputePipelineCreateInfo pinfo{
         VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO};
     pinfo.layout = pipeline_layout;
+    if (diagnostics)
+      pinfo.flags = VK_PIPELINE_CREATE_CAPTURE_STATISTICS_BIT_KHR;
     pinfo.stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
     pinfo.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
     pinfo.stage.module = shader;
@@ -260,7 +319,14 @@ struct VulkanMiner::Impl {
     pinfo.stage.pSpecializationInfo = &specialization;
     vkcheck(vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pinfo, nullptr,
                                      &pipeline));
-    VkDescriptorPoolSize poolsize{VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 2};
+    sinfo.codeSize = sizeof(mining_prepare);
+    sinfo.pCode = mining_prepare;
+    vkcheck(vkCreateShaderModule(device, &sinfo, nullptr, &prepare_shader));
+    pinfo.stage.module = prepare_shader;
+    pinfo.stage.pSpecializationInfo = nullptr;
+    vkcheck(vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pinfo, nullptr,
+                                     &prepare_pipeline));
+    VkDescriptorPoolSize poolsize{VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 3};
     VkDescriptorPoolCreateInfo dpinfo{
         VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO};
     dpinfo.maxSets = 1;
@@ -274,9 +340,10 @@ struct VulkanMiner::Impl {
     dsinfo.pSetLayouts = &descriptor_layout;
     vkcheck(vkAllocateDescriptorSets(device, &dsinfo, &descriptors));
     VkDescriptorBufferInfo buffers[] = {{input.buffer, 0, sizeof(Job)},
-                                        {output.buffer, 0, 16 + 4096 * 32}};
-    VkWriteDescriptorSet writes[2]{};
-    for (unsigned i = 0; i < 2; i++) {
+                                        {output.buffer, 0, 16 + 4096 * 32},
+                                        {parameters.buffer, 0, 16}};
+    VkWriteDescriptorSet writes[3]{};
+    for (unsigned i = 0; i < 3; i++) {
       writes[i].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
       writes[i].dstSet = descriptors;
       writes[i].dstBinding = i;
@@ -284,7 +351,7 @@ struct VulkanMiner::Impl {
       writes[i].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
       writes[i].pBufferInfo = &buffers[i];
     }
-    vkUpdateDescriptorSets(device, 2, writes, 0, nullptr);
+    vkUpdateDescriptorSets(device, 3, writes, 0, nullptr);
     VkCommandPoolCreateInfo cpinfo{VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO};
     cpinfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
     cpinfo.queueFamilyIndex = family;
@@ -306,17 +373,104 @@ struct VulkanMiner::Impl {
   }
 };
 VulkanMiner::VulkanMiner(std::optional<std::uint32_t> device,
-                         std::uint32_t group)
+                         std::uint32_t group, std::string shader,
+                         bool diagnostics)
     : impl_(std::make_unique<Impl>()) {
-  impl_->init(device, group);
+  impl_->init(device, group, shader, diagnostics);
 }
 VulkanMiner::~VulkanMiner() = default;
+std::string VulkanMiner::pipeline_statistics() const {
+  auto &v = *impl_;
+  if (!v.diagnostics)
+    return "{\"available\":false}";
+  auto props = reinterpret_cast<PFN_vkGetPipelineExecutablePropertiesKHR>(
+      vkGetDeviceProcAddr(v.device, "vkGetPipelineExecutablePropertiesKHR"));
+  auto stats = reinterpret_cast<PFN_vkGetPipelineExecutableStatisticsKHR>(
+      vkGetDeviceProcAddr(v.device, "vkGetPipelineExecutableStatisticsKHR"));
+  need(props && stats, "Pipeline diagnostics entry points missing");
+  auto quote = [](const char *text) {
+    std::string out = "\"";
+    for (; *text; text++) {
+      if (*text == '\\' || *text == '\"')
+        out += '\\';
+      if (static_cast<unsigned char>(*text) >= 32)
+        out += *text;
+    }
+    return out + '\"';
+  };
+  VkPipelineInfoKHR info{VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR};
+  info.pipeline = v.pipeline;
+  std::uint32_t count = 0;
+  vkcheck(props(v.device, &info, &count, nullptr));
+  need(count <= 32, "Too many pipeline executables");
+  std::vector<VkPipelineExecutablePropertiesKHR> executables(count);
+  for (auto &e : executables)
+    e.sType = VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_PROPERTIES_KHR;
+  vkcheck(props(v.device, &info, &count, executables.data()));
+  std::ostringstream out;
+  out << "{\"available\":true,\"executables\":[";
+  for (std::uint32_t i = 0; i < count; i++) {
+    if (i)
+      out << ',';
+    out << "{\"name\":" << quote(executables[i].name)
+        << ",\"subgroup_size\":" << executables[i].subgroupSize
+        << ",\"statistics\":[";
+    VkPipelineExecutableInfoKHR query{
+        VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INFO_KHR};
+    query.pipeline = v.pipeline;
+    query.executableIndex = i;
+    std::uint32_t n = 0;
+    vkcheck(stats(v.device, &query, &n, nullptr));
+    need(n <= 1024, "Too many pipeline statistics");
+    std::vector<VkPipelineExecutableStatisticKHR> values(n);
+    for (auto &stat : values) {
+      stat.sType = VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_STATISTIC_KHR;
+      stat.value.u64 = 0;
+    }
+    vkcheck(stats(v.device, &query, &n, values.data()));
+    for (std::uint32_t j = 0; j < n; j++) {
+      const auto &stat = values[j];
+      if (j)
+        out << ',';
+      out << "{\"name\":" << quote(stat.name)
+          << ",\"description\":" << quote(stat.description) << ",\"value\":";
+      switch (stat.format) {
+      case VK_PIPELINE_EXECUTABLE_STATISTIC_FORMAT_BOOL32_KHR:
+        out << (stat.value.b32 ? "true" : "false");
+        break;
+      case VK_PIPELINE_EXECUTABLE_STATISTIC_FORMAT_INT64_KHR:
+        out << stat.value.i64;
+        break;
+      case VK_PIPELINE_EXECUTABLE_STATISTIC_FORMAT_UINT64_KHR:
+        out << stat.value.u64;
+        break;
+      case VK_PIPELINE_EXECUTABLE_STATISTIC_FORMAT_FLOAT64_KHR:
+        out << stat.value.f64;
+        break;
+      default:
+        throw std::runtime_error("Unknown statistic format");
+      }
+      if (std::strcmp(stat.name, "Local Memory Size") == 0 &&
+          stat.format == VK_PIPELINE_EXECUTABLE_STATISTIC_FORMAT_UINT64_KHR &&
+          stat.value.u64 > 1073741824ULL)
+        out << ",\"interpretation\":\"implausible_per_thread_size_not_used_for_"
+               "occupancy\"";
+      out << '}';
+    }
+    out << "]}";
+  }
+  out << "]}";
+  return out.str();
+}
+std::uint64_t VulkanMiner::command_recordings() const {
+  return impl_->recordings;
+}
 std::string VulkanMiner::device_name() const {
   return impl_->properties.deviceName;
 }
 std::uint32_t VulkanMiner::device_index() const { return impl_->index; }
 std::uint32_t VulkanMiner::workgroup_size() const { return impl_->group; }
-void VulkanMiner::prepare(std::span<const unsigned char> header) {
+void VulkanMiner::prepare(std::span<const unsigned char> header, bool gpu) {
   constexpr char label[] = "pqcoin/pow-block/v1";
   need(header.size() == 268 &&
            std::equal(std::begin(label), std::end(label), header.begin()),
@@ -324,7 +478,9 @@ void VulkanMiner::prepare(std::span<const unsigned char> header) {
   Job job{};
   for (unsigned i = 0; i < 136; i++)
     job.midstate[i / 8] ^= std::uint64_t(header[i]) << ((i % 8) * 8);
-  keccak(job.midstate);
+  if (!gpu)
+    keccak(job.midstate);
+  impl_->pending_prepare = gpu;
   for (unsigned i = 0; i < 132; i++)
     job.tail[i / 8] |= std::uint64_t(header[i + 136]) << ((i % 8) * 8);
   job.tail[16] |= std::uint64_t(0x06) << 32;
@@ -336,9 +492,11 @@ void VulkanMiner::prepare(std::span<const unsigned char> header) {
   impl_->prepared = true;
 }
 VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
-                             bool capture) {
+                             bool capture, std::uint32_t dispatch_size) {
   auto &v = *impl_;
   need(v.prepared, "No prepared work template");
+  need(dispatch_size > 0 && dispatch_size <= max_dispatch,
+       "Invalid dispatch size");
   need(count > 0 && count <= max_batch && (!capture || count <= 4096),
        "Invalid Vulkan batch/capture count");
   need(start <= std::numeric_limits<std::uint64_t>::max() - (count - 1),
@@ -346,40 +504,72 @@ VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
   *static_cast<std::uint32_t *>(v.output.mapped) =
       std::numeric_limits<std::uint32_t>::max();
   v.cache(v.output, true);
-  vkcheck(vkResetCommandBuffer(v.command, 0));
-  VkCommandBufferBeginInfo begin{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
-  begin.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-  vkcheck(vkBeginCommandBuffer(v.command, &begin));
-  VkMemoryBarrier before{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
-  before.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
-  before.dstAccessMask = VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
-  vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_HOST_BIT,
-                       VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &before, 0,
-                       nullptr, 0, nullptr);
-  if (v.queries) {
-    vkCmdResetQueryPool(v.command, v.queries, 0, 2);
-    vkCmdWriteTimestamp(v.command, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT, v.queries,
-                        0);
-  }
-  vkCmdBindPipeline(v.command, VK_PIPELINE_BIND_POINT_COMPUTE, v.pipeline);
-  vkCmdBindDescriptorSets(v.command, VK_PIPELINE_BIND_POINT_COMPUTE,
-                          v.pipeline_layout, 0, 1, &v.descriptors, 0, nullptr);
   std::uint32_t params[] = {static_cast<std::uint32_t>(start),
                             static_cast<std::uint32_t>(start >> 32), count,
                             capture ? 1U : 0U};
-  vkCmdPushConstants(v.command, v.pipeline_layout, VK_SHADER_STAGE_COMPUTE_BIT,
-                     0, sizeof(params), params);
-  vkCmdDispatch(v.command, (count + v.group - 1) / v.group, 1, 1);
-  if (v.queries)
-    vkCmdWriteTimestamp(v.command, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
-                        v.queries, 1);
-  VkMemoryBarrier after{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
-  after.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-  after.dstAccessMask = VK_ACCESS_HOST_READ_BIT;
-  vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-                       VK_PIPELINE_STAGE_HOST_BIT, 0, 1, &after, 0, nullptr, 0,
-                       nullptr);
-  vkcheck(vkEndCommandBuffer(v.command));
+  std::memcpy(v.parameters.mapped, params, sizeof(params));
+  v.cache(v.parameters, true);
+  if (v.cached_count != count || v.cached_dispatch != dispatch_size ||
+      v.cached_prepare != v.pending_prepare) {
+    vkcheck(vkResetCommandBuffer(v.command, 0));
+    VkCommandBufferBeginInfo begin{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
+    vkcheck(vkBeginCommandBuffer(v.command, &begin));
+    VkMemoryBarrier before{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
+    before.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
+    before.dstAccessMask =
+        VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+    vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_HOST_BIT,
+                         VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &before, 0,
+                         nullptr, 0, nullptr);
+    if (v.queries) {
+      vkCmdResetQueryPool(v.command, v.queries, 0, 2);
+      vkCmdWriteTimestamp(v.command, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
+                          v.queries, 0);
+    }
+    vkCmdBindDescriptorSets(v.command, VK_PIPELINE_BIND_POINT_COMPUTE,
+                            v.pipeline_layout, 0, 1, &v.descriptors, 0,
+                            nullptr);
+    VkMemoryBarrier between{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
+    between.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+    between.dstAccessMask =
+        VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+    if (v.pending_prepare) {
+      vkCmdBindPipeline(v.command, VK_PIPELINE_BIND_POINT_COMPUTE,
+                        v.prepare_pipeline);
+      vkCmdDispatch(v.command, 1, 1, 1);
+      vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                           VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &between,
+                           0, nullptr, 0, nullptr);
+    }
+    vkCmdBindPipeline(v.command, VK_PIPELINE_BIND_POINT_COMPUTE, v.pipeline);
+    for (std::uint32_t base = 0; base < count;) {
+      auto n = std::min(dispatch_size, count - base);
+      std::uint32_t offset[] = {base, n};
+      vkCmdPushConstants(v.command, v.pipeline_layout,
+                         VK_SHADER_STAGE_COMPUTE_BIT, 0, sizeof(offset),
+                         offset);
+      vkCmdDispatch(v.command, (n + v.group - 1) / v.group, 1, 1);
+      base += n;
+      if (base < count)
+        vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                             VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1,
+                             &between, 0, nullptr, 0, nullptr);
+    }
+    if (v.queries)
+      vkCmdWriteTimestamp(v.command, VK_PIPELINE_STAGE_BOTTOM_OF_PIPE_BIT,
+                          v.queries, 1);
+    VkMemoryBarrier after{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
+    after.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
+    after.dstAccessMask = VK_ACCESS_HOST_READ_BIT;
+    vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                         VK_PIPELINE_STAGE_HOST_BIT, 0, 1, &after, 0, nullptr,
+                         0, nullptr);
+    vkcheck(vkEndCommandBuffer(v.command));
+    ++v.recordings;
+    v.cached_count = count;
+    v.cached_dispatch = dispatch_size;
+    v.cached_prepare = v.pending_prepare;
+  }
   vkcheck(vkResetFences(v.device, 1, &v.fence));
   VkSubmitInfo submit{VK_STRUCTURE_TYPE_SUBMIT_INFO};
   submit.commandBufferCount = 1;
@@ -387,6 +577,7 @@ VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
   vkcheck(vkQueueSubmit(v.queue, 1, &submit, v.fence));
   vkcheck(vkWaitForFences(v.device, 1, &v.fence, VK_TRUE, 30000000000ULL));
   v.cache(v.output, false);
+  v.pending_prepare = false;
   VulkanBatch result;
   auto *words = static_cast<std::uint32_t *>(v.output.mapped);
   if (words[0] != std::numeric_limits<std::uint32_t>::max()) {

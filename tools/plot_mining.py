@@ -19,7 +19,7 @@ def main():
     fig, axes = plt.subplots(1, 2, figsize=(17, 8), gridspec_kw={'width_ratios': [1, 1.3]})
     colors = {'Native C++ miner': '#2563eb', 'Python hashlib loop': '#059669',
               'Python hashlib miner': '#059669', 'Qiskit Aer Grover demo': '#9333ea', 'Vulkan GPU · dispatch + wait': '#ea580c',
-              'Vulkan GPU · kernel only': '#fb923c', 'Vulkan GPU miner': '#ea580c'}
+              'Vulkan GPU · kernel only': '#fb923c', 'Vulkan GPU miner': '#64748b', 'Vulkan GPU · persistent worker':'#ea580c'}
     for ax, key, title, descending, scale in [
         (axes[0], 'throughput_hashes_per_second', ('Nonce-search throughput · log scale\nHigher is faster' if data.get('gpu_receipts') else 'CPU nonce-search throughput\nHigher is faster'), True, 1),
         (axes[1], 'verified_proof_latency_seconds', 'Time to a verified proof · log scale\nLower is faster', False, 1000),
@@ -71,7 +71,7 @@ def main():
         "Conditional demo timings, not network block times. No physical QPU or quantum speedup measured. Background workloads remained active."
     )
     if data.get('gpu_receipts'):
-        note += '\nGPU reuses the fixed first-block midstate. Throughput excludes context setup; proof latency includes it. Both panels use log scales.'
+        note += '\nGPU reuses the first-block state. Throughput excludes setup; persistent-worker latency excludes its one-time startup. Both panels use log scales.'
     fig.text(.035, .025, note, fontsize=9.5, color='#475569', linespacing=1.65)
     fig.subplots_adjust(left=.20, right=.94, top=.77, bottom=.30, wspace=1.15)
     args.output.parent.mkdir(parents=True, exist_ok=True)

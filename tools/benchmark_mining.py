@@ -15,6 +15,8 @@ import tempfile
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0,str(ROOT/"miners"))
+from vulkan_worker import VulkanWorker
 
 
 def scan(header, target, count, stop):
@@ -106,6 +108,7 @@ def main():
             peer = f'127.0.0.1:{sock.getsockname()[1]}'
         with (d/'node.log').open('w') as log:
             node = subprocess.Popen([binary, 'node', str(d/'node'), peer], stdout=log, stderr=log)
+            gpu_worker=None
             try:
                 native('trust', d/'client', peer, identity)
                 for _ in range(100):
@@ -145,6 +148,8 @@ def main():
                     throughput['Vulkan GPU · dispatch + wait'] = []
                     throughput['Vulkan GPU · kernel only'] = []
                     latency['Vulkan GPU miner'] = []
+                    latency['Vulkan GPU · persistent worker'] = []
+                    gpu_worker=VulkanWorker(gpu_binary,deadline=time.monotonic()+min(3600,args.repeats*120))
                 # Warm up both hash paths; measured rounds alternate order.
                 native('solve', d/'hard.bin', d/'never.bin', 4096, codes=(3,))
                 scan(hard_job['header'], hard_job['target'], 4096, False)
@@ -175,6 +180,9 @@ def main():
                         began = time.perf_counter()
                         if name.startswith('Native'):
                             report = json.loads(native('solve', d/'window.bin', output, 1 << args.bits))
+                        elif name=='Vulkan GPU · persistent worker':
+                            report=gpu_worker.solve(d/'window.bin',output,1<<args.bits,initial['chain'],reward)
+                            assert report['status']=='solved' and report['native_verified']
                         elif name.startswith('Vulkan'):
                             report = json.loads(run(gpu_binary, 'solve',d/'window.bin',output,1<<args.bits,
                                                     '--batch',args.vulkan_batch))
@@ -195,6 +203,7 @@ def main():
                         assert digest == report['blockId'] and int(digest, 16) <= int(job['target'], 16)
                     print(f'Completed round {repeat + 1}/{args.repeats}', flush=True)
             finally:
+                if gpu_worker is not None: gpu_worker.close()
                 node.terminate()
                 try:
                     node.wait(timeout=8)
@@ -225,6 +234,7 @@ def main():
                 'classical_selection_seconds_excluded_from_latency': fixture_seconds},
             'simulator_receipts': simulator_receipts,
             'gpu_receipts': gpu_receipts,
+            'gpu_worker_ready': gpu_worker.ready if gpu_worker is not None else None,
             'methodology': [
                 'Single logical CPU; background workloads not stopped. Median and min/max over alternating rounds.',
                 'Throughput: complete hard-target scan, same 268-byte header for both CPU paths. Native includes process startup; Python loop runs warm in process.',
@@ -233,7 +243,7 @@ def main():
                 'Simulator performs full classical window lookup then CPU statevector simulation; CPU miners stop at first proof. No quantum speedup or QPU hardware claim.',
                 'Python hashlib uses native OpenSSL hashing; this is not a pure Python SHA3 implementation.',
                 'Vulkan, when explicitly enabled, reuses a fixed first-block SHA3 midstate; measured dispatch + fence wall time excludes context/pipeline creation. Kernel time uses Vulkan timestamps. Native baseline recomputes both SHA3 blocks.',
-                'Vulkan proof latency includes a new process/context/pipeline; driver caches may be warm. No WebGPU, WASM or physical QPU mining backend is benchmarked. ML-KEM performance does not measure mining.',
+                'Vulkan GPU miner latency includes a new process/context/pipeline; persistent-worker latency includes IPC, work preparation, search and verification, while excluding its separately recorded startup. Driver caches may be warm. No WebGPU, WASM or physical QPU mining backend is benchmarked. ML-KEM performance does not measure mining.',
             ]}
         args.output.parent.mkdir(parents=True, exist_ok=True)
         with args.output.open('x') as out:

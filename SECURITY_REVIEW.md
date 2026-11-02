@@ -192,3 +192,16 @@ Only public work bytes are uploaded; peer-provided shaders and wallet keys are
 not accepted. Dispatches are bounded; cancellation cannot preempt a running GPU
 command. A faulty GPU can waste time or miss solutions, and this is not a formal
 shader audit or a claim of production consensus readiness.
+
+
+The optimized controller keeps a private local Vulkan worker alive across work
+rounds. Its stdin protocol is bounded to 16 KiB, uses increasing request IDs and
+binds chain/reward identities; it is not exposed as a network service. Replies
+are bounded and checked against the expected request and worker PID. Cancellation
+terminates/reaps the process group, and stale candidates are not submitted.
+The GPU can prepare the prefix and search bounded queued ranges without CPU hash
+work on unsuccessful nonces. One independent CPU SHA3 check remains mandatory
+for a winning proof. Tests cover all four shader variants and both preparation
+modes, repeated command reuse, rejection/recovery, multi-round node acceptance,
+malformed framing, active cancellation and stale-tip suppression. Runtime GPU
+occupancy/stall profiling is not inferred from driver pipeline statistics.

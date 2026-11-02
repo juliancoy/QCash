@@ -93,13 +93,28 @@ if(QCASH_VULKAN)
   find_package(Vulkan REQUIRED)
   find_package(Python3 REQUIRED COMPONENTS Interpreter)
   find_program(GLSLANG_VALIDATOR glslangValidator REQUIRED)
-  add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mining.spv
-    COMMAND ${GLSLANG_VALIDATOR} -V --target-env vulkan1.1 -Os ${CMAKE_CURRENT_SOURCE_DIR}/shaders/mining.comp -o ${CMAKE_CURRENT_BINARY_DIR}/mining.spv
-    DEPENDS shaders/mining.comp VERBATIM)
-  add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mining_spirv.hpp
-    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/embed_spirv.py ${CMAKE_CURRENT_BINARY_DIR}/mining.spv ${CMAKE_CURRENT_BINARY_DIR}/mining_spirv.hpp
-    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/mining.spv tools/embed_spirv.py VERBATIM)
-  add_library(qcash_vulkan src/vulkan_miner.cpp ${CMAKE_CURRENT_BINARY_DIR}/mining_spirv.hpp)
+  set(MINING_HEADERS)
+  foreach(variant scalar64 pair32 compact64 compact32 prepare)
+    set(DEFINES)
+    if(variant MATCHES "32$")
+      list(APPEND DEFINES -DPAIR32=1)
+    endif()
+    if(variant MATCHES "^compact")
+      list(APPEND DEFINES -DCOMPACT=1)
+    endif()
+    set(SHADER mining.comp)
+    if(variant STREQUAL "prepare")
+      set(SHADER prepare.comp)
+    endif()
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mining_${variant}.spv
+      COMMAND ${GLSLANG_VALIDATOR} -V --target-env vulkan1.1 -Os ${DEFINES} ${CMAKE_CURRENT_SOURCE_DIR}/shaders/${SHADER} -o ${CMAKE_CURRENT_BINARY_DIR}/mining_${variant}.spv
+      DEPENDS shaders/${SHADER} shaders/keccak.glsl VERBATIM)
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mining_${variant}.hpp
+      COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/embed_spirv.py ${CMAKE_CURRENT_BINARY_DIR}/mining_${variant}.spv ${CMAKE_CURRENT_BINARY_DIR}/mining_${variant}.hpp mining_${variant}
+      DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/mining_${variant}.spv tools/embed_spirv.py VERBATIM)
+    list(APPEND MINING_HEADERS ${CMAKE_CURRENT_BINARY_DIR}/mining_${variant}.hpp)
+  endforeach()
+  add_library(qcash_vulkan src/vulkan_miner.cpp ${MINING_HEADERS})
   target_include_directories(qcash_vulkan PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
   target_link_libraries(qcash_vulkan PUBLIC pqcoin_crypto Vulkan::Vulkan)
   target_compile_options(qcash_vulkan PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wno-missing-field-initializers)
