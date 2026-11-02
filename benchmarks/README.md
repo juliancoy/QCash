@@ -1,10 +1,102 @@
 # QCash mining speed
 
-## CPU, Vulkan GPU and simulator comparison
+## Resident GPU worker and shader optimization
+
+![Resident GPU optimization comparison](gpu-optimized-rtx3060.png)
+
+The default Vulkan path now uses a persistent local worker, cached command buffers,
+four bounded dispatches per fence wait, GPU-side prefix preparation and the exact
+`pair32` SHA3 shader. No unsuccessful nonce is hashed on the CPU. One independent
+CPU rehash of a winning proof remains, along with network/job control and occasional
+queue submissions. The node still performs its complete consensus validation.
+
+In the final seven-run comparison on the RTX 3060, the selected default measured
+**607.06 million attempts/s** including dispatch/fence overhead, versus
+**399.05 million/s** for the previous executable: **52% higher throughput**.
+GPU execution intervals measured **655.71 million/s**, up **34%** from the
+previous **487.68 million/s**. Those intervals include barriers between queued
+kernels, not just sums of individual kernel times.
+
+Warm, GPU-prefix worker requests took **0.254 ms median** for the same known-winning
+256-nonce window, including IPC, work-file read, preparation/search, independent
+CPU verification and private output creation. The one-time worker setup was
+**156.75 ms** and is excluded from warm latency; a new GPU process for every job
+still took about **220.77 ms**. These are conditional proof latencies, not network
+block times or controller-round latency including peer requests/submission.
+
+For each 16,777,216-candidate throughput round, grouping reduced host waits from
+**64 to 16**. The optimized worker process used a median **1.26% of one host CPU
+core** during these steady-state samples. This excludes the Python parent,
+network/node processes, initialization and driver work outside the process. It
+is not a claim that the entire miner uses zero CPU. All steady-state samples
+reported zero command-buffer recordings after the shape was warmed.
+
+The compact 32-bit variant measured **624.52 million/s** in this confirmation
+run, slightly above the selected pair variant. Pair32 led the initial selection
+run and uses 74 driver-reported registers versus compact32's 76; both variants'
+wall-time ranges overlap, and these samples do not establish a universal winner.
+Both remain selectable. The 64-bit compact variant used 80 registers: fewer
+source temporaries did not translate into fewer physical registers. Paired-word
+code was smaller than scalar64 (7,936 versus 9,984 bytes), while both used 74
+registers. No runtime occupancy or execution-stall counters are claimed. An
+implausible driver-reported per-thread local-memory field is retained and flagged,
+not interpreted as an actual allocation or used to calculate occupancy.
+
+Raw/provenance records:
+
+- [Initial candidate selection](gpu-optimization-selection-rtx3060.json), collected
+  before the feature commit (its dirty source flag refers to the in-development
+  implementation, not an unchanged baseline executable).
+- [First independent confirmation](gpu-optimization-confirmation-rtx3060.json).
+- [Final confirmation](gpu-optimized-rtx3060.json), with a separately rebuilt
+  `c3c8ac4` baseline, balanced case order, seven repetitions and binary/source hashes.
+- [Full CPU/GPU/simulator comparison with persistent-worker latency](mining-speed-resident-rtx3060.png)
+  and its [raw measurements](mining-speed-resident-rtx3060.json).
+- [Validation receipt](gpu-resident-validation-rtx3060.json): 12 passing CTest
+  suites, final three-case worker suite, 24,672 GPU/OpenSSL comparisons across all
+  variants/preparation modes, SPIR-V validation and Vulkan validation-layer checks.
+
+An intervening benchmark stopped with `VK_ERROR_DEVICE_LOST`; the kernel recorded
+NVIDIA Xid 32 for its process. The cause remains unresolved. NVIDIA describes this
+as a push-buffer/DMA communication fault; that classification does not establish
+this machine's root cause. See the [NVIDIA Xid catalog](https://docs.nvidia.com/deploy/xid-errors/analyzing-xid-catalog.html)
+and the [retained failure record](gpu-device-loss-rtx3060.json). No GPU reset or
+driver change was made. Subsequent digest/validation checks, 20 selected-shader
+validation rounds, [50 sustained previous/current rounds](gpu-post-fault-stress-rtx3060.json),
+and the final comparison passed without another observed Xid. The fault is not
+silently discarded or counted as a successful sample. Future failed benchmark
+commands save partial results and the failing case in a `.failed.json` receipt.
+The implementation remains experimental and this is not a GPU reliability
+certification.
+
+Reproduce the before/after report from a current checkout with the optional Vulkan
+backend built and its [simulator dependencies](../miners/README.md#local-qpu-simulation)
+installed if also running the full CPU/GPU/simulator comparison:
+
+```sh
+git worktree add --detach .deps/gpu-baseline-src c3c8ac4
+cmake -S .deps/gpu-baseline-src -B build-gpu-baseline -G Ninja \
+  -DCMAKE_BUILD_TYPE=Release -DOPENSSL_ROOT_DIR="$PWD/.deps/openssl" \
+  -DOPENSSL_USE_STATIC_LIBS=ON -DBUILD_TESTING=OFF -DQCASH_VULKAN=ON
+cmake --build build-gpu-baseline --parallel 2 --target qcash-vulkan
+python3 tools/benchmark_vulkan_optimizations.py --selected-shader pair32 \
+  --repeats 7 --output benchmarks/my-resident-gpu.json
+python3 tools/plot_vulkan_optimizations.py benchmarks/my-resident-gpu.json \
+  --output benchmarks/my-resident-gpu.png
+```
+
+The scripts use one allowed host logical CPU and leave background workloads running;
+whiskers show min/max spread. The final source-tracked state was clean; untracked
+measurement outputs explain the separate general dirty flag. A baseline worktree
+already created on this host can be reused. See the [miner guide](../miners/README.md#vulkan-gpu-mining)
+for controller options and the private worker protocol.
+
+
+## Previous CPU, Vulkan GPU and simulator comparison
 
 ![CPU and GPU mining comparison](mining-speed-ryzen5800x-rtx3060.png)
 
-The latest same-workload run used an AMD Ryzen 7 5800X host with one logical
+That earlier same-workload run used an AMD Ryzen 7 5800X host with one logical
 CPU and an NVIDIA GeForce RTX 3060 (driver 580.142). Five runs measured:
 
 - Vulkan kernel: **486.81 million header attempts/s** from GPU timestamps.
@@ -24,8 +116,8 @@ For a new process on the same known-winning 256-nonce fixture, median proof
 latencies were **7.67 ms CPU**, **66.06 ms Python**, **267.55 ms GPU**, and
 **653.89 ms simulator**. Vulkan setup dominates this tiny job. The library
 reuses its context across dispatches, while the command-line controller currently
-starts a new process for each work round. Keeping that context across work rounds
-is a further optimization; these results do not conceal the current startup cost.
+at that revision started a new process for each work round. Keeping that context
+across work rounds was a further optimization; these results do not conceal the current startup cost.
 Driver caches may already be warm, so these are new-process timings, not a claim
 of completely cold driver caches.
 

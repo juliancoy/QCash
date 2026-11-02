@@ -1,0 +1,561 @@
+{
+  "metadata": {
+    "created_utc": "2026-11-02T04:18:40Z",
+    "cpu_model": "AMD Ryzen 7 5800X 8-Core Processor",
+    "cpu_affinity": 0,
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+    "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+    "python_openssl": "OpenSSL 3.0.13 30 Jan 2024",
+    "native_openssl": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)",
+    "source_commit": "a9ab70d71ac5e23a7dd91bf2c65ed3d62f22d41c",
+    "source_dirty": true,
+    "load_average_start": [
+      16.12841796875,
+      13.79541015625,
+      16.8828125
+    ],
+    "load_average_end": [
+      14.4951171875,
+      13.60498046875,
+      16.75634765625
+    ],
+    "gpu_telemetry_fields": [
+      "name",
+      "driver_version",
+      "utilization_percent",
+      "board_power_watts",
+      "temperature_celsius"
+    ],
+    "gpu_telemetry_start": "NVIDIA GeForce RTX 3060, 580.142, 6, 12.44, 45",
+    "gpu_telemetry_end": "NVIDIA GeForce RTX 3060, 580.142, 1, 31.97, 47",
+    "benchmark_script_sha256": "c1aab725e379abad70fec55d0be360bcc22c1055c4e3909bc53ad3701c4cb311",
+    "gpu": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      }
+    },
+    "gpu_binary_sha256": "523579bbb81c68b3e904f74134d18aedf6d6879d85cc1203cdbf123d8097c73a",
+    "binary_sha256": "1eb30545954e477747e5e692c4a5436871cbc2f81c84f42bd2b7d34bf86b6513"
+  },
+  "hash_attempts_per_round": 262144,
+  "throughput_hashes_per_second": {
+    "Native C++ miner": {
+      "median": 1189461.7114403846,
+      "min": 1028744.7960424445,
+      "max": 1254111.9451501714,
+      "samples": [
+        1254111.9451501714,
+        1186102.5613890083,
+        1189461.7114403846,
+        1248420.9244980216,
+        1028744.7960424445
+      ]
+    },
+    "Python hashlib loop": {
+      "median": 824814.5668627948,
+      "min": 797688.3275469767,
+      "max": 880300.7537904106,
+      "samples": [
+        880300.7537904106,
+        797688.3275469767,
+        824814.5668627948,
+        809715.1535394252,
+        837071.4546379353
+      ]
+    },
+    "Vulkan GPU \u00b7 dispatch + wait": {
+      "median": 565710450.6149261,
+      "min": 481057304.29245424,
+      "max": 574617606.95826,
+      "samples": [
+        537913345.0295998,
+        574617606.95826,
+        565710450.6149261,
+        481057304.29245424,
+        569948884.970529
+      ]
+    },
+    "Vulkan GPU \u00b7 kernel only": {
+      "median": 659581320.4508857,
+      "min": 658097686.3753214,
+      "max": 659953274.7925562,
+      "samples": [
+        659581320.4508857,
+        659368963.2968448,
+        659740678.1026013,
+        659953274.7925562,
+        658097686.3753214
+      ]
+    }
+  },
+  "verified_proof_latency_seconds": {
+    "Native C++ miner": {
+      "median": 0.16259627300314605,
+      "min": 0.028144280979176983,
+      "max": 0.2683372129977215,
+      "samples": [
+        0.16259627300314605,
+        0.2683372129977215,
+        0.26187583000864834,
+        0.028144280979176983,
+        0.06122930097626522
+      ]
+    },
+    "Python hashlib miner": {
+      "median": 0.08979870998882689,
+      "min": 0.06124550101230852,
+      "max": 0.2692231140099466,
+      "samples": [
+        0.20494772799429484,
+        0.2692231140099466,
+        0.06124550101230852,
+        0.0876091819955036,
+        0.08979870998882689
+      ]
+    },
+    "Qiskit Aer Grover demo": {
+      "median": 0.709854724991601,
+      "min": 0.5954792670090683,
+      "max": 0.7978548469836824,
+      "samples": [
+        0.7978548469836824,
+        0.7938801510026678,
+        0.5954792670090683,
+        0.709854724991601,
+        0.6099786809936631
+      ]
+    },
+    "Vulkan GPU miner": {
+      "median": 0.23550170002272353,
+      "min": 0.22427375498227775,
+      "max": 0.2899115770123899,
+      "samples": [
+        0.22427375498227775,
+        0.2899115770123899,
+        0.23550170002272353,
+        0.24977218301501125,
+        0.23420054899179377
+      ]
+    },
+    "Vulkan GPU \u00b7 persistent worker": {
+      "median": 0.0004949180001858622,
+      "min": 0.00045539397979155183,
+      "max": 0.002230525016784668,
+      "samples": [
+        0.002230525016784668,
+        0.0004949180001858622,
+        0.0004682480066549033,
+        0.0005311559943947941,
+        0.00045539397979155183
+      ]
+    }
+  },
+  "fixture": {
+    "job": {
+      "format": "qcash-work-v1",
+      "chainId": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "parent": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "rewardAddress": "fdd7fe8cf6c108ff7e95f0a468892c13b5cb7ab711abca387790cecca9b76fef",
+      "target": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "header": "7071636f696e2f706f772d626c6f636b2f763100d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2ad6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a0000000000000001000000006ae80f14000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffdd7fe8cf6c108ff7e95f0a468892c13b5cb7ab711abca387790cecca9b76fef26e1f73570cbd6966f364f35359229ef148907073445789bcf5b4ede38f53bf17091399beb690ccc4b84af470e489f3f4bc6aa7b9d08de992389f24dd5b3dbcec5d64b3b9869918cf9e4e9a7f9337edec6f5e8d6a1ef143ad697cc92c84293ff0000000000000300",
+      "nonceOffset": 260,
+      "extraNonceOffset": 228
+    },
+    "window_size": 256,
+    "first_winning_nonce": "1005",
+    "native_attempts_to_first_proof": 238,
+    "classical_selection_seconds_excluded_from_latency": 0.15430666101747192
+  },
+  "simulator_receipts": [
+    {
+      "backend": "qiskit-aer-cpu-statevector",
+      "blockId": "00048b5a70ce7e191cae48c455baae8add3c249e7b96be588cf77760a6829f63",
+      "chainId": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "circuit_operations": {
+        "barrier": 1,
+        "h": 248,
+        "mcx": 24,
+        "measure": 8,
+        "x": 240
+      },
+      "classical_hash_count_scope": "lookup_window_only_excludes_candidate_rechecks_and_native_verification",
+      "classical_hashes": 256,
+      "classical_precomputation_seconds": 0.0005552209913730621,
+      "counts": {
+        "11101101": 128
+      },
+      "extra_nonce": "c5d64b3b9869918cf9e4e9a7f9337edec6f5e8d6a1ef143ad697cc92c84293ff",
+      "hash_inside_grover_circuit": false,
+      "ideal_noiseless_success_probability": 0.9999470421032736,
+      "iterations": 12,
+      "marked_states": 1,
+      "mode": "precomputed_sha3_oracle_demo",
+      "native_verified": true,
+      "nonce": "1005",
+      "nonce_start": "768",
+      "quantum_hardware_executed": false,
+      "quantum_speedup_claimed": false,
+      "qubits": 8,
+      "rewardAddress": "fdd7fe8cf6c108ff7e95f0a468892c13b5cb7ab711abca387790cecca9b76fef",
+      "seed": 17,
+      "shots_executed": 128,
+      "shots_requested": 128,
+      "simulation_executed": true,
+      "simulation_seconds": 0.009931603010045364,
+      "source_sha256": "fa2e8cf6ac3854bcdff9ac626299013a45934f55379bcd6cf982ec0449c66d78",
+      "statevector_bytes": 4096,
+      "status": "solved",
+      "template_sha256": "ae9a904a8fbc3479477fbd5135f4705aee3b7e38c1913bb0c04f6e7fc7ddec84",
+      "total_wall_seconds": 0.7346807979920413,
+      "transpile_seconds": 0.055643400992266834,
+      "uniform_success_probability": 0.00390625,
+      "versions": {
+        "qiskit": "2.6.1",
+        "qiskit-aer": "0.18.2"
+      },
+      "window_size": 256
+    },
+    {
+      "backend": "qiskit-aer-cpu-statevector",
+      "blockId": "00048b5a70ce7e191cae48c455baae8add3c249e7b96be588cf77760a6829f63",
+      "chainId": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "circuit_operations": {
+        "barrier": 1,
+        "h": 248,
+        "mcx": 24,
+        "measure": 8,
+        "x": 240
+      },
+      "classical_hash_count_scope": "lookup_window_only_excludes_candidate_rechecks_and_native_verification",
+      "classical_hashes": 256,
+      "classical_precomputation_seconds": 0.00032882700907066464,
+      "counts": {
+        "11101101": 128
+      },
+      "extra_nonce": "c5d64b3b9869918cf9e4e9a7f9337edec6f5e8d6a1ef143ad697cc92c84293ff",
+      "hash_inside_grover_circuit": false,
+      "ideal_noiseless_success_probability": 0.9999470421032736,
+      "iterations": 12,
+      "marked_states": 1,
+      "mode": "precomputed_sha3_oracle_demo",
+      "native_verified": true,
+      "nonce": "1005",
+      "nonce_start": "768",
+      "quantum_hardware_executed": false,
+      "quantum_speedup_claimed": false,
+      "qubits": 8,
+      "rewardAddress": "fdd7fe8cf6c108ff7e95f0a468892c13b5cb7ab711abca387790cecca9b76fef",
+      "seed": 18,
+      "shots_executed": 128,
+      "shots_requested": 128,
+      "simulation_executed": true,
+      "simulation_seconds": 0.006582628993783146,
+      "source_sha256": "fa2e8cf6ac3854bcdff9ac626299013a45934f55379bcd6cf982ec0449c66d78",
+      "statevector_bytes": 4096,
+      "status": "solved",
+      "template_sha256": "ae9a904a8fbc3479477fbd5135f4705aee3b7e38c1913bb0c04f6e7fc7ddec84",
+      "total_wall_seconds": 0.7232597120164428,
+      "transpile_seconds": 0.05611774101271294,
+      "uniform_success_probability": 0.00390625,
+      "versions": {
+        "qiskit": "2.6.1",
+        "qiskit-aer": "0.18.2"
+      },
+      "window_size": 256
+    },
+    {
+      "backend": "qiskit-aer-cpu-statevector",
+      "blockId": "00048b5a70ce7e191cae48c455baae8add3c249e7b96be588cf77760a6829f63",
+      "chainId": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "circuit_operations": {
+        "barrier": 1,
+        "h": 248,
+        "mcx": 24,
+        "measure": 8,
+        "x": 240
+      },
+      "classical_hash_count_scope": "lookup_window_only_excludes_candidate_rechecks_and_native_verification",
+      "classical_hashes": 256,
+      "classical_precomputation_seconds": 0.0003511579998303205,
+      "counts": {
+        "11101101": 128
+      },
+      "extra_nonce": "c5d64b3b9869918cf9e4e9a7f9337edec6f5e8d6a1ef143ad697cc92c84293ff",
+      "hash_inside_grover_circuit": false,
+      "ideal_noiseless_success_probability": 0.9999470421032736,
+      "iterations": 12,
+      "marked_states": 1,
+      "mode": "precomputed_sha3_oracle_demo",
+      "native_verified": true,
+      "nonce": "1005",
+      "nonce_start": "768",
+      "quantum_hardware_executed": false,
+      "quantum_speedup_claimed": false,
+      "qubits": 8,
+      "rewardAddress": "fdd7fe8cf6c108ff7e95f0a468892c13b5cb7ab711abca387790cecca9b76fef",
+      "seed": 19,
+      "shots_executed": 128,
+      "shots_requested": 128,
+      "simulation_executed": true,
+      "simulation_seconds": 0.00609456398524344,
+      "source_sha256": "fa2e8cf6ac3854bcdff9ac626299013a45934f55379bcd6cf982ec0449c66d78",
+      "statevector_bytes": 4096,
+      "status": "solved",
+      "template_sha256": "ae9a904a8fbc3479477fbd5135f4705aee3b7e38c1913bb0c04f6e7fc7ddec84",
+      "total_wall_seconds": 0.5276322909921873,
+      "transpile_seconds": 0.05455277502187528,
+      "uniform_success_probability": 0.00390625,
+      "versions": {
+        "qiskit": "2.6.1",
+        "qiskit-aer": "0.18.2"
+      },
+      "window_size": 256
+    },
+    {
+      "backend": "qiskit-aer-cpu-statevector",
+      "blockId": "00048b5a70ce7e191cae48c455baae8add3c249e7b96be588cf77760a6829f63",
+      "chainId": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "circuit_operations": {
+        "barrier": 1,
+        "h": 248,
+        "mcx": 24,
+        "measure": 8,
+        "x": 240
+      },
+      "classical_hash_count_scope": "lookup_window_only_excludes_candidate_rechecks_and_native_verification",
+      "classical_hashes": 256,
+      "classical_precomputation_seconds": 0.0006777819944545627,
+      "counts": {
+        "11101101": 128
+      },
+      "extra_nonce": "c5d64b3b9869918cf9e4e9a7f9337edec6f5e8d6a1ef143ad697cc92c84293ff",
+      "hash_inside_grover_circuit": false,
+      "ideal_noiseless_success_probability": 0.9999470421032736,
+      "iterations": 12,
+      "marked_states": 1,
+      "mode": "precomputed_sha3_oracle_demo",
+      "native_verified": true,
+      "nonce": "1005",
+      "nonce_start": "768",
+      "quantum_hardware_executed": false,
+      "quantum_speedup_claimed": false,
+      "qubits": 8,
+      "rewardAddress": "fdd7fe8cf6c108ff7e95f0a468892c13b5cb7ab711abca387790cecca9b76fef",
+      "seed": 20,
+      "shots_executed": 128,
+      "shots_requested": 128,
+      "simulation_executed": true,
+      "simulation_seconds": 0.006151950976345688,
+      "source_sha256": "fa2e8cf6ac3854bcdff9ac626299013a45934f55379bcd6cf982ec0449c66d78",
+      "statevector_bytes": 4096,
+      "status": "solved",
+      "template_sha256": "ae9a904a8fbc3479477fbd5135f4705aee3b7e38c1913bb0c04f6e7fc7ddec84",
+      "total_wall_seconds": 0.6392172230116557,
+      "transpile_seconds": 0.07962837899685837,
+      "uniform_success_probability": 0.00390625,
+      "versions": {
+        "qiskit": "2.6.1",
+        "qiskit-aer": "0.18.2"
+      },
+      "window_size": 256
+    },
+    {
+      "backend": "qiskit-aer-cpu-statevector",
+      "blockId": "00048b5a70ce7e191cae48c455baae8add3c249e7b96be588cf77760a6829f63",
+      "chainId": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "circuit_operations": {
+        "barrier": 1,
+        "h": 248,
+        "mcx": 24,
+        "measure": 8,
+        "x": 240
+      },
+      "classical_hash_count_scope": "lookup_window_only_excludes_candidate_rechecks_and_native_verification",
+      "classical_hashes": 256,
+      "classical_precomputation_seconds": 0.00032185399322770536,
+      "counts": {
+        "11101101": 128
+      },
+      "extra_nonce": "c5d64b3b9869918cf9e4e9a7f9337edec6f5e8d6a1ef143ad697cc92c84293ff",
+      "hash_inside_grover_circuit": false,
+      "ideal_noiseless_success_probability": 0.9999470421032736,
+      "iterations": 12,
+      "marked_states": 1,
+      "mode": "precomputed_sha3_oracle_demo",
+      "native_verified": true,
+      "nonce": "1005",
+      "nonce_start": "768",
+      "quantum_hardware_executed": false,
+      "quantum_speedup_claimed": false,
+      "qubits": 8,
+      "rewardAddress": "fdd7fe8cf6c108ff7e95f0a468892c13b5cb7ab711abca387790cecca9b76fef",
+      "seed": 21,
+      "shots_executed": 128,
+      "shots_requested": 128,
+      "simulation_executed": true,
+      "simulation_seconds": 0.0063186339975800365,
+      "source_sha256": "fa2e8cf6ac3854bcdff9ac626299013a45934f55379bcd6cf982ec0449c66d78",
+      "statevector_bytes": 4096,
+      "status": "solved",
+      "template_sha256": "ae9a904a8fbc3479477fbd5135f4705aee3b7e38c1913bb0c04f6e7fc7ddec84",
+      "total_wall_seconds": 0.539046605990734,
+      "transpile_seconds": 0.050546839978778735,
+      "uniform_success_probability": 0.00390625,
+      "versions": {
+        "qiskit": "2.6.1",
+        "qiskit-aer": "0.18.2"
+      },
+      "window_size": 256
+    }
+  ],
+  "gpu_receipts": [
+    {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.296726,
+      "hashes_per_round": 262144,
+      "samples": [
+        {
+          "wall_seconds": 0.000487335,
+          "host_cpu_seconds": 2.3e-05,
+          "host_waits": 1,
+          "command_recordings": 0,
+          "gpu_seconds": 0.00039744
+        }
+      ]
+    },
+    {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.195424,
+      "hashes_per_round": 262144,
+      "samples": [
+        {
+          "wall_seconds": 0.000456206,
+          "host_cpu_seconds": 1.8e-05,
+          "host_waits": 1,
+          "command_recordings": 0,
+          "gpu_seconds": 0.000397568
+        }
+      ]
+    },
+    {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.265496,
+      "hashes_per_round": 262144,
+      "samples": [
+        {
+          "wall_seconds": 0.000463389,
+          "host_cpu_seconds": 1.7e-05,
+          "host_waits": 1,
+          "command_recordings": 0,
+          "gpu_seconds": 0.000397344
+        }
+      ]
+    },
+    {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.288223,
+      "hashes_per_round": 262144,
+      "samples": [
+        {
+          "wall_seconds": 0.000544933,
+          "host_cpu_seconds": 2.5e-05,
+          "host_waits": 1,
+          "command_recordings": 0,
+          "gpu_seconds": 0.000397216
+        }
+      ]
+    },
+    {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.19648,
+      "hashes_per_round": 262144,
+      "samples": [
+        {
+          "wall_seconds": 0.000459943,
+          "host_cpu_seconds": 1.4e-05,
+          "host_waits": 1,
+          "command_recordings": 0,
+          "gpu_seconds": 0.000398336
+        }
+      ]
+    }
+  ],
+  "gpu_worker_ready": {
+    "backend": "vulkan-sha3-midstate",
+    "device": "NVIDIA GeForce RTX 3060",
+    "device_index": 0,
+    "workgroup": 64,
+    "shader": "pair32",
+    "queue_depth": 4,
+    "prefix_preparation": "gpu",
+    "pipeline_statistics": {
+      "available": false
+    },
+    "status": "ready",
+    "protocol": "qcash-vulkan-worker-v1",
+    "worker_pid": 3684757,
+    "setup_seconds": 0.248743
+  },
+  "methodology": [
+    "Single logical CPU; background workloads not stopped. Median and min/max over alternating rounds.",
+    "Throughput: complete hard-target scan, same 268-byte header for both CPU paths. Native includes process startup; Python loop runs warm in process.",
+    "Proof latency: separate processes, same preselected known-winning window; includes startup, search and native proof construction/verification. No submission/network latency.",
+    "Fixture selection classically finds a winning window before measurement. These are conditional demo latencies, not expected network block times.",
+    "Simulator performs full classical window lookup then CPU statevector simulation; CPU miners stop at first proof. No quantum speedup or QPU hardware claim.",
+    "Python hashlib uses native OpenSSL hashing; this is not a pure Python SHA3 implementation.",
+    "Vulkan, when explicitly enabled, reuses a fixed first-block SHA3 midstate; measured dispatch + fence wall time excludes context/pipeline creation. Kernel time uses Vulkan timestamps. Native baseline recomputes both SHA3 blocks.",
+    "Vulkan GPU miner latency includes a new process/context/pipeline; persistent-worker latency includes IPC, work preparation, search and verification, while excluding its separately recorded startup. Driver caches may be warm. No WebGPU, WASM or physical QPU mining backend is benchmarked. ML-KEM performance does not measure mining."
+  ]
+}

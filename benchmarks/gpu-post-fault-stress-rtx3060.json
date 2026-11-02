@@ -1,0 +1,421 @@
+[
+  {
+    "case": "previous",
+    "exit_code": 0,
+    "stderr": "",
+    "result": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "setup_seconds": 0.284679,
+      "hashes_per_round": 16777216,
+      "samples": [
+        {
+          "wall_seconds": 0.040291,
+          "gpu_seconds": 0.0344708
+        },
+        {
+          "wall_seconds": 0.040366,
+          "gpu_seconds": 0.0343987
+        },
+        {
+          "wall_seconds": 0.0411619,
+          "gpu_seconds": 0.0344191
+        },
+        {
+          "wall_seconds": 0.0404232,
+          "gpu_seconds": 0.0344033
+        },
+        {
+          "wall_seconds": 0.0420979,
+          "gpu_seconds": 0.0344531
+        },
+        {
+          "wall_seconds": 0.0412391,
+          "gpu_seconds": 0.0343971
+        },
+        {
+          "wall_seconds": 0.0465751,
+          "gpu_seconds": 0.0341606
+        },
+        {
+          "wall_seconds": 0.0372918,
+          "gpu_seconds": 0.0321021
+        },
+        {
+          "wall_seconds": 0.0426323,
+          "gpu_seconds": 0.0320741
+        },
+        {
+          "wall_seconds": 0.0400741,
+          "gpu_seconds": 0.0319476
+        }
+      ]
+    }
+  },
+  {
+    "case": "scalar64",
+    "exit_code": 0,
+    "stderr": "",
+    "result": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "scalar64",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.236208,
+      "hashes_per_round": 16777216,
+      "samples": [
+        {
+          "wall_seconds": 0.033719,
+          "host_cpu_seconds": 0.000577,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0317628
+        },
+        {
+          "wall_seconds": 0.0362141,
+          "host_cpu_seconds": 0.000574,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.031833
+        },
+        {
+          "wall_seconds": 0.0358109,
+          "host_cpu_seconds": 0.000517,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0318189
+        },
+        {
+          "wall_seconds": 0.0341046,
+          "host_cpu_seconds": 0.000498,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0318118
+        },
+        {
+          "wall_seconds": 0.0351921,
+          "host_cpu_seconds": 0.000469,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0318175
+        },
+        {
+          "wall_seconds": 0.0335188,
+          "host_cpu_seconds": 0.000433,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0318148
+        },
+        {
+          "wall_seconds": 0.0337435,
+          "host_cpu_seconds": 0.000562,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0320415
+        },
+        {
+          "wall_seconds": 0.0340095,
+          "host_cpu_seconds": 0.000469,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0320311
+        },
+        {
+          "wall_seconds": 0.034208,
+          "host_cpu_seconds": 0.000487,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.031753
+        },
+        {
+          "wall_seconds": 0.0334574,
+          "host_cpu_seconds": 0.000397,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0317611
+        }
+      ]
+    }
+  },
+  {
+    "case": "pair32",
+    "exit_code": 0,
+    "stderr": "",
+    "result": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.218771,
+      "hashes_per_round": 16777216,
+      "samples": [
+        {
+          "wall_seconds": 0.0251044,
+          "host_cpu_seconds": 0.000474,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0238668
+        },
+        {
+          "wall_seconds": 0.0247421,
+          "host_cpu_seconds": 0.000401,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0235068
+        },
+        {
+          "wall_seconds": 0.0250289,
+          "host_cpu_seconds": 0.00042,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0238847
+        },
+        {
+          "wall_seconds": 0.0245651,
+          "host_cpu_seconds": 0.000358,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0234851
+        },
+        {
+          "wall_seconds": 0.0249681,
+          "host_cpu_seconds": 0.000424,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0238669
+        },
+        {
+          "wall_seconds": 0.0246801,
+          "host_cpu_seconds": 0.000362,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0234374
+        },
+        {
+          "wall_seconds": 0.0248922,
+          "host_cpu_seconds": 0.000376,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.023804
+        },
+        {
+          "wall_seconds": 0.0245207,
+          "host_cpu_seconds": 0.000351,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0234915
+        },
+        {
+          "wall_seconds": 0.0246539,
+          "host_cpu_seconds": 0.000349,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0234379
+        },
+        {
+          "wall_seconds": 0.0247856,
+          "host_cpu_seconds": 0.000363,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0234911
+        }
+      ]
+    }
+  },
+  {
+    "case": "compact64",
+    "exit_code": 0,
+    "stderr": "",
+    "result": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "compact64",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.175014,
+      "hashes_per_round": 16777216,
+      "samples": [
+        {
+          "wall_seconds": 0.0334539,
+          "host_cpu_seconds": 0.000464,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0322202
+        },
+        {
+          "wall_seconds": 0.0335715,
+          "host_cpu_seconds": 0.000449,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.032399
+        },
+        {
+          "wall_seconds": 0.0353138,
+          "host_cpu_seconds": 0.000671,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0322991
+        },
+        {
+          "wall_seconds": 0.036612,
+          "host_cpu_seconds": 0.000491,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0324317
+        },
+        {
+          "wall_seconds": 0.0346604,
+          "host_cpu_seconds": 0.000574,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0323036
+        },
+        {
+          "wall_seconds": 0.0336735,
+          "host_cpu_seconds": 0.000564,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0321924
+        },
+        {
+          "wall_seconds": 0.0343036,
+          "host_cpu_seconds": 0.000436,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0319444
+        },
+        {
+          "wall_seconds": 0.0342576,
+          "host_cpu_seconds": 0.000582,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0319963
+        },
+        {
+          "wall_seconds": 0.0337326,
+          "host_cpu_seconds": 0.000461,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0322911
+        },
+        {
+          "wall_seconds": 0.033743,
+          "host_cpu_seconds": 0.000686,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0321433
+        }
+      ]
+    }
+  },
+  {
+    "case": "compact32",
+    "exit_code": 0,
+    "stderr": "",
+    "result": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "compact32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "setup_seconds": 0.207019,
+      "hashes_per_round": 16777216,
+      "samples": [
+        {
+          "wall_seconds": 0.0260348,
+          "host_cpu_seconds": 0.00054,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0237027
+        },
+        {
+          "wall_seconds": 0.0250731,
+          "host_cpu_seconds": 0.000458,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0237301
+        },
+        {
+          "wall_seconds": 0.0246378,
+          "host_cpu_seconds": 0.000391,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0232741
+        },
+        {
+          "wall_seconds": 0.0247578,
+          "host_cpu_seconds": 0.00042,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0235134
+        },
+        {
+          "wall_seconds": 0.0253381,
+          "host_cpu_seconds": 0.000459,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0238655
+        },
+        {
+          "wall_seconds": 0.0249079,
+          "host_cpu_seconds": 0.000427,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0234925
+        },
+        {
+          "wall_seconds": 0.025522,
+          "host_cpu_seconds": 0.000515,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0235876
+        },
+        {
+          "wall_seconds": 0.0287541,
+          "host_cpu_seconds": 0.000513,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0237482
+        },
+        {
+          "wall_seconds": 0.0262024,
+          "host_cpu_seconds": 0.000466,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0234849
+        },
+        {
+          "wall_seconds": 0.025181,
+          "host_cpu_seconds": 0.000455,
+          "host_waits": 16,
+          "command_recordings": 0,
+          "gpu_seconds": 0.0236706
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,60 @@
+{
+  "source_commit": "a9ab70d",
+  "subsequent_client_hardening_commit": "0ca57de",
+  "checks": [
+    {
+      "command": "ctest --preset local --output-on-failure",
+      "passed_suites": 12,
+      "failed": 0
+    },
+    {
+      "command": "python3 tests/vulkan_worker_test.py",
+      "final_passed_tests": 3,
+      "failed": 0
+    },
+    {
+      "command": "VK_INSTANCE_LAYERS=VK_LAYER_KHRONOS_validation VK_LAYER_ENABLES=VK_VALIDATION_FEATURE_ENABLE_SYNCHRONIZATION_VALIDATION_EXT ./build/qcash-vulkan-tests",
+      "independent_digest_checks": 24672,
+      "variants": [
+        "scalar64",
+        "pair32",
+        "compact64",
+        "compact32"
+      ],
+      "prefix_modes": [
+        "cpu",
+        "gpu"
+      ],
+      "reported_errors": 0
+    },
+    {
+      "command": "spirv-val --target-env vulkan1.1 build/mining_VARIANT.spv",
+      "validated_variants": [
+        "scalar64",
+        "pair32",
+        "compact64",
+        "compact32",
+        "prepare"
+      ],
+      "passed": true
+    }
+  ],
+  "integration": [
+    "One worker PID across two real node-accepted rounds",
+    "Stale-tip suppression before submission",
+    "Rejected job followed by valid job in same context",
+    "Exclusive mode-0600 files",
+    "Oversized private frame rejected",
+    "Cancellation reaps active process group",
+    "Nonblocking pipe write deadline/reaping",
+    "Nonce carry/overflow and queued partial-workgroup checks",
+    "Repeated command-buffer reuse across changed templates"
+  ],
+  "shader_sha256": {
+    "mining.comp": "ef8f3f49e7c85386ef91b1e24a8cd02d40bb82ac8f559775452c8563a9d12921",
+    "prepare.comp": "fe2518c1e1f5fe8a80a29bf6f997a9ec0b3262c154c0d1abcd7546727c3c37d2",
+    "keccak.glsl": "4b40ee4cc69f4a191e7a9c88ab773c081a1bec4e6d1c7c68efac8719a8a2f5c8"
+  },
+  "device_loss_during_separate_benchmark": "gpu-device-loss-rtx3060.json",
+  "driver_pipeline_statistics_are_not_runtime_occupancy": true
+}

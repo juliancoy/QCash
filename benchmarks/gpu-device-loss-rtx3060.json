@@ -1,0 +1,26 @@
+{
+  "failed_run_source_commit": "cca6e04",
+  "command": "tools/benchmark_vulkan_optimizations.py --selected-shader pair32 --repeats 7",
+  "failure": "VK_ERROR_DEVICE_LOST (-4)",
+  "completed_rounds_before_failure": 4,
+  "failed_case": "not retained by that earlier benchmark runner",
+  "kernel_event": {
+    "local_time": "2026-11-01 23:20:34 America/New_York",
+    "pci_device": "0000:04:00",
+    "xid": 32,
+    "process_name": "qcash-vulkan",
+    "pid": 3698021,
+    "log_entries_for_process": 2
+  },
+  "cause": "Unresolved; no attribution to hardware, driver or application was established.",
+  "reference": "https://docs.nvidia.com/deploy/xid-errors/analyzing-xid-catalog.html",
+  "recovery_actions": [
+    "Observed GPU responding to a new context; no global GPU reset, driver change or host reboot was performed.",
+    "Reran all four shader/CPU-GPU-prefix digest checks successfully.",
+    "Ran 20 selected-shader iterations under Vulkan validation without errors.",
+    "Ran 10 sustained rounds each for previous backend and four current shaders; all passed; raw receipts retained.",
+    "Completed a subsequent seven-round comparison without a further Xid event in the checked kernel log."
+  ],
+  "production_submission": false,
+  "benchmarking_policy": "Failure is retained, not counted as a successful sample; future command failures save completed receipts and failed case."
+}

@@ -1,0 +1,1766 @@
+{
+  "metadata": {
+    "created_utc": "2026-11-02T04:18:15Z",
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+    "cpu_model": "AMD Ryzen 7 5800X 8-Core Processor",
+    "device": "NVIDIA GeForce RTX 3060",
+    "load_start": [
+      11.068359375,
+      12.80224609375,
+      16.6796875
+    ],
+    "load_end": [
+      15.0947265625,
+      13.55517578125,
+      16.82275390625
+    ],
+    "cpu_affinity": [
+      0
+    ],
+    "source_commit": "a9ab70d71ac5e23a7dd91bf2c65ed3d62f22d41c",
+    "source_dirty": false,
+    "baseline_source_commit": "c3c8ac4",
+    "baseline_binary_sha256": "5a0f88ae579e608acdab2baae5e14aa9f4d1e9b8c5a510983f115626b7078d5c",
+    "current_binary_sha256": "523579bbb81c68b3e904f74134d18aedf6d6879d85cc1203cdbf123d8097c73a",
+    "script_sha256": "6a922ba7e7343c46d573f90722d083d719af89a9f830d2c680db341a833ae219",
+    "shader_source_sha256": {
+      "mining.comp": "ef8f3f49e7c85386ef91b1e24a8cd02d40bb82ac8f559775452c8563a9d12921",
+      "prepare.comp": "fe2518c1e1f5fe8a80a29bf6f997a9ec0b3262c154c0d1abcd7546727c3c37d2",
+      "keccak.glsl": "4b40ee4cc69f4a191e7a9c88ab773c081a1bec4e6d1c7c68efac8719a8a2f5c8"
+    }
+  },
+  "attempts_per_round": 16777216,
+  "repeats": 7,
+  "fixture": {
+    "format": "qcash-work-v1",
+    "chainId": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+    "parent": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+    "rewardAddress": "53673408258e258c2a1ff8da320fc3a1662a2b51af832dd34752ea1208befde4",
+    "target": "000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "header": "7071636f696e2f706f772d626c6f636b2f763100d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2ad6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a0000000000000001000000006ae80ab6000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff53673408258e258c2a1ff8da320fc3a1662a2b51af832dd34752ea1208befde426e1f73570cbd6966f364f35359229ef148907073445789bcf5b4ede38f53bf11fba5b0005369fab19bd7a24a440221f4d7e978ca4302bc2365305eb5ca670105700038d1d753eb0964c636a114945b4970f6f0c6fb57fa4653116ca447754f90000000000001500",
+    "nonceOffset": 260,
+    "extraNonceOffset": 228
+  },
+  "selected_shader": "pair32",
+  "selection_mode": "prior_selection_confirmation",
+  "throughput_attempts_per_second": {
+    "Previous Vulkan": {
+      "median": 347520574.0219443,
+      "min": 271626744.29335374,
+      "max": 375397242.00582206,
+      "samples": [
+        271626744.29335374,
+        327507930.40375274,
+        347520574.0219443,
+        351865975.1220095,
+        305556403.45237684,
+        375397242.00582206,
+        364646779.4694574
+      ]
+    },
+    "Cached commands \u00b7 scalar64": {
+      "median": 384990144.17726254,
+      "min": 310260565.95887905,
+      "max": 406715457.99444854,
+      "samples": [
+        364508136.5285593,
+        310260565.95887905,
+        384990144.17726254,
+        406715457.99444854,
+        385110330.1526236,
+        398731263.29423785,
+        335508085.1268063
+      ]
+    },
+    "Queued \u00b7 scalar64": {
+      "median": 424617097.85024065,
+      "min": 385463368.0108811,
+      "max": 452272141.5593308,
+      "samples": [
+        409760062.5244236,
+        399411876.7378966,
+        385463368.0108811,
+        452272141.5593308,
+        424617097.85024065,
+        448616251.8015814,
+        432401359.79030985
+      ]
+    },
+    "Queued \u00b7 pair32": {
+      "median": 566749970.4416857,
+      "min": 502344944.87660867,
+      "max": 610486833.0561792,
+      "samples": [
+        610486833.0561792,
+        511187229.77687454,
+        584464053.6764988,
+        582398644.7785442,
+        566749970.4416857,
+        502344944.87660867,
+        565595946.4516281
+      ]
+    },
+    "Queued \u00b7 compact64": {
+      "median": 428929033.445654,
+      "min": 348829128.5309736,
+      "max": 458085985.92203057,
+      "samples": [
+        422885373.50150734,
+        436132077.92410356,
+        458085985.92203057,
+        409793090.98281175,
+        348829128.5309736,
+        428929033.445654,
+        457351717.67066306
+      ]
+    },
+    "Queued \u00b7 compact32": {
+      "median": 570828348.8142629,
+      "min": 534450918.2421993,
+      "max": 605841891.638139,
+      "samples": [
+        570071899.4223582,
+        556185222.5110062,
+        534450918.2421993,
+        602173496.3802577,
+        570828348.8142629,
+        583835580.208935,
+        605841891.638139
+      ]
+    }
+  },
+  "kernel_attempts_per_second": {
+    "Previous Vulkan": {
+      "median": 487628968.4558082,
+      "min": 486767363.18638915,
+      "max": 487814704.32593054,
+      "samples": [
+        487485864.0508138,
+        487640307.04928654,
+        487628968.4558082,
+        487814704.32593054,
+        486767363.18638915,
+        487619047.61904764,
+        487633220.36657035
+      ]
+    },
+    "Cached commands \u00b7 scalar64": {
+      "median": 486729234.4201942,
+      "min": 486152383.9328663,
+      "max": 486826686.4756953,
+      "samples": [
+        486717938.15509677,
+        486685464.3134798,
+        486826686.4756953,
+        486740531.2096552,
+        486806910.43935955,
+        486152383.9328663,
+        486729234.4201942
+      ]
+    },
+    "Queued \u00b7 scalar64": {
+      "median": 480576558.40919375,
+      "min": 467154949.6569545,
+      "max": 489482719.3847483,
+      "samples": [
+        480509114.86302644,
+        482315960.7528597,
+        467154949.6569545,
+        489482719.3847483,
+        480576558.40919375,
+        474133559.41783243,
+        483004684.02278966
+      ]
+    },
+    "Queued \u00b7 pair32": {
+      "median": 658180405.8798838,
+      "min": 648497578.3602426,
+      "max": 664541576.3894116,
+      "samples": [
+        660268165.3069497,
+        658180405.8798838,
+        658477479.3161373,
+        664541576.3894116,
+        648497578.3602426,
+        653272589.9274973,
+        649851493.2021537
+      ]
+    },
+    "Queued \u00b7 compact64": {
+      "median": 479153260.2393879,
+      "min": 477557505.7000453,
+      "max": 486573956.7231144,
+      "samples": [
+        486573956.7231144,
+        480876842.9983261,
+        478341777.457183,
+        478120940.7835303,
+        481140244.96912795,
+        477557505.7000453,
+        479153260.2393879
+      ]
+    },
+    "Queued \u00b7 compact32": {
+      "median": 653476150.7840677,
+      "min": 645781744.9778095,
+      "max": 664775927.789709,
+      "samples": [
+        664699547.9451512,
+        652736306.0199432,
+        654273803.2563128,
+        664775927.789709,
+        647671431.7149155,
+        653476150.7840677,
+        645781744.9778095
+      ]
+    }
+  },
+  "proof_latency_seconds": {
+    "Previous GPU \u00b7 new process": {
+      "median": 0.298327322001569,
+      "min": 0.2704622650053352,
+      "max": 0.3387126270099543,
+      "samples": [
+        0.28077928998391144,
+        0.31577555599506013,
+        0.3117203270085156,
+        0.28938334199483506,
+        0.298327322001569,
+        0.2704622650053352,
+        0.3387126270099543
+      ]
+    },
+    "Current GPU \u00b7 new process": {
+      "median": 0.2868936720187776,
+      "min": 0.23052318699774332,
+      "max": 0.34961159399244934,
+      "samples": [
+        0.29252928399364464,
+        0.34961159399244934,
+        0.28313079199870117,
+        0.2868936720187776,
+        0.2581672789820004,
+        0.23052318699774332,
+        0.3461594080145005
+      ]
+    },
+    "Warm worker \u00b7 CPU prefix": {
+      "median": 0.0005145549948792905,
+      "min": 0.00036751001607626677,
+      "max": 0.0010940119973383844,
+      "samples": [
+        0.0010940119973383844,
+        0.00040555099258199334,
+        0.00046217700582928956,
+        0.0005145549948792905,
+        0.0005316569877322763,
+        0.0005375590117182583,
+        0.00036751001607626677
+      ]
+    },
+    "Warm worker \u00b7 GPU prefix": {
+      "median": 0.0004686600004788488,
+      "min": 0.00032725397613830864,
+      "max": 0.0006979190220590681,
+      "samples": [
+        0.00033255398739129305,
+        0.00032725397613830864,
+        0.0005667140067089349,
+        0.0006057860155124217,
+        0.0006979190220590681,
+        0.00040732399793341756,
+        0.0004686600004788488
+      ]
+    },
+    "Native CPU \u00b7 new process": {
+      "median": 0.18012309199548326,
+      "min": 0.10743452399037778,
+      "max": 0.23573194799246266,
+      "samples": [
+        0.23573194799246266,
+        0.16054032399551943,
+        0.14296280802227557,
+        0.18012309199548326,
+        0.2108745250152424,
+        0.10743452399037778,
+        0.21901784199872054
+      ]
+    }
+  },
+  "sustained_receipts": {
+    "Previous Vulkan": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "setup_seconds": 0.733217,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0617657,
+            "gpu_seconds": 0.0344158
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "setup_seconds": 0.217768,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0512269,
+            "gpu_seconds": 0.0344049
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "setup_seconds": 0.246083,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0482769,
+            "gpu_seconds": 0.0344057
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "setup_seconds": 0.167186,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0476807,
+            "gpu_seconds": 0.0343926
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "setup_seconds": 0.246971,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0549071,
+            "gpu_seconds": 0.0344666
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "setup_seconds": 0.207966,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0446919,
+            "gpu_seconds": 0.0344064
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "setup_seconds": 0.209812,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0460095,
+            "gpu_seconds": 0.0344054
+          }
+        ]
+      }
+    ],
+    "Cached commands \u00b7 scalar64": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 1,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.224432,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.046027,
+            "host_cpu_seconds": 0.001225,
+            "host_waits": 64,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0344701
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 1,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.227048,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0540746,
+            "host_cpu_seconds": 0.001287,
+            "host_waits": 64,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0344724
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 1,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.229006,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0435783,
+            "host_cpu_seconds": 0.001031,
+            "host_waits": 64,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0344624
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 1,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.223784,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0412505,
+            "host_cpu_seconds": 0.001237,
+            "host_waits": 64,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0344685
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 1,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.23272,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0435647,
+            "host_cpu_seconds": 0.001239,
+            "host_waits": 64,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0344638
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 1,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.225205,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0420765,
+            "host_cpu_seconds": 0.001077,
+            "host_waits": 64,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0345102
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 1,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.230391,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0500054,
+            "host_cpu_seconds": 0.001179,
+            "host_waits": 64,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0344693
+          }
+        ]
+      }
+    ],
+    "Queued \u00b7 scalar64": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.212637,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.040944,
+            "host_cpu_seconds": 0.000539,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0349155
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.250475,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0420048,
+            "host_cpu_seconds": 0.000639,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0347847
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.217602,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0435248,
+            "host_cpu_seconds": 0.000713,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0359136
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.216267,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0370954,
+            "host_cpu_seconds": 0.000418,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0342754
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.253411,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0395114,
+            "host_cpu_seconds": 0.000532,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0349106
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.224383,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0373977,
+            "host_cpu_seconds": 0.000579,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.035385
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "scalar64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.214447,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0388001,
+            "host_cpu_seconds": 0.000516,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0347351
+          }
+        ]
+      }
+    ],
+    "Queued \u00b7 pair32": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.239305,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0274817,
+            "host_cpu_seconds": 0.000381,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0254097
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.24572,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0328201,
+            "host_cpu_seconds": 0.000445,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0254903
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.237972,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0287053,
+            "host_cpu_seconds": 0.00043,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0254788
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.225648,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0288071,
+            "host_cpu_seconds": 0.000444,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0252463
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.232295,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0296025,
+            "host_cpu_seconds": 0.000484,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0258709
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.239744,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0333978,
+            "host_cpu_seconds": 0.000476,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0256818
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.226334,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0296629,
+            "host_cpu_seconds": 0.000462,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.025817
+          }
+        ]
+      }
+    ],
+    "Queued \u00b7 compact64": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.21376,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0396732,
+            "host_cpu_seconds": 0.000564,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0344803
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.229008,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0384682,
+            "host_cpu_seconds": 0.000534,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0348888
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.226589,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0366246,
+            "host_cpu_seconds": 0.000558,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0350737
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.223244,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0409407,
+            "host_cpu_seconds": 0.000608,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0350899
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.224042,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0480958,
+            "host_cpu_seconds": 0.000668,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0348697
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.230918,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0391142,
+            "host_cpu_seconds": 0.000546,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0351313
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact64",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.221797,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0366834,
+            "host_cpu_seconds": 0.000512,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0350143
+          }
+        ]
+      }
+    ],
+    "Queued \u00b7 compact32": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.243256,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.02943,
+            "host_cpu_seconds": 0.000502,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0252403
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.235148,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0301648,
+            "host_cpu_seconds": 0.000477,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0257029
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.239828,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0313915,
+            "host_cpu_seconds": 0.000371,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0256425
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.18789,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0278611,
+            "host_cpu_seconds": 0.000395,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0252374
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.268663,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.029391,
+            "host_cpu_seconds": 0.000475,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0259039
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.206276,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0287362,
+            "host_cpu_seconds": 0.000424,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0256738
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "compact32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.245053,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0276924,
+            "host_cpu_seconds": 0.000515,
+            "host_waits": 16,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0259797
+          }
+        ]
+      }
+    ]
+  },
+  "diagnostics": {
+    "scalar64": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "scalar64",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": true,
+        "executables": [
+          {
+            "name": "CS",
+            "subgroup_size": 32,
+            "statistics": [
+              {
+                "name": "Register Count",
+                "description": "Number of temporary registers used by this shader stage",
+                "value": 74
+              },
+              {
+                "name": "Binary Size",
+                "description": "Size in bytes of the executable for this stage",
+                "value": 9984
+              },
+              {
+                "name": "Stack Size",
+                "description": "Size in bytes required for the shader stack",
+                "value": 0
+              },
+              {
+                "name": "Local Memory Size",
+                "description": "Size in bytes required per-thread for local memory",
+                "value": 68719476736,
+                "interpretation": "implausible_per_thread_size_not_used_for_occupancy"
+              },
+              {
+                "name": "Shared Memory Size",
+                "description": "Size in bytes used for shared memory",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "pair32": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": true,
+        "executables": [
+          {
+            "name": "CS",
+            "subgroup_size": 32,
+            "statistics": [
+              {
+                "name": "Register Count",
+                "description": "Number of temporary registers used by this shader stage",
+                "value": 74
+              },
+              {
+                "name": "Binary Size",
+                "description": "Size in bytes of the executable for this stage",
+                "value": 7936
+              },
+              {
+                "name": "Stack Size",
+                "description": "Size in bytes required for the shader stack",
+                "value": 0
+              },
+              {
+                "name": "Local Memory Size",
+                "description": "Size in bytes required per-thread for local memory",
+                "value": 68719476736,
+                "interpretation": "implausible_per_thread_size_not_used_for_occupancy"
+              },
+              {
+                "name": "Shared Memory Size",
+                "description": "Size in bytes used for shared memory",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "compact64": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "compact64",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": true,
+        "executables": [
+          {
+            "name": "CS",
+            "subgroup_size": 32,
+            "statistics": [
+              {
+                "name": "Register Count",
+                "description": "Number of temporary registers used by this shader stage",
+                "value": 80
+              },
+              {
+                "name": "Binary Size",
+                "description": "Size in bytes of the executable for this stage",
+                "value": 9856
+              },
+              {
+                "name": "Stack Size",
+                "description": "Size in bytes required for the shader stack",
+                "value": 0
+              },
+              {
+                "name": "Local Memory Size",
+                "description": "Size in bytes required per-thread for local memory",
+                "value": 68719476736,
+                "interpretation": "implausible_per_thread_size_not_used_for_occupancy"
+              },
+              {
+                "name": "Shared Memory Size",
+                "description": "Size in bytes used for shared memory",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "compact32": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "compact32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": true,
+        "executables": [
+          {
+            "name": "CS",
+            "subgroup_size": 32,
+            "statistics": [
+              {
+                "name": "Register Count",
+                "description": "Number of temporary registers used by this shader stage",
+                "value": 76
+              },
+              {
+                "name": "Binary Size",
+                "description": "Size in bytes of the executable for this stage",
+                "value": 8064
+              },
+              {
+                "name": "Stack Size",
+                "description": "Size in bytes required for the shader stack",
+                "value": 0
+              },
+              {
+                "name": "Local Memory Size",
+                "description": "Size in bytes required per-thread for local memory",
+                "value": 68719476736,
+                "interpretation": "implausible_per_thread_size_not_used_for_occupancy"
+              },
+              {
+                "name": "Shared Memory Size",
+                "description": "Size in bytes used for shared memory",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "worker_ready": {
+    "Warm worker \u00b7 CPU prefix": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "cpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "status": "ready",
+      "protocol": "qcash-vulkan-worker-v1",
+      "worker_pid": 3682342,
+      "setup_seconds": 0.221858
+    },
+    "Warm worker \u00b7 GPU prefix": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "pair32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "pipeline_statistics": {
+        "available": false
+      },
+      "status": "ready",
+      "protocol": "qcash-vulkan-worker-v1",
+      "worker_pid": 3682377,
+      "setup_seconds": 0.20769
+    }
+  },
+  "worker_proof_receipts": {
+    "Warm worker \u00b7 CPU prefix": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "cpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000870122,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000157,
+        "request_id": 2,
+        "worker_pid": 3682342,
+        "parent_cpu_seconds": 0.00013131499999999297,
+        "request_wall_seconds": 0.0010940119973383844
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "cpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000213982,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000112,
+        "request_id": 3,
+        "worker_pid": 3682342,
+        "parent_cpu_seconds": 0.0001337109999999947,
+        "request_wall_seconds": 0.00040555099258199334
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "cpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000285766,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000122,
+        "request_id": 4,
+        "worker_pid": 3682342,
+        "parent_cpu_seconds": 0.00011409299999999567,
+        "request_wall_seconds": 0.00046217700582928956
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "cpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000279474,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000157,
+        "request_id": 5,
+        "worker_pid": 3682342,
+        "parent_cpu_seconds": 0.00014703400000000422,
+        "request_wall_seconds": 0.0005145549948792905
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "cpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000295765,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000154,
+        "request_id": 6,
+        "worker_pid": 3682342,
+        "parent_cpu_seconds": 0.00014575300000001234,
+        "request_wall_seconds": 0.0005316569877322763
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "cpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.00036772,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000119,
+        "request_id": 7,
+        "worker_pid": 3682342,
+        "parent_cpu_seconds": 0.00011102699999999965,
+        "request_wall_seconds": 0.0005375590117182583
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "cpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000201678,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000127,
+        "request_id": 8,
+        "worker_pid": 3682342,
+        "parent_cpu_seconds": 0.0001079920000000012,
+        "request_wall_seconds": 0.00036751001607626677
+      }
+    ],
+    "Warm worker \u00b7 GPU prefix": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000172994,
+        "host_waits": 1,
+        "host_cpu_seconds": 8.1e-05,
+        "request_id": 2,
+        "worker_pid": 3682377,
+        "parent_cpu_seconds": 0.000122599000000001,
+        "request_wall_seconds": 0.00033255398739129305
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000195707,
+        "host_waits": 1,
+        "host_cpu_seconds": 8.6e-05,
+        "request_id": 3,
+        "worker_pid": 3682377,
+        "parent_cpu_seconds": 8.796500000000929e-05,
+        "request_wall_seconds": 0.00032725397613830864
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000323397,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000162,
+        "request_id": 4,
+        "worker_pid": 3682377,
+        "parent_cpu_seconds": 0.00015902900000000497,
+        "request_wall_seconds": 0.0005667140067089349
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000341019,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000173,
+        "request_id": 5,
+        "worker_pid": 3682377,
+        "parent_cpu_seconds": 0.0001785149999999902,
+        "request_wall_seconds": 0.0006057860155124217
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.00045339,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000174,
+        "request_id": 6,
+        "worker_pid": 3682377,
+        "parent_cpu_seconds": 0.00016449699999999956,
+        "request_wall_seconds": 0.0006979190220590681
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000222297,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000112,
+        "request_id": 7,
+        "worker_pid": 3682377,
+        "parent_cpu_seconds": 0.00012466299999999708,
+        "request_wall_seconds": 0.00040732399793341756
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "pair32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "status": "solved",
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "native_verified": true,
+        "attempts": 256,
+        "job_seconds": 0.000268363,
+        "host_waits": 1,
+        "host_cpu_seconds": 0.000142,
+        "request_id": 8,
+        "worker_pid": 3682377,
+        "parent_cpu_seconds": 0.0001285810000000026,
+        "request_wall_seconds": 0.0004686600004788488
+      }
+    ]
+  },
+  "methodology": [
+    "All sustained cases use the same hard-target SHA3 header and complete all requested attempts.",
+    "Previous executable built from c3c8ac4; new candidates use the current source. Process setup excluded from sustained sample timing.",
+    "Balanced case order, one host logical CPU, background work remains active. Queue depth four groups four dispatches per fence wait.",
+    "Warm proof latency includes private-pipe IPC, work-file read, prefix preparation, GPU search, one independent CPU SHA3 verification and exclusive file creation.",
+    "Worker startup and one warm-up job are excluded from warm latency, and retained separately in handshake receipts.",
+    "Known-winning 256-nonce fixture is preselected classically; these are conditional proof latencies, not expected network block times.",
+    "Physical GPU pipeline statistics are driver-reported. They do not directly measure runtime stalls or achieved occupancy.",
+    "Selection mode distinguishes candidate selection from confirmation of a prior choice. These are measured candidates under the recorded load, not peak-performance guarantees.",
+    "GPU execution intervals include inter-dispatch barriers. Implausible per-thread local-memory statistics are retained/flagged and not used for occupancy calculations."
+  ]
+}

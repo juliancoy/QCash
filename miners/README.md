@@ -343,8 +343,9 @@ Board power snapshots are diagnostic, not isolated miner energy use.
 The measured default is `pair32`: pairs of 32-bit words implement exact 64-bit
 Keccak operations. The alternatives `scalar64`, `compact64` and `compact32` remain
 available through `--vulkan-shader NAME`. The compact variants use in-place rho/pi
-and fewer source temporaries; measurements showed they were not the best choice
-on the RTX 3060. Source-level temporary counts do not establish physical register
+and fewer source temporaries. Their measured advantage was not consistent on
+the RTX 3060; compact32 was slightly faster in the final confirmation, while
+pair32 led initial selection and used fewer registers. Source-level temporary counts do not establish physical register
 use. All variants and both prefix modes are checked against OpenSSL, including
 queued partial workgroups, changing templates, nonce carry and command reuse.
 
