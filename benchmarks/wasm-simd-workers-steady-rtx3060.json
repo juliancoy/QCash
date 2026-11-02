@@ -1,0 +1,4325 @@
+{
+  "created_utc": "2026-11-02T20:25:25Z",
+  "source_commit": "f63257fb394b9ecbd57885d6775c48fe2f49eb39",
+  "source_hashes": {
+    "miners/wasm/README.md": "e8891e0af16dc5d608f26968e2f8176e2f0a8ab874d5d0b9fd2a813722255952",
+    "miners/wasm/build.json": "00e95fe4c07f3538577f76c699f2961be5f1a7597697a8b514f901ece910f2eb",
+    "miners/wasm/kernel.cpp": "aa580a5ec42a64cf9744b1ae4715be3d56bf564f2275b8b7305d3ef82a2b789c",
+    "miners/wasm/kernel.wasm": "6b3006181205afdce0ad99ca051884632c8bdbdfa36e1789c16689a9637227b0",
+    "miners/wasm/miner.mjs": "2192faa23ab5a2cb4709b33683e0052055be5a81d2ccd861e5b446068e9d5974",
+    "miners/wasm/worker.mjs": "3fd3f3498dc974785c6b952a01c48ba39974ebeb0e877e18206085c34011cac7",
+    "miners/webgpu/demo.mjs": "b2e88d26af822a4d1d570701a871350d5297f0fb67d1034a9ea20df89d9c8b7f",
+    "miners/webgpu/miner.mjs": "b5548120a5611e414710b7f9ce44b346860000f7649cbd3cd0b1a11a44f801b1",
+    "miners/webgpu/sha3.mjs": "44b370646c162e62137d5d16e8456d502ac9cea07bd0bb8f678723097fe69c34",
+    "miners/webgpu/shader.mjs": "19d8152d5a7bee290387eb888c0ca09684e57b48ff557edd759df7ed88661325",
+    "tools/test_wasm_mining.py": "4d7f76d251a4f5b46c899c5d93b71325bd2abcb280aad04b8bf46c105b53b463"
+  },
+  "attempts": 16777216,
+  "repeats": 7,
+  "warm_each_sample": true,
+  "minimum_browser_warmup_seconds": 1.0,
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "cpu": "AMD Ryzen 7 5800X 8-Core Processor",
+  "host_load_start": [
+    8.01806640625,
+    12.22314453125,
+    13.21728515625
+  ],
+  "playwright": "1.58.0",
+  "methodology": "Same hard-target header, cached prefix and pruned final Keccak round for all backends. Equal requested candidates per run; full wall time includes IPC/submission/completion and winner verification. Seven rotated/reversed rounds by default; warm_each_sample controls discarded full-range warm-ups before each timed browser case until minimum_browser_warmup_seconds is reached and measured_sample_index identifies the native sample; session initialization and template preparation excluded. Explicit i64x2 SIMD; persistent independent Web Workers with private memories, not Emscripten pthreads. No physical traffic, energy or CPU utilization inferred.",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "browser": "150.0.7871.128",
+  "validation": {
+    "checked": 21284,
+    "infos": [
+      {
+        "backend": "wasm-simd128",
+        "threads": 1,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 2,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 4,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 8,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      }
+    ],
+    "crossOriginIsolated": false
+  },
+  "sessions": {
+    "wasm-1": {
+      "backend": "wasm-simd128",
+      "threads": 1,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-2": {
+      "backend": "wasm-simd128",
+      "threads": 2,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-4": {
+      "backend": "wasm-simd128",
+      "threads": 4,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-8": {
+      "backend": "wasm-simd128",
+      "threads": 8,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "webgpu": {
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "ampere",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "workgroup": 64,
+      "maxBatch": 16777216,
+      "dispatchSize": 1048576,
+      "timestamps": true,
+      "variant": "final32",
+      "readback": "4-byte winner; debug digests only on request",
+      "cpuVerification": "independent BigInt SHA3 of winners only"
+    }
+  },
+  "samples": {
+    "wasm-1": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.261199999988079,
+        "workerKernelSeconds": [
+          3.2609000000059605
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.188799999982119,
+        "workerKernelSeconds": [
+          3.1885
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.239800000011921,
+        "workerKernelSeconds": [
+          3.239600000023842
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.2064000000059605,
+        "workerKernelSeconds": [
+          3.2060999999940396
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.2179000000059603,
+        "workerKernelSeconds": [
+          3.2177000000178815
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.161100000023842,
+        "workerKernelSeconds": [
+          3.161100000023842
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.3845,
+        "workerKernelSeconds": [
+          3.3843000000119208
+        ],
+        "activeWorkers": 1
+      }
+    ],
+    "wasm-2": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.7075999999940394,
+        "workerKernelSeconds": [
+          1.700800000011921,
+          1.7075999999940394
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.680800000011921,
+        "workerKernelSeconds": [
+          1.6635999999940396,
+          1.6806999999880792
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.7416000000238419,
+        "workerKernelSeconds": [
+          1.7413999999761582,
+          1.7215
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.6865,
+        "workerKernelSeconds": [
+          1.6593999999761582,
+          1.6860999999940396
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.686399999976158,
+        "workerKernelSeconds": [
+          1.6365999999940395,
+          1.6862999999821187
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.7212000000178813,
+        "workerKernelSeconds": [
+          1.664100000023842,
+          1.720899999976158
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.667,
+        "workerKernelSeconds": [
+          1.6124000000059604,
+          1.666800000011921
+        ],
+        "activeWorkers": 2
+      }
+    ],
+    "wasm-4": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9001999999880791,
+        "workerKernelSeconds": [
+          0.880699999988079,
+          0.9000999999940396,
+          0.8963000000119209,
+          0.8858000000119209
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9276999999880791,
+        "workerKernelSeconds": [
+          0.8747999999821187,
+          0.9275,
+          0.894,
+          0.9065
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.8807999999821186,
+        "workerKernelSeconds": [
+          0.8652999999821186,
+          0.880699999988079,
+          0.8587999999821186,
+          0.8764000000059604
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.8739000000059605,
+        "workerKernelSeconds": [
+          0.8738000000119209,
+          0.8545,
+          0.854199999988079,
+          0.8539000000059604
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9454000000059605,
+        "workerKernelSeconds": [
+          0.945,
+          0.9133000000119209,
+          0.9295,
+          0.9424000000059605
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.8666999999880791,
+        "workerKernelSeconds": [
+          0.8615999999940396,
+          0.8665999999940396,
+          0.8656999999880791,
+          0.8550999999940395
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.8861999999880791,
+        "workerKernelSeconds": [
+          0.886,
+          0.8550999999940395,
+          0.881,
+          0.8409000000059604
+        ],
+        "activeWorkers": 4
+      }
+    ],
+    "wasm-8": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.611,
+        "workerKernelSeconds": [
+          0.544699999988079,
+          0.5019000000059605,
+          0.5875999999940396,
+          0.6109000000059605,
+          0.5618000000119209,
+          0.5704000000059605,
+          0.554,
+          0.5059000000059605
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.5978000000119209,
+        "workerKernelSeconds": [
+          0.5467999999821186,
+          0.5930999999940395,
+          0.5868999999761582,
+          0.5672999999821186,
+          0.5017999999821187,
+          0.5040999999940395,
+          0.4907999999821186,
+          0.5975999999940396
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.5105,
+        "workerKernelSeconds": [
+          0.5104000000059604,
+          0.4735999999940395,
+          0.4857999999821186,
+          0.49669999998807907,
+          0.506,
+          0.48590000000596045,
+          0.4952999999821186,
+          0.49419999998807906
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.7066999999880791,
+        "workerKernelSeconds": [
+          0.6667000000178814,
+          0.5951000000238419,
+          0.5819000000059604,
+          0.6667000000178814,
+          0.7064000000059605,
+          0.6292000000178813,
+          0.6957000000178813,
+          0.691
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.6298000000119209,
+        "workerKernelSeconds": [
+          0.5565,
+          0.5240999999940396,
+          0.5262999999821186,
+          0.5419000000059605,
+          0.5521999999880791,
+          0.6294000000059604,
+          0.5301000000238418,
+          0.6180999999940395
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.5635999999940395,
+        "workerKernelSeconds": [
+          0.5593999999761582,
+          0.4805,
+          0.4842999999821186,
+          0.5105999999940395,
+          0.5632999999821187,
+          0.4845999999940395,
+          0.532699999988079,
+          0.473
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.5254000000059604,
+        "workerKernelSeconds": [
+          0.49730000001192093,
+          0.515,
+          0.49940000000596046,
+          0.4977000000178814,
+          0.4857000000178814,
+          0.5223000000119209,
+          0.5252000000178814,
+          0.4802000000178814
+        ],
+        "activeWorkers": 8
+      }
+    ],
+    "webgpu": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.023267328,
+        "wallSeconds": 0.02410000002384186,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.023262208000000003,
+        "wallSeconds": 0.023700000017881393,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.023259136000000003,
+        "wallSeconds": 0.023800000011920928,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.026346496,
+        "wallSeconds": 0.027400000005960466,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.023622656000000002,
+        "wallSeconds": 0.025299999982118605,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.023616512000000003,
+        "wallSeconds": 0.024900000005960463,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.0232704,
+        "wallSeconds": 0.024,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      }
+    ],
+    "vulkan": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.171549,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0239463,
+            "host_cpu_seconds": 0.000356,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0228339
+          },
+          {
+            "wall_seconds": 0.0239956,
+            "host_cpu_seconds": 0.000333,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0228342
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.219611,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.025791,
+            "host_cpu_seconds": 0.000547,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0244852
+          },
+          {
+            "wall_seconds": 0.0255742,
+            "host_cpu_seconds": 0.000344,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0244889
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.166131,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.023844,
+            "host_cpu_seconds": 0.000272,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0228406
+          },
+          {
+            "wall_seconds": 0.0238005,
+            "host_cpu_seconds": 0.000269,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0228362
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.266246,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0258978,
+            "host_cpu_seconds": 0.000436,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0246499
+          },
+          {
+            "wall_seconds": 0.0267281,
+            "host_cpu_seconds": 0.000483,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0253609
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.158899,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0242123,
+            "host_cpu_seconds": 0.00043,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0228422
+          },
+          {
+            "wall_seconds": 0.0243018,
+            "host_cpu_seconds": 0.000366,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0230154
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.220374,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.026255,
+            "host_cpu_seconds": 0.0007,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0244878
+          },
+          {
+            "wall_seconds": 0.0258869,
+            "host_cpu_seconds": 0.000471,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0247877
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.177842,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0239689,
+            "host_cpu_seconds": 0.000317,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0228366
+          },
+          {
+            "wall_seconds": 0.0239101,
+            "host_cpu_seconds": 0.000335,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0228364
+          }
+        ],
+        "measured_sample_index": 1
+      }
+    ]
+  },
+  "warmup_samples": {
+    "wasm-1": [
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 3.2605999999940396,
+          "workerKernelSeconds": [
+            3.2602999999821187
+          ],
+          "activeWorkers": 1
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 3.1535,
+          "workerKernelSeconds": [
+            3.153300000011921
+          ],
+          "activeWorkers": 1
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 3.3150999999940396,
+          "workerKernelSeconds": [
+            3.3148999999761584
+          ],
+          "activeWorkers": 1
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 3.266699999988079,
+          "workerKernelSeconds": [
+            3.266300000011921
+          ],
+          "activeWorkers": 1
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 3.1989000000059606,
+          "workerKernelSeconds": [
+            3.1987999999821186
+          ],
+          "activeWorkers": 1
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 3.3719000000059607,
+          "workerKernelSeconds": [
+            3.3717000000178814
+          ],
+          "activeWorkers": 1
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 3.2125999999940396,
+          "workerKernelSeconds": [
+            3.2125
+          ],
+          "activeWorkers": 1
+        }
+      ]
+    ],
+    "wasm-2": [
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.687,
+          "workerKernelSeconds": [
+            1.671,
+            1.6867999999821186
+          ],
+          "activeWorkers": 2
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.653300000011921,
+          "workerKernelSeconds": [
+            1.5992999999821187,
+            1.6530999999940394
+          ],
+          "activeWorkers": 2
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.706,
+          "workerKernelSeconds": [
+            1.7022000000178814,
+            1.7057999999821185
+          ],
+          "activeWorkers": 2
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.7307999999821186,
+          "workerKernelSeconds": [
+            1.7100999999940396,
+            1.7305
+          ],
+          "activeWorkers": 2
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.8370999999940396,
+          "workerKernelSeconds": [
+            1.837,
+            1.8285
+          ],
+          "activeWorkers": 2
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.664600000023842,
+          "workerKernelSeconds": [
+            1.6642999999821186,
+            1.6446999999880791
+          ],
+          "activeWorkers": 2
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.6557999999821187,
+          "workerKernelSeconds": [
+            1.6554000000059605,
+            1.6095999999940396
+          ],
+          "activeWorkers": 2
+        }
+      ]
+    ],
+    "wasm-4": [
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.8656999999880791,
+          "workerKernelSeconds": [
+            0.843199999988079,
+            0.8655999999940396,
+            0.8449000000059604,
+            0.842199999988079
+          ],
+          "activeWorkers": 4
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.8688000000119209,
+          "workerKernelSeconds": [
+            0.8639000000059605,
+            0.8521000000238419,
+            0.8688000000119209,
+            0.8635
+          ],
+          "activeWorkers": 4
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.8769000000059605,
+          "workerKernelSeconds": [
+            0.8733000000119209,
+            0.8577000000178814,
+            0.8766000000238419,
+            0.8658000000119209
+          ],
+          "activeWorkers": 4
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.0030999999940395,
+          "workerKernelSeconds": [
+            0.9695999999940396,
+            0.956199999988079,
+            1.002699999988079,
+            0.9644000000059605
+          ],
+          "activeWorkers": 4
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.8565999999940396,
+          "workerKernelSeconds": [
+            0.827,
+            0.8565,
+            0.8320999999940395,
+            0.84
+          ],
+          "activeWorkers": 4
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.861,
+          "workerKernelSeconds": [
+            0.8375,
+            0.8608999999761582,
+            0.8418999999761582,
+            0.8388999999761582
+          ],
+          "activeWorkers": 4
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.916699999988079,
+          "workerKernelSeconds": [
+            0.9165,
+            0.9155,
+            0.884,
+            0.911699999988079
+          ],
+          "activeWorkers": 4
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.9072999999821186,
+          "workerKernelSeconds": [
+            0.9070999999940396,
+            0.886,
+            0.898699999988079,
+            0.8506999999880791
+          ],
+          "activeWorkers": 4
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 1.0144000000059605,
+          "workerKernelSeconds": [
+            1.009,
+            1.0105,
+            1.0134000000059604,
+            1.0082000000178815
+          ],
+          "activeWorkers": 4
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.9435999999940395,
+          "workerKernelSeconds": [
+            0.9356999999880791,
+            0.9433000000119209,
+            0.9140999999940396,
+            0.9207000000178814
+          ],
+          "activeWorkers": 4
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.8771999999880791,
+          "workerKernelSeconds": [
+            0.8564000000059605,
+            0.8264000000059605,
+            0.877,
+            0.845
+          ],
+          "activeWorkers": 4
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.8482000000178814,
+          "workerKernelSeconds": [
+            0.8444000000059605,
+            0.848,
+            0.8079000000059605,
+            0.8206000000238418
+          ],
+          "activeWorkers": 4
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.8926000000238419,
+          "workerKernelSeconds": [
+            0.8609000000059605,
+            0.8922999999821186,
+            0.8756999999880791,
+            0.8711999999880791
+          ],
+          "activeWorkers": 4
+        }
+      ]
+    ],
+    "wasm-8": [
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.5592000000178814,
+          "workerKernelSeconds": [
+            0.5055,
+            0.5144000000059604,
+            0.5347999999821186,
+            0.5315,
+            0.5205999999940395,
+            0.5270999999940396,
+            0.5035,
+            0.559
+          ],
+          "activeWorkers": 8
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.620300000011921,
+          "workerKernelSeconds": [
+            0.515,
+            0.5450999999940396,
+            0.4865999999940395,
+            0.4847000000178814,
+            0.6200999999940395,
+            0.5682000000178814,
+            0.5314000000059604,
+            0.533
+          ],
+          "activeWorkers": 8
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.6177000000178814,
+          "workerKernelSeconds": [
+            0.5045,
+            0.5225999999940395,
+            0.4835999999940395,
+            0.611,
+            0.5135,
+            0.4636999999880791,
+            0.6174000000059605,
+            0.466
+          ],
+          "activeWorkers": 8
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.6614000000059604,
+          "workerKernelSeconds": [
+            0.5915,
+            0.5527999999821186,
+            0.5687999999821186,
+            0.576,
+            0.6245,
+            0.528800000011921,
+            0.5125999999940395,
+            0.6613000000119209
+          ],
+          "activeWorkers": 8
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.581,
+          "workerKernelSeconds": [
+            0.517699999988079,
+            0.5774000000059605,
+            0.4863000000119209,
+            0.47990000000596045,
+            0.4972000000178814,
+            0.4685,
+            0.4877000000178814,
+            0.5802000000178814
+          ],
+          "activeWorkers": 8
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.537,
+          "workerKernelSeconds": [
+            0.4780999999940395,
+            0.504,
+            0.5105,
+            0.4637000000178814,
+            0.481,
+            0.5052000000178813,
+            0.5367000000178814,
+            0.47020000001788137
+          ],
+          "activeWorkers": 8
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.7284000000059605,
+          "workerKernelSeconds": [
+            0.6142000000178814,
+            0.6622000000178814,
+            0.6199000000059605,
+            0.5948999999761582,
+            0.5665,
+            0.573,
+            0.5617999999821186,
+            0.7218000000119209
+          ],
+          "activeWorkers": 8
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.6406000000238419,
+          "workerKernelSeconds": [
+            0.567199999988079,
+            0.6403999999761582,
+            0.6362999999821186,
+            0.46589999997615816,
+            0.5401999999880791,
+            0.5367999999821186,
+            0.5057999999821186,
+            0.4912999999821186
+          ],
+          "activeWorkers": 8
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.6861999999880791,
+          "workerKernelSeconds": [
+            0.5859000000059604,
+            0.6313000000119209,
+            0.6439000000059605,
+            0.5543000000119209,
+            0.6281000000238418,
+            0.6337000000178814,
+            0.686,
+            0.6251000000238418
+          ],
+          "activeWorkers": 8
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.5255,
+          "workerKernelSeconds": [
+            0.48040000000596045,
+            0.5253000000119209,
+            0.518699999988079,
+            0.49680000001192093,
+            0.5221999999880791,
+            0.4807999999821186,
+            0.5014000000059604,
+            0.5013000000119209
+          ],
+          "activeWorkers": 8
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.5428999999761581,
+          "workerKernelSeconds": [
+            0.5182999999821186,
+            0.542699999988079,
+            0.48640000000596045,
+            0.4728000000119209,
+            0.4767000000178814,
+            0.49780000001192093,
+            0.49359999999403953,
+            0.5215
+          ],
+          "activeWorkers": 8
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.4942000000178814,
+          "workerKernelSeconds": [
+            0.484,
+            0.4942000000178814,
+            0.4922000000178814,
+            0.47540000000596044,
+            0.4747000000178814,
+            0.4913000000119209,
+            0.46679999998211863,
+            0.47619999998807905
+          ],
+          "activeWorkers": 8
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.4795,
+          "workerKernelSeconds": [
+            0.4605,
+            0.44630000001192094,
+            0.4742000000178814,
+            0.4793000000119209,
+            0.46530000001192096,
+            0.46790000000596044,
+            0.4737000000178814,
+            0.4645
+          ],
+          "activeWorkers": 8
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.5042000000178813,
+          "workerKernelSeconds": [
+            0.5032000000178813,
+            0.48710000002384185,
+            0.5004000000059604,
+            0.5041000000238418,
+            0.5008000000119209,
+            0.49640000000596046,
+            0.5019000000059605,
+            0.48819999998807906
+          ],
+          "activeWorkers": 8
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "wallSeconds": 0.6908000000119209,
+          "workerKernelSeconds": [
+            0.6076999999880791,
+            0.5278999999761581,
+            0.5408999999761581,
+            0.6265999999940395,
+            0.5655999999940395,
+            0.5300999999940396,
+            0.6905999999940395,
+            0.5792999999821186
+          ],
+          "activeWorkers": 8
+        }
+      ]
+    ],
+    "webgpu": [
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.217382912,
+          "wallSeconds": 0.21940000000596047,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.09182515200000001,
+          "wallSeconds": 0.09439999997615814,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025124864,
+          "wallSeconds": 0.02619999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024920064000000002,
+          "wallSeconds": 0.02619999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024922112000000003,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024922112000000003,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024923136000000002,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.027317248000000002,
+          "wallSeconds": 0.028599999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023299072,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023095296,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023218176,
+          "wallSeconds": 0.02419999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023271424000000002,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025631744,
+          "wallSeconds": 0.027099999994039534,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02327552,
+          "wallSeconds": 0.02530000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.024400000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023267328,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025637888,
+          "wallSeconds": 0.0265,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023276544000000003,
+          "wallSeconds": 0.02410000002384186,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.024200000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.024200000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023268352000000003,
+          "wallSeconds": 0.02519999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025636864000000002,
+          "wallSeconds": 0.027300000011920927,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023273472,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023268352000000003,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.024099999994039535,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024925184000000003,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024922112000000003,
+          "wallSeconds": 0.02569999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024922112000000003,
+          "wallSeconds": 0.025900000005960464,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02491904,
+          "wallSeconds": 0.0265,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024069120000000003,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023420928,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023171072,
+          "wallSeconds": 0.023800000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.023800000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023267328,
+          "wallSeconds": 0.024700000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023267328,
+          "wallSeconds": 0.02469999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023265280000000003,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023262208000000003,
+          "wallSeconds": 0.024099999994039535,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.023899999976158142,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023268352000000003,
+          "wallSeconds": 0.024300000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.024200000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.023899999976158142,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023265280000000003,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023265280000000003,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023262208000000003,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023263232000000002,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.0245,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.027768832,
+          "wallSeconds": 0.029400000005960464,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023271424000000002,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023263232000000002,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023260160000000002,
+          "wallSeconds": 0.023899999976158142,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023583744,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023263232000000002,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.023800000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.02369999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.023800000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.02410000002384186,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023264256,
+          "wallSeconds": 0.023899999976158142,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023262208000000003,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023261184,
+          "wallSeconds": 0.02469999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.217380864,
+          "wallSeconds": 0.21930000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.12503756800000002,
+          "wallSeconds": 0.12640000000596047,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024979456,
+          "wallSeconds": 0.0275,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024921088,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024921088,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024922112000000003,
+          "wallSeconds": 0.02619999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024920064000000002,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024921088,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023953408000000002,
+          "wallSeconds": 0.02519999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023165952,
+          "wallSeconds": 0.023800000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0231936,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02325504,
+          "wallSeconds": 0.024099999994039535,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023259136000000003,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023259136000000003,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025076736000000002,
+          "wallSeconds": 0.02619999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023257088000000002,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023260160000000002,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023259136000000003,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023259136000000003,
+          "wallSeconds": 0.024099999994039535,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023257088000000002,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023256064,
+          "wallSeconds": 0.023599999994039535,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023259136000000003,
+          "wallSeconds": 0.02369999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023257088000000002,
+          "wallSeconds": 0.02369999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023256064,
+          "wallSeconds": 0.024400000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023259136000000003,
+          "wallSeconds": 0.02369999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02325504,
+          "wallSeconds": 0.023800000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023256064,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.026060800000000002,
+          "wallSeconds": 0.02739999997615814,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024388608000000003,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023785472000000002,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023810048,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023576576000000002,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023981056,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023620608,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023621632,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023968768,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023459840000000003,
+          "wallSeconds": 0.024099999994039535,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.023899999976158142,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.023800000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023268352000000003,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023267328,
+          "wallSeconds": 0.02369999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023265280000000003,
+          "wallSeconds": 0.024599999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.02369999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024893440000000003,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023590912000000002,
+          "wallSeconds": 0.025100000023841856,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024548352000000002,
+          "wallSeconds": 0.02630000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023543808000000003,
+          "wallSeconds": 0.02530000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025390080000000002,
+          "wallSeconds": 0.026599999994039534,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023547904,
+          "wallSeconds": 0.024799999982118605,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023524352000000002,
+          "wallSeconds": 0.024599999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023786496,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023271424000000002,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023268352000000003,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023874560000000003,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023476224,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023671808000000003,
+          "wallSeconds": 0.024799999982118605,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0234752,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023676928,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.023899999976158142,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023507968,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023271424000000002,
+          "wallSeconds": 0.023799999982118607,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024215552,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.027006976000000002,
+          "wallSeconds": 0.0285,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.12708966400000002,
+          "wallSeconds": 0.12909999999403954,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.06615552000000001,
+          "wallSeconds": 0.06809999999403954,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.027296768000000003,
+          "wallSeconds": 0.0285,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025290752000000003,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025099264000000003,
+          "wallSeconds": 0.02619999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025096192000000003,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024926208000000002,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025299968000000003,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025295872,
+          "wallSeconds": 0.02630000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02369024,
+          "wallSeconds": 0.024399999976158143,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023442432000000003,
+          "wallSeconds": 0.025200000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023458816,
+          "wallSeconds": 0.024099999994039535,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023846912,
+          "wallSeconds": 0.025200000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023635968,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023646208000000002,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023849984,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023457792,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023273472,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023636992000000003,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023626752,
+          "wallSeconds": 0.025200000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023619584000000002,
+          "wallSeconds": 0.02519999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023436288000000003,
+          "wallSeconds": 0.024900000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023268352000000003,
+          "wallSeconds": 0.025299999982118605,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023642112,
+          "wallSeconds": 0.0245,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023621632,
+          "wallSeconds": 0.0245,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023627776000000003,
+          "wallSeconds": 0.02530000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023627776000000003,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023632896,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023621632,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.20213862400000002,
+          "wallSeconds": 0.20419999998807908,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.125955072,
+          "wallSeconds": 0.128,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025124864,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025294848,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025296896000000003,
+          "wallSeconds": 0.02619999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025299968000000003,
+          "wallSeconds": 0.02630000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025294848,
+          "wallSeconds": 0.02630000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025293824000000003,
+          "wallSeconds": 0.02619999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024365056000000003,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023619584000000002,
+          "wallSeconds": 0.025200000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023617536,
+          "wallSeconds": 0.024400000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023617536,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02366464,
+          "wallSeconds": 0.024400000005960463,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.024,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023648256000000003,
+          "wallSeconds": 0.02530000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023630848000000003,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023621632,
+          "wallSeconds": 0.025100000023841856,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02342912,
+          "wallSeconds": 0.025200000017881394,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023457792,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023621632,
+          "wallSeconds": 0.025099999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023620608,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023613440000000003,
+          "wallSeconds": 0.024899999976158143,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023613440000000003,
+          "wallSeconds": 0.024899999976158143,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023267328,
+          "wallSeconds": 0.024299999982118608,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023454720000000002,
+          "wallSeconds": 0.025100000023841856,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02361856,
+          "wallSeconds": 0.024899999976158143,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        }
+      ],
+      [
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.240145408,
+          "wallSeconds": 0.24169999998807906,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.10228326400000001,
+          "wallSeconds": 0.1045,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.025652224,
+          "wallSeconds": 0.027,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024927232,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024923136000000002,
+          "wallSeconds": 0.026,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024920064000000002,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02492416,
+          "wallSeconds": 0.025900000005960464,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02492416,
+          "wallSeconds": 0.026099999994039537,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.024400896000000002,
+          "wallSeconds": 0.02580000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.023799999982118607,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.0232704,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023266304,
+          "wallSeconds": 0.023799999982118607,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.023800000011920928,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.02369999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.024599999994039536,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.02469999998807907,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023272448,
+          "wallSeconds": 0.023799999982118607,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023272448,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023271424000000002,
+          "wallSeconds": 0.02410000002384186,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023268352000000003,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023267328,
+          "wallSeconds": 0.02480000001192093,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.02327552,
+          "wallSeconds": 0.024799999982118605,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023271424000000002,
+          "wallSeconds": 0.023900000005960466,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        },
+        {
+          "attempts": 16777216,
+          "winner": null,
+          "proof": null,
+          "digests": null,
+          "gpuSeconds": 0.023269376,
+          "wallSeconds": 0.025,
+          "explicitUploadBytes": 256,
+          "explicitReadbackBytes": 20
+        }
+      ]
+    ],
+    "vulkan": [
+      {
+        "wall_seconds": 0.0239463,
+        "host_cpu_seconds": 0.000356,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0228339
+      },
+      {
+        "wall_seconds": 0.025791,
+        "host_cpu_seconds": 0.000547,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0244852
+      },
+      {
+        "wall_seconds": 0.023844,
+        "host_cpu_seconds": 0.000272,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0228406
+      },
+      {
+        "wall_seconds": 0.0258978,
+        "host_cpu_seconds": 0.000436,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0246499
+      },
+      {
+        "wall_seconds": 0.0242123,
+        "host_cpu_seconds": 0.00043,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0228422
+      },
+      {
+        "wall_seconds": 0.026255,
+        "host_cpu_seconds": 0.0007,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0244878
+      },
+      {
+        "wall_seconds": 0.0239689,
+        "host_cpu_seconds": 0.000317,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0228366
+      }
+    ]
+  },
+  "warm_proofs": {
+    "wasm-1": [
+      {
+        "wallSeconds": 0.0008000000119209289,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-2": [
+      {
+        "wallSeconds": 0.00030000001192092895,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00030000001192092895,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00030000001192092895,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-4": [
+      {
+        "wallSeconds": 0.00019999998807907106,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00020000001788139342,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00019999998807907106,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-8": [
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00030000001192092895,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "webgpu": [
+      {
+        "wallSeconds": 0.002800000011920929,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025999999940395356,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0024000000059604646,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025999999940395356,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025999999940395356,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ]
+  },
+  "native_binary_sha256": "fca9648254ebd4060e3696238fcbe53a097b7a37c36cb19df4a1f96beaa2eb4d",
+  "host_load_end": [
+    10.990234375,
+    11.76318359375,
+    12.91015625
+  ],
+  "status": "passed"
+}

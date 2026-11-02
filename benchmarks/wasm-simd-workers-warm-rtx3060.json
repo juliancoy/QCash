@@ -1,0 +1,1935 @@
+{
+  "created_utc": "2026-11-02T20:22:21Z",
+  "source_commit": "f63257fb394b9ecbd57885d6775c48fe2f49eb39",
+  "source_hashes": {
+    "miners/wasm/build.json": "00e95fe4c07f3538577f76c699f2961be5f1a7597697a8b514f901ece910f2eb",
+    "miners/wasm/kernel.cpp": "aa580a5ec42a64cf9744b1ae4715be3d56bf564f2275b8b7305d3ef82a2b789c",
+    "miners/wasm/kernel.wasm": "6b3006181205afdce0ad99ca051884632c8bdbdfa36e1789c16689a9637227b0",
+    "miners/wasm/miner.mjs": "2192faa23ab5a2cb4709b33683e0052055be5a81d2ccd861e5b446068e9d5974",
+    "miners/wasm/worker.mjs": "3fd3f3498dc974785c6b952a01c48ba39974ebeb0e877e18206085c34011cac7",
+    "miners/webgpu/demo.mjs": "b2e88d26af822a4d1d570701a871350d5297f0fb67d1034a9ea20df89d9c8b7f",
+    "miners/webgpu/miner.mjs": "b5548120a5611e414710b7f9ce44b346860000f7649cbd3cd0b1a11a44f801b1",
+    "miners/webgpu/sha3.mjs": "44b370646c162e62137d5d16e8456d502ac9cea07bd0bb8f678723097fe69c34",
+    "miners/webgpu/shader.mjs": "19d8152d5a7bee290387eb888c0ca09684e57b48ff557edd759df7ed88661325",
+    "tools/test_wasm_mining.py": "dc4e7dd65f35ff58330e14166b592947395b4232b5b5074b903ad49fcee441ef"
+  },
+  "attempts": 16777216,
+  "repeats": 7,
+  "warm_each_sample": true,
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "cpu": "AMD Ryzen 7 5800X 8-Core Processor",
+  "host_load_start": [
+    11.265625,
+    13.13671875,
+    13.529296875
+  ],
+  "playwright": "1.58.0",
+  "methodology": "Same hard-target header, cached prefix and pruned final Keccak round for all backends. Equal requested candidates per run; full wall time includes IPC/submission/completion and winner verification. Seven rotated/reversed rounds by default; warm_each_sample controls a discarded full-range warm-up before each timed browser case and measured_sample_index identifies the native sample; session initialization and template preparation excluded. Explicit i64x2 SIMD; persistent independent Web Workers with private memories, not Emscripten pthreads. No physical traffic, energy or CPU utilization inferred.",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "browser": "150.0.7871.128",
+  "validation": {
+    "checked": 21284,
+    "infos": [
+      {
+        "backend": "wasm-simd128",
+        "threads": 1,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 2,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 4,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 8,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      }
+    ],
+    "crossOriginIsolated": false
+  },
+  "sessions": {
+    "wasm-1": {
+      "backend": "wasm-simd128",
+      "threads": 1,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-2": {
+      "backend": "wasm-simd128",
+      "threads": 2,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-4": {
+      "backend": "wasm-simd128",
+      "threads": 4,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-8": {
+      "backend": "wasm-simd128",
+      "threads": 8,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "webgpu": {
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "ampere",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "workgroup": 64,
+      "maxBatch": 16777216,
+      "dispatchSize": 1048576,
+      "timestamps": true,
+      "variant": "final32",
+      "readback": "4-byte winner; debug digests only on request",
+      "cpuVerification": "independent BigInt SHA3 of winners only"
+    }
+  },
+  "samples": {
+    "wasm-1": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 4.094599999994039,
+        "workerKernelSeconds": [
+          4.094299999982119
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.273,
+        "workerKernelSeconds": [
+          3.2725999999940396
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 4.031900000005961,
+        "workerKernelSeconds": [
+          4.0315
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.2435,
+        "workerKernelSeconds": [
+          3.243299999982119
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.217300000011921,
+        "workerKernelSeconds": [
+          3.217199999988079
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.3579000000059605,
+        "workerKernelSeconds": [
+          3.357699999988079
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.2878999999761582,
+        "workerKernelSeconds": [
+          3.287699999988079
+        ],
+        "activeWorkers": 1
+      }
+    ],
+    "wasm-2": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 2.353800000011921,
+        "workerKernelSeconds": [
+          2.2962000000178815,
+          2.3535
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.7209000000059604,
+        "workerKernelSeconds": [
+          1.720699999988079,
+          1.6970999999940395
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 2.320800000011921,
+        "workerKernelSeconds": [
+          2.3202000000178815,
+          2.2575
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.669699999988079,
+        "workerKernelSeconds": [
+          1.6694000000059606,
+          1.6515999999940396
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.656300000011921,
+        "workerKernelSeconds": [
+          1.6562000000178814,
+          1.6445
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.682,
+        "workerKernelSeconds": [
+          1.6732999999821185,
+          1.6817999999821187
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.6900999999940396,
+        "workerKernelSeconds": [
+          1.6575,
+          1.6899000000059605
+        ],
+        "activeWorkers": 2
+      }
+    ],
+    "wasm-4": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9901999999880791,
+        "workerKernelSeconds": [
+          0.9420999999940395,
+          0.99,
+          0.9692000000178814,
+          0.972199999988079
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9915999999940396,
+        "workerKernelSeconds": [
+          0.9915,
+          0.9805999999940396,
+          0.9908000000119209,
+          0.980300000011921
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.5074000000059604,
+        "workerKernelSeconds": [
+          1.3755999999940396,
+          1.3962000000178814,
+          1.5040999999940394,
+          1.309
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.5687000000178815,
+        "workerKernelSeconds": [
+          1.5662999999821186,
+          1.4358000000119209,
+          1.3222000000178813,
+          1.3424000000059604
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9141000000238418,
+        "workerKernelSeconds": [
+          0.8941000000238418,
+          0.9093000000119209,
+          0.9135,
+          0.905
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9114000000059604,
+        "workerKernelSeconds": [
+          0.8680999999940395,
+          0.9110999999940396,
+          0.8825,
+          0.87
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9033000000119209,
+        "workerKernelSeconds": [
+          0.9026000000238419,
+          0.8709000000059605,
+          0.8783000000119209,
+          0.894
+        ],
+        "activeWorkers": 4
+      }
+    ],
+    "wasm-8": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.6457000000178814,
+        "workerKernelSeconds": [
+          0.6454000000059604,
+          0.5123000000119209,
+          0.4873000000119209,
+          0.5074000000059604,
+          0.4787000000178814,
+          0.529800000011921,
+          0.6214000000059605,
+          0.524800000011921
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.6242000000178813,
+        "workerKernelSeconds": [
+          0.5485999999940395,
+          0.5630999999940396,
+          0.5067000000178814,
+          0.557800000011921,
+          0.5319000000059605,
+          0.5431000000238418,
+          0.624,
+          0.5467000000178814
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.841,
+        "workerKernelSeconds": [
+          0.7167000000178814,
+          0.5998000000119209,
+          0.7599000000059605,
+          0.6799000000059605,
+          0.6197000000178814,
+          0.6735,
+          0.840300000011921,
+          0.7405999999940396
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.6285,
+        "workerKernelSeconds": [
+          0.5785999999940395,
+          0.5914000000059605,
+          0.5958000000119209,
+          0.525800000011921,
+          0.5855,
+          0.6283000000119209,
+          0.5671000000238419,
+          0.5946000000238418
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.6975999999940395,
+        "workerKernelSeconds": [
+          0.6729000000059605,
+          0.5907000000178814,
+          0.5974000000059605,
+          0.6394000000059604,
+          0.6305,
+          0.6487000000178814,
+          0.6035999999940396,
+          0.6973000000119209
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.6253000000119209,
+        "workerKernelSeconds": [
+          0.625,
+          0.6198000000119209,
+          0.5204000000059604,
+          0.5471000000238418,
+          0.5697000000178813,
+          0.5648000000119209,
+          0.578,
+          0.572
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.597,
+        "workerKernelSeconds": [
+          0.5064000000059604,
+          0.52,
+          0.511,
+          0.4803000000119209,
+          0.5969000000059604,
+          0.4817000000178814,
+          0.5642000000178814,
+          0.5099000000059605
+        ],
+        "activeWorkers": 8
+      }
+    ],
+    "webgpu": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.03803136,
+        "wallSeconds": 0.039900000005960466,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.025295872,
+        "wallSeconds": 0.02619999998807907,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.130249728,
+        "wallSeconds": 0.13290000000596047,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.032854016,
+        "wallSeconds": 0.0335,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.043312128000000005,
+        "wallSeconds": 0.04439999997615814,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.026450944,
+        "wallSeconds": 0.027200000017881393,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.026831872000000003,
+        "wallSeconds": 0.028299999982118608,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      }
+    ],
+    "vulkan": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.185212,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0274592,
+            "host_cpu_seconds": 0.000436,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0246665
+          },
+          {
+            "wall_seconds": 0.025826,
+            "host_cpu_seconds": 0.000351,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0246768
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.265009,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0260215,
+            "host_cpu_seconds": 0.000429,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0246575
+          },
+          {
+            "wall_seconds": 0.0263002,
+            "host_cpu_seconds": 0.000459,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0248532
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.234689,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.027426,
+            "host_cpu_seconds": 0.000411,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0244868
+          },
+          {
+            "wall_seconds": 0.0277998,
+            "host_cpu_seconds": 0.000412,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0247408
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.241684,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0258711,
+            "host_cpu_seconds": 0.000333,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0246927
+          },
+          {
+            "wall_seconds": 0.0260177,
+            "host_cpu_seconds": 0.000447,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0246812
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.186969,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0259186,
+            "host_cpu_seconds": 0.000405,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0244804
+          },
+          {
+            "wall_seconds": 0.0265252,
+            "host_cpu_seconds": 0.000449,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0248837
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.252489,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.026274,
+            "host_cpu_seconds": 0.000406,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0248872
+          },
+          {
+            "wall_seconds": 0.026451,
+            "host_cpu_seconds": 0.000487,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0249932
+          }
+        ],
+        "measured_sample_index": 1
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.200347,
+        "hashes_per_round": 16777216,
+        "samples": [
+          {
+            "wall_seconds": 0.0259125,
+            "host_cpu_seconds": 0.00043,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0244956
+          },
+          {
+            "wall_seconds": 0.0264783,
+            "host_cpu_seconds": 0.000369,
+            "host_waits": 16,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0244881
+          }
+        ],
+        "measured_sample_index": 1
+      }
+    ]
+  },
+  "warmup_samples": {
+    "wasm-1": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 4.131699999988079,
+        "workerKernelSeconds": [
+          4.131400000005961
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.424,
+        "workerKernelSeconds": [
+          3.423699999988079
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 4.3440999999940395,
+        "workerKernelSeconds": [
+          4.343799999982118
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.298300000011921,
+        "workerKernelSeconds": [
+          3.298
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.2812999999821186,
+        "workerKernelSeconds": [
+          3.281
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.2470999999940395,
+        "workerKernelSeconds": [
+          3.2469000000059607
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 3.348600000023842,
+        "workerKernelSeconds": [
+          3.3485
+        ],
+        "activeWorkers": 1
+      }
+    ],
+    "wasm-2": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 2.193,
+        "workerKernelSeconds": [
+          2.1224000000059604,
+          2.1925999999940395
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.6937999999821185,
+        "workerKernelSeconds": [
+          1.670199999988079,
+          1.6935
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 2.346699999988079,
+        "workerKernelSeconds": [
+          2.114299999982119,
+          2.3459000000059604
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 2.021800000011921,
+        "workerKernelSeconds": [
+          2.0215,
+          2.0115999999940395
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.7105,
+        "workerKernelSeconds": [
+          1.6849000000059604,
+          1.7104000000059605
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.6690999999940395,
+        "workerKernelSeconds": [
+          1.668800000011921,
+          1.6624000000059604
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.658,
+        "workerKernelSeconds": [
+          1.6577000000178814,
+          1.6252000000178815
+        ],
+        "activeWorkers": 2
+      }
+    ],
+    "wasm-4": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9631000000238419,
+        "workerKernelSeconds": [
+          0.953199999988079,
+          0.9615,
+          0.9114000000059604,
+          0.9460999999940395
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.9266999999880791,
+        "workerKernelSeconds": [
+          0.9105999999940395,
+          0.9195999999940395,
+          0.9263000000119209,
+          0.910800000011921
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.3818000000119208,
+        "workerKernelSeconds": [
+          1.3812999999821185,
+          1.3541999999880792,
+          1.1610999999940395,
+          1.1209000000059606
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.205,
+        "workerKernelSeconds": [
+          1.1725,
+          1.2023000000119208,
+          1.1755,
+          1.1345
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.0704000000059604,
+        "workerKernelSeconds": [
+          1.0700999999940395,
+          1.0132999999821186,
+          0.9960999999940395,
+          1.0257999999821186
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.8872999999821186,
+        "workerKernelSeconds": [
+          0.8803000000119209,
+          0.8801999999880791,
+          0.887,
+          0.8770999999940395
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 1.0659000000059604,
+        "workerKernelSeconds": [
+          1.0107000000178814,
+          1.065800000011921,
+          1.039800000011921,
+          1.0467999999821187
+        ],
+        "activeWorkers": 4
+      }
+    ],
+    "wasm-8": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.7117999999821186,
+        "workerKernelSeconds": [
+          0.672,
+          0.6425999999940395,
+          0.5334000000059604,
+          0.5739000000059604,
+          0.7115,
+          0.6510999999940396,
+          0.6433000000119209,
+          0.6233000000119209
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.719,
+        "workerKernelSeconds": [
+          0.7186999999880791,
+          0.6199000000059605,
+          0.6715999999940395,
+          0.6749000000059605,
+          0.656,
+          0.644800000011921,
+          0.6478999999761581,
+          0.6730999999940396
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.962,
+        "workerKernelSeconds": [
+          0.8680999999940395,
+          0.8595999999940396,
+          0.5949000000059604,
+          0.8059000000059605,
+          0.732,
+          0.8787999999821186,
+          0.871300000011921,
+          0.9555999999940396
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.6291000000238418,
+        "workerKernelSeconds": [
+          0.6288999999761582,
+          0.5133999999761582,
+          0.5032999999821186,
+          0.5581999999880791,
+          0.5630999999940396,
+          0.5790999999940395,
+          0.5102999999821186,
+          0.5975
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.7232999999821186,
+        "workerKernelSeconds": [
+          0.7106999999880791,
+          0.723,
+          0.6766999999880791,
+          0.6255,
+          0.618300000011921,
+          0.6278000000119209,
+          0.69,
+          0.704199999988079
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.6504000000059604,
+        "workerKernelSeconds": [
+          0.596300000011921,
+          0.5423000000119209,
+          0.6366000000238419,
+          0.6500999999940396,
+          0.6006999999880791,
+          0.5455999999940395,
+          0.5663999999761582,
+          0.607199999988079
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.5186000000238419,
+        "workerKernelSeconds": [
+          0.5004000000059604,
+          0.5160999999940395,
+          0.5185,
+          0.4885,
+          0.4501999999880791,
+          0.45989999997615816,
+          0.47469999998807905,
+          0.4611999999880791
+        ],
+        "activeWorkers": 8
+      }
+    ],
+    "webgpu": [
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.256355328,
+        "wallSeconds": 0.2582000000178814,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.025295872,
+        "wallSeconds": 0.02619999998807907,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.19963187200000002,
+        "wallSeconds": 0.20140000000596048,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.025309184000000002,
+        "wallSeconds": 0.026099999994039537,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.042712064,
+        "wallSeconds": 0.04440000000596046,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.21566976000000002,
+        "wallSeconds": 0.21810000002384186,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.262864896,
+        "wallSeconds": 0.26509999999403955,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      }
+    ],
+    "vulkan": [
+      {
+        "wall_seconds": 0.0274592,
+        "host_cpu_seconds": 0.000436,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0246665
+      },
+      {
+        "wall_seconds": 0.0260215,
+        "host_cpu_seconds": 0.000429,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0246575
+      },
+      {
+        "wall_seconds": 0.027426,
+        "host_cpu_seconds": 0.000411,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0244868
+      },
+      {
+        "wall_seconds": 0.0258711,
+        "host_cpu_seconds": 0.000333,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0246927
+      },
+      {
+        "wall_seconds": 0.0259186,
+        "host_cpu_seconds": 0.000405,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0244804
+      },
+      {
+        "wall_seconds": 0.026274,
+        "host_cpu_seconds": 0.000406,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0248872
+      },
+      {
+        "wall_seconds": 0.0259125,
+        "host_cpu_seconds": 0.00043,
+        "host_waits": 16,
+        "explicit_upload_bytes": 0,
+        "explicit_readback_bytes": 0,
+        "command_recordings": 0,
+        "gpu_seconds": 0.0244956
+      }
+    ]
+  },
+  "warm_proofs": {
+    "wasm-1": [
+      {
+        "wallSeconds": 0.000699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.000699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0007000000178813934,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00030000001192092895,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-2": [
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00030000001192092895,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00030000001192092895,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-4": [
+      {
+        "wallSeconds": 0.0003999999761581421,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-8": [
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00029999998211860656,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00030000001192092895,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.00040000000596046445,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0003999999761581421,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "webgpu": [
+      {
+        "wallSeconds": 0.002600000023841858,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.002699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025999999940395356,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025999999940395356,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0027000000178813936,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ]
+  },
+  "native_binary_sha256": "fca9648254ebd4060e3696238fcbe53a097b7a37c36cb19df4a1f96beaa2eb4d",
+  "host_load_end": [
+    13.8330078125,
+    13.96484375,
+    13.81005859375
+  ],
+  "status": "passed"
+}

@@ -1,0 +1,51 @@
+{
+  "status": "passed",
+  "independent_browser_openssl_digests": 21284,
+  "worker_counts": [
+    1,
+    2,
+    4,
+    8
+  ],
+  "cross_origin_isolated": false,
+  "explicit_simd_disassembly_counts": {
+    "v128.xor": 180,
+    "i64x2.shl": 49,
+    "i64x2.shr_u": 47,
+    "v128.andnot": 33
+  },
+  "byte_identical_rebuild": true,
+  "wasm_sha256": "6b3006181205afdce0ad99ca051884632c8bdbdfa36e1789c16689a9637227b0",
+  "ctest_focused": [
+    "webgpu-host-reference passed",
+    "wasm-simd-kernel passed"
+  ],
+  "local_node_acceptance": {
+    "wasm_1_worker": 1,
+    "wasm_8_workers": 1,
+    "webgpu_after_backend_selector": 1
+  },
+  "coverage": [
+    "two SIMD lanes, odd tails, disjoint worker chunks",
+    "normal/capture winner agreement and independent host proof checks",
+    "32-bit nonce carry, 64-bit overflow",
+    "1/2/4/8 workers, including empty worker partitions",
+    "concurrent-use rejection, pre-abort, in-flight abort, disposal",
+    "private nonshared memory verified in every worker",
+    "no WebGPU adapter request when WASM selected"
+  ],
+  "source_sha256": {
+    "miners/wasm/README.md": "e8891e0af16dc5d608f26968e2f8176e2f0a8ab874d5d0b9fd2a813722255952",
+    "miners/wasm/build.json": "00e95fe4c07f3538577f76c699f2961be5f1a7597697a8b514f901ece910f2eb",
+    "miners/wasm/kernel.cpp": "aa580a5ec42a64cf9744b1ae4715be3d56bf564f2275b8b7305d3ef82a2b789c",
+    "miners/wasm/kernel.wasm": "6b3006181205afdce0ad99ca051884632c8bdbdfa36e1789c16689a9637227b0",
+    "miners/wasm/miner.mjs": "2192faa23ab5a2cb4709b33683e0052055be5a81d2ccd861e5b446068e9d5974",
+    "miners/wasm/worker.mjs": "3fd3f3498dc974785c6b952a01c48ba39974ebeb0e877e18206085c34011cac7",
+    "tools/build_wasm_miner.py": "5317d2e00a3503dfd49e5025eb4fef5ad63b41a15180c77ad6da02861d8805e2",
+    "tools/test_wasm_mining.py": "4d7f76d251a4f5b46c899c5d93b71325bd2abcb280aad04b8bf46c105b53b463",
+    "tools/probe_webgpu_idle.py": "b621a3d7ac0995b2c46f00ad74e64ff6af8045d4bb9027c3a5392c237720bb70",
+    "tools/plot_wasm_mining.py": "252b23095c2b3fa713db6d2a3bf628ccd40c060d8ec28157befb4a6dbda08a24",
+    "tests/wasm_kernel_test.mjs": "6ab813b473e05246b97993c574a0709db8bf235553b1fbaafb87183c46cb9074"
+  },
+  "cpu_utilization_energy_and_native_cpu_overhead_measured": false
+}

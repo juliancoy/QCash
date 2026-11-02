@@ -1,6 +1,6 @@
 import {createWebGPUMiner} from './miner.mjs';
 const $=id=>document.getElementById(id);
-let work=null,miner=null,controller=null,solved=null;
+let work=null,miner=null,controller=null,solved=null,activeBackend=null;
 $('work').addEventListener('change',async()=>{
  work=null;solved=null;$('scan').disabled=true;$('download').disabled=true;
  try{
@@ -14,17 +14,20 @@ $('work').addEventListener('change',async()=>{
 });
 $('scan').addEventListener('click',async()=>{
  const snapshot=work?.slice();if(!snapshot)return;
- controller=new AbortController();solved=null;$('scan').disabled=true;$('work').disabled=true;$('cancel').disabled=false;$('download').disabled=true;
+ controller=new AbortController();solved=null;$('scan').disabled=true;$('work').disabled=true;$('backend').disabled=true;$('cancel').disabled=false;$('download').disabled=true;
  try{
   const start=BigInt($('nonce').value),count=Number($('count').value);
-  $('status').textContent='Preparing GPU session…';miner??=await createWebGPUMiner();
+  $('status').textContent='Preparing browser mining session…';
+  const backend=$('backend').value;
+  if(miner&&backend!==activeBackend){miner.dispose();miner=null;}
+  if(!miner){miner=backend==='webgpu'?await createWebGPUMiner():await (await import('../wasm/miner.mjs')).createWasmMiner({threads:Number(backend)});activeBackend=backend;}
   await miner.prepare(snapshot.subarray(0,268),{signal:controller.signal});
   $('status').textContent='Scanning nonce range…';const r=await miner.run(start,count,{signal:controller.signal});
   const rate=(r.attempts/r.wallSeconds/1e6).toFixed(1);
   $('status').textContent=`${r.attempts.toLocaleString()} candidates · ${rate} million/s\n${r.proof?`Verified winner: nonce ${r.proof.nonce}\n${r.proof.blockId}`:'No winner in this range.'}`;
   if(r.proof){solved=snapshot;solved.set(r.proof.header);$('download').disabled=false;}
  }catch(e){$('status').textContent=e.message;miner?.dispose();miner=null;}
- finally{controller=null;$('cancel').disabled=true;$('scan').disabled=!work;$('work').disabled=false;}
+ finally{controller=null;$('cancel').disabled=true;$('scan').disabled=!work;$('work').disabled=false;$('backend').disabled=false;}
 });
 $('cancel').addEventListener('click',()=>controller?.abort());
 $('download').addEventListener('click',()=>{

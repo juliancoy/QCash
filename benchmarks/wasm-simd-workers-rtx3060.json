@@ -1,0 +1,1332 @@
+{
+  "created_utc": "2026-11-02T20:14:19Z",
+  "source_commit": "f63257fb394b9ecbd57885d6775c48fe2f49eb39",
+  "source_hashes": {
+    "miners/wasm/build.json": "00e95fe4c07f3538577f76c699f2961be5f1a7597697a8b514f901ece910f2eb",
+    "miners/wasm/kernel.cpp": "aa580a5ec42a64cf9744b1ae4715be3d56bf564f2275b8b7305d3ef82a2b789c",
+    "miners/wasm/kernel.wasm": "6b3006181205afdce0ad99ca051884632c8bdbdfa36e1789c16689a9637227b0",
+    "miners/wasm/miner.mjs": "2192faa23ab5a2cb4709b33683e0052055be5a81d2ccd861e5b446068e9d5974",
+    "miners/wasm/worker.mjs": "3fd3f3498dc974785c6b952a01c48ba39974ebeb0e877e18206085c34011cac7",
+    "miners/webgpu/demo.mjs": "b2e88d26af822a4d1d570701a871350d5297f0fb67d1034a9ea20df89d9c8b7f",
+    "miners/webgpu/miner.mjs": "b5548120a5611e414710b7f9ce44b346860000f7649cbd3cd0b1a11a44f801b1",
+    "miners/webgpu/sha3.mjs": "44b370646c162e62137d5d16e8456d502ac9cea07bd0bb8f678723097fe69c34",
+    "miners/webgpu/shader.mjs": "19d8152d5a7bee290387eb888c0ca09684e57b48ff557edd759df7ed88661325",
+    "tools/test_wasm_mining.py": "5f19d65501c2a9de9befbc50291807f53c982e59757d023441856ce344199d62"
+  },
+  "attempts": 1048576,
+  "repeats": 7,
+  "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.39",
+  "cpu": "AMD Ryzen 7 5800X 8-Core Processor",
+  "host_load_start": [
+    12.66943359375,
+    14.283203125,
+    13.88671875
+  ],
+  "playwright": "1.58.0",
+  "methodology": "Same hard-target header, cached prefix and pruned final Keccak round for all backends. Equal requested candidates per run; full wall time includes IPC/submission/completion and winner verification. Seven rotated/reversed rounds by default; session initialization and template preparation excluded. Explicit i64x2 SIMD; persistent independent Web Workers with private memories, not Emscripten pthreads. No physical traffic, energy or CPU utilization inferred.",
+  "console": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 404 (File not found)"
+    }
+  ],
+  "browser": "150.0.7871.128",
+  "validation": {
+    "checked": 21284,
+    "infos": [
+      {
+        "backend": "wasm-simd128",
+        "threads": 1,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 2,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 4,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      },
+      {
+        "backend": "wasm-simd128",
+        "threads": 8,
+        "simdLanes": 2,
+        "workerMemory": "private, nonshared",
+        "sharedMemoryRequired": false,
+        "maxBatch": 16777216,
+        "cpuVerification": "independent BigInt SHA3 winners only"
+      }
+    ],
+    "crossOriginIsolated": false
+  },
+  "sessions": {
+    "wasm-1": {
+      "backend": "wasm-simd128",
+      "threads": 1,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-2": {
+      "backend": "wasm-simd128",
+      "threads": 2,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-4": {
+      "backend": "wasm-simd128",
+      "threads": 4,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "wasm-8": {
+      "backend": "wasm-simd128",
+      "threads": 8,
+      "simdLanes": 2,
+      "workerMemory": "private, nonshared",
+      "sharedMemoryRequired": false,
+      "maxBatch": 16777216,
+      "cpuVerification": "independent BigInt SHA3 winners only"
+    },
+    "webgpu": {
+      "adapter": {
+        "vendor": "nvidia",
+        "architecture": "ampere",
+        "device": "",
+        "description": "",
+        "isFallbackAdapter": false
+      },
+      "workgroup": 64,
+      "maxBatch": 16777216,
+      "dispatchSize": 1048576,
+      "timestamps": true,
+      "variant": "final32",
+      "readback": "4-byte winner; debug digests only on request",
+      "cpuVerification": "independent BigInt SHA3 of winners only"
+    }
+  },
+  "samples": {
+    "wasm-1": [
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.242,
+        "workerKernelSeconds": [
+          0.24180000001192092
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.257,
+        "workerKernelSeconds": [
+          0.25680000001192094
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.274,
+        "workerKernelSeconds": [
+          0.2734000000059605
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.2806999999880791,
+        "workerKernelSeconds": [
+          0.27970000001788137
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.3405,
+        "workerKernelSeconds": [
+          0.3401999999880791
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.26509999999403955,
+        "workerKernelSeconds": [
+          0.2649000000059605
+        ],
+        "activeWorkers": 1
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.2614000000059605,
+        "workerKernelSeconds": [
+          0.2602000000178814
+        ],
+        "activeWorkers": 1
+      }
+    ],
+    "wasm-2": [
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.16609999999403954,
+        "workerKernelSeconds": [
+          0.16430000001192094,
+          0.13759999999403955
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.15069999998807906,
+        "workerKernelSeconds": [
+          0.13490000000596047,
+          0.14990000000596046
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.14169999998807908,
+        "workerKernelSeconds": [
+          0.13859999999403955,
+          0.14070000001788138
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.14270000001788138,
+        "workerKernelSeconds": [
+          0.14239999997615815,
+          0.12159999999403953
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.16519999998807908,
+        "workerKernelSeconds": [
+          0.1445,
+          0.15919999998807907
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.17159999999403955,
+        "workerKernelSeconds": [
+          0.15509999999403953,
+          0.16790000000596048
+        ],
+        "activeWorkers": 2
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.16269999998807907,
+        "workerKernelSeconds": [
+          0.13779999998211862,
+          0.15880000001192093
+        ],
+        "activeWorkers": 2
+      }
+    ],
+    "wasm-4": [
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.12769999998807907,
+        "workerKernelSeconds": [
+          0.0715,
+          0.12730000001192093,
+          0.11030000001192093,
+          0.10780000001192093
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.08320000001788139,
+        "workerKernelSeconds": [
+          0.083,
+          0.056599999994039536,
+          0.07619999998807907,
+          0.06869999998807907
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.0835,
+        "workerKernelSeconds": [
+          0.0585,
+          0.08330000001192094,
+          0.07120000001788139,
+          0.07709999999403953
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.0965,
+        "workerKernelSeconds": [
+          0.09590000000596047,
+          0.0815,
+          0.09569999998807907,
+          0.064
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.10990000000596047,
+        "workerKernelSeconds": [
+          0.1067999999821186,
+          0.07090000000596046,
+          0.07070000001788139,
+          0.0865
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.09879999998211861,
+        "workerKernelSeconds": [
+          0.09859999999403954,
+          0.08459999999403954,
+          0.09209999999403953,
+          0.09419999998807907
+        ],
+        "activeWorkers": 4
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.13730000001192094,
+        "workerKernelSeconds": [
+          0.10270000001788139,
+          0.13690000000596048,
+          0.097,
+          0.1095
+        ],
+        "activeWorkers": 4
+      }
+    ],
+    "wasm-8": [
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.0745,
+        "workerKernelSeconds": [
+          0.03609999999403954,
+          0.04019999998807907,
+          0.07030000001192092,
+          0.04069999998807907,
+          0.07220000001788139,
+          0.0535,
+          0.03509999999403954,
+          0.0445
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.05920000001788139,
+        "workerKernelSeconds": [
+          0.05840000000596046,
+          0.03659999999403953,
+          0.059,
+          0.039400000005960466,
+          0.052199999988079074,
+          0.03710000002384186,
+          0.04920000001788139,
+          0.04430000001192093
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.07029999998211861,
+        "workerKernelSeconds": [
+          0.03559999999403954,
+          0.04730000001192093,
+          0.044900000005960464,
+          0.04330000001192093,
+          0.05709999999403954,
+          0.06980000001192092,
+          0.04290000000596046,
+          0.03319999998807907
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.1882999999821186,
+        "workerKernelSeconds": [
+          0.1865,
+          0.185,
+          0.183,
+          0.10470000001788139,
+          0.0955,
+          0.101,
+          0.10090000000596046,
+          0.09970000001788139
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.1527000000178814,
+        "workerKernelSeconds": [
+          0.0665,
+          0.14880000001192092,
+          0.1512000000178814,
+          0.13480000001192094,
+          0.09580000001192093,
+          0.1332000000178814,
+          0.14090000000596045,
+          0.14859999999403953
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.09090000000596046,
+        "workerKernelSeconds": [
+          0.08959999999403953,
+          0.045,
+          0.047599999994039535,
+          0.07380000001192093,
+          0.04669999998807907,
+          0.0752999999821186,
+          0.04319999998807907,
+          0.07640000000596046
+        ],
+        "activeWorkers": 8
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "wallSeconds": 0.099,
+        "workerKernelSeconds": [
+          0.09879999998211861,
+          0.062400000005960465,
+          0.04190000000596046,
+          0.08260000002384185,
+          0.0787000000178814,
+          0.039900000005960466,
+          0.04310000002384186,
+          0.08940000000596046
+        ],
+        "activeWorkers": 8
+      }
+    ],
+    "webgpu": [
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.0015667200000000002,
+        "wallSeconds": 0.0029000000059604646,
+        "explicitUploadBytes": 16,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.001564672,
+        "wallSeconds": 0.002699999988079071,
+        "explicitUploadBytes": 16,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.001565696,
+        "wallSeconds": 0.0030999999940395356,
+        "explicitUploadBytes": 16,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.001564672,
+        "wallSeconds": 0.0035999999940395356,
+        "explicitUploadBytes": 16,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.001564672,
+        "wallSeconds": 0.003,
+        "explicitUploadBytes": 16,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.0015667200000000002,
+        "wallSeconds": 0.0029000000059604646,
+        "explicitUploadBytes": 16,
+        "explicitReadbackBytes": 20
+      },
+      {
+        "attempts": 1048576,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.002678784,
+        "wallSeconds": 0.005200000017881393,
+        "explicitUploadBytes": 16,
+        "explicitReadbackBytes": 20
+      }
+    ],
+    "vulkan": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.275823,
+        "hashes_per_round": 1048576,
+        "samples": [
+          {
+            "wall_seconds": 0.00288059,
+            "host_cpu_seconds": 6.2e-05,
+            "host_waits": 1,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.00153069
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.21793,
+        "hashes_per_round": 1048576,
+        "samples": [
+          {
+            "wall_seconds": 0.00172415,
+            "host_cpu_seconds": 4.3e-05,
+            "host_waits": 1,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.00153018
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.214019,
+        "hashes_per_round": 1048576,
+        "samples": [
+          {
+            "wall_seconds": 0.0016164,
+            "host_cpu_seconds": 2e-05,
+            "host_waits": 1,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.00152995
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.340382,
+        "hashes_per_round": 1048576,
+        "samples": [
+          {
+            "wall_seconds": 0.0016221,
+            "host_cpu_seconds": 3.1e-05,
+            "host_waits": 1,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.00153085
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.243747,
+        "hashes_per_round": 1048576,
+        "samples": [
+          {
+            "wall_seconds": 0.00164915,
+            "host_cpu_seconds": 2.4e-05,
+            "host_waits": 1,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.00153165
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.272401,
+        "hashes_per_round": 1048576,
+        "samples": [
+          {
+            "wall_seconds": 0.00186491,
+            "host_cpu_seconds": 3.3e-05,
+            "host_waits": 1,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.00153152
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.380348,
+        "hashes_per_round": 1048576,
+        "samples": [
+          {
+            "wall_seconds": 0.00165882,
+            "host_cpu_seconds": 4e-05,
+            "host_waits": 1,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.00153088
+          }
+        ]
+      }
+    ]
+  },
+  "warm_proofs": {
+    "wasm-1": [
+      {
+        "wallSeconds": 0.0009000000059604645,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.000699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0015,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0008999999761581421,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-2": [
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.002800000011920929,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.001899999976158142,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0006000000238418579,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0007999999821186065,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0007000000178813934,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0007999999821186065,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-4": [
+      {
+        "wallSeconds": 0.001,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.001,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.000699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0007000000178813934,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.001199999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0007000000178813934,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "wasm-8": [
+      {
+        "wallSeconds": 0.000699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.000699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0008000000119209289,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0012000000178813935,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.000699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0005999999940395355,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0009000000059604645,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ],
+    "webgpu": [
+      {
+        "wallSeconds": 0.0027000000178813936,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0027999999821186066,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.002800000011920929,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0025,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.002800000011920929,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.000699999988079071,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      },
+      {
+        "wallSeconds": 0.0029000000059604646,
+        "blockId": "000b95ac11387b864e3cefc903fd795f061d3d32991ab89815cd515a484418b8",
+        "nonce": "5495"
+      }
+    ]
+  },
+  "native_binary_sha256": "fca9648254ebd4060e3696238fcbe53a097b7a37c36cb19df4a1f96beaa2eb4d",
+  "host_load_end": [
+    14.9853515625,
+    14.720703125,
+    14.033203125
+  ],
+  "status": "passed"
+}

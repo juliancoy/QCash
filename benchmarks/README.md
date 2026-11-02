@@ -1,5 +1,103 @@
 # QCash mining speed
 
+## SIMD multithreaded WASM versus WebGPU
+
+![SIMD WASM workers and GPU mining, sorted fastest first](wasm-simd-workers-steady.png)
+
+This is a real **C++ SIMD128 WASM miner**, processing two independent nonce hashes
+per `i64x2` vector and distributing disjoint ranges across persistent Web Workers.
+Every backend uses the same public header, cached first-block prefix, full SHA3-256
+semantics and pruned final-round outputs. On the **Ryzen 7 5800X + RTX 3060**, the
+final sustained comparison used **16,777,216 candidates per sample**, seven
+rotated/reversed rounds, with browser warm-up lasting at least one second before
+each recorded sample:
+
+| Implementation | Median full-wall throughput |
+| --- | ---: |
+| Browser WebGPU | **696.2 million attempts/s** |
+| Native Vulkan, default queue grouping | **690.4 million attempts/s** |
+| SIMD WASM · 8 workers | **28.1 million attempts/s** |
+| SIMD WASM · 4 workers | **18.9 million attempts/s** |
+| SIMD WASM · 2 workers | **9.9 million attempts/s** |
+| SIMD WASM · 1 worker | **5.2 million attempts/s** |
+
+WebGPU measured **24.8×** the eight-worker WASM throughput. Eight workers improved
+over one by **5.38×**, not an assumed eightfold multiplier. The host had other
+workloads; the retained ranges and load averages matter. The two GPU medians are
+effectively tied in this run, not evidence of universally faster browser shaders.
+WebGPU uses one submission/readback for sixteen 1M dispatches; the measured native
+default uses sixteen dispatch groups/fence waits. This includes the implementations'
+different host synchronization schedules. Startup, compilation and template
+preparation are excluded. All seven timed samples are retained.
+
+**Small winning requests favor the CPU path here.** For the same preselected
+256-nonce winning window, warmed WASM requests took **0.3–0.5 ms median**, versus
+**2.6 ms** for WebGPU. Both include the separate BigInt JavaScript verifier. These
+are conditional proof latencies, not expected network block times or cold-start
+costs. The CPU pool is useful for small bursts and devices without WebGPU; the GPU
+is the stronger sustained throughput path on this hardware. These CPU-vs-GPU
+measurements do **not** establish the WASM/native-CPU overhead ratio; that would
+require an equivalently optimized native CPU implementation.
+
+### Clock ramp-up and fair warm-up
+
+The initial 1M-candidate comparison measured **4.0 / 6.4 / 10.6 / 11.5 MH/s** for
+1/2/4/8 WASM workers, **349.5 MH/s WebGPU**, and **632.1 MH/s native Vulkan**.
+An initial-warm-up-only 16M run then alternated between roughly **25 ms and 200 ms**
+for the same WebGPU pass after long CPU-only phases. A dedicated
+[read-only clock probe](webgpu-idle-clock-probe.json) reproduced the difference on
+a visible, focused page: the GPU was in **P8 at 210–300 MHz** before the first pass;
+the first pass took **161–232 ms**, and the next took **25.3 ms** with snapshots
+showing **P2 at 1,837 MHz**. This supports clock ramp-up as the main cause of that
+cold/hot difference, rather than a changed SHA3 workload. Snapshot power readings
+are not energy measurements; no driver settings were changed.
+
+One full warm-up batch did not always settle clocks. The final sustained browser
+protocol therefore runs complete, untimed ranges for **at least one second** before
+each measurement. It stores every warm-up result. Native receipts retain their
+internal warm-up plus two full-range samples, explicitly marking the second as
+measured. No slow timed samples were filtered from the final dataset. Cold behavior
+is still relevant for occasional jobs and remains separately preserved:
+
+- [Initial 1M comparison](wasm-simd-workers-rtx3060.json)
+- [Initial-warm-up-only 16M comparison](wasm-simd-workers-sustained-rtx3060.json)
+- [Single-warm-up-batch 16M comparison](wasm-simd-workers-warm-rtx3060.json)
+- [Final one-second-warmed sustained comparison](wasm-simd-workers-steady-rtx3060.json)
+- [Initial/sustained side-by-side chart](wasm-simd-workers-comparison.png); both batch
+  size and warm-up protocol differ between panels, so it is not a batch-size-only experiment.
+
+### Implementation and validation
+
+The [WASM module](../miners/wasm/README.md) is a reproducible **6,626-byte** binary
+with no host imports. Disassembly contains actual `v128.xor`, `i64x2.shl`,
+`i64x2.shr_u` and `v128.andnot` instructions. Each worker owns private, nonshared
+1 MiB memory; code is compiled once and cloned to the workers. This is parallel
+WASM through Web Workers, **not an Emscripten pthreads benchmark**. No shared memory
+or COOP/COEP headers are needed; validation ran with `crossOriginIsolated: false`.
+
+[Validation receipt](wasm-simd-validation.json): **21,284 independent OpenSSL digest
+comparisons** cover all four worker counts, both SIMD lanes, odd tails, empty
+partitions, nonce carry/overflow, normal/capture winner agreement, cancellation,
+disposal and concurrent-use rejection. Host-reference and SIMD-kernel CTests passed.
+Rebuilding with the recorded compiler/flags produced byte-identical WASM.
+
+The browser tool now offers WebGPU and 1/2/4/8-worker SIMD WASM in its backend
+selector. Nothing mines before Scan. Native full-node acceptance tests passed for
+[one CPU worker](wasm-ui-1-worker.json), [eight CPU workers](wasm-ui-8-worker.json),
+and the [existing WebGPU path after the UI change](browser-backend-webgpu-ui.json).
+WASM selection made no WebGPU adapter request. Every winning result still receives
+independent host SHA3 verification, and native nodes retain full consensus checks.
+No physical CPU utilization, energy, hardware cache traffic or JIT register counts
+are inferred from worker counts or elapsed timings.
+
+```sh
+python3 tools/test_wasm_mining.py --attempts 16777216 --warm-seconds 1 --output benchmarks/my-simd-steady.json
+python3 tools/test_wasm_mining.py --attempts 1048576 --cold --output benchmarks/my-simd-initial.json
+python3 tools/plot_wasm_mining.py benchmarks/my-simd-steady.json --output benchmarks/my-simd.png
+python3 tools/probe_webgpu_idle.py --output benchmarks/my-clock-probe.json
+```
+
+
 ## Browser WebGPU mining
 
 ![Browser WebGPU and native Vulkan on the same RTX 3060](webgpu-final-rtx3060.png)

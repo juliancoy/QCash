@@ -1,0 +1,92 @@
+{
+  "note": "Read-only clock snapshots outside measured intervals; no driver settings changed. CPU-only phase naturally idles the GPU.",
+  "cycles": [
+    {
+      "before_first": "P8, 300 MHz, 300 MHz, 405 MHz, 15.07 W, 2 %",
+      "visibility": {
+        "visibility": "visible",
+        "focus": true
+      },
+      "first": {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.16080281600000002,
+        "wallSeconds": 0.16290000000596047,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      "after_first": "P2, 1837 MHz, 1837 MHz, 7301 MHz, 14.51 W, 96 %",
+      "second": {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.025290752000000003,
+        "wallSeconds": 0.02630000001192093,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      "after_second": "P2, 1837 MHz, 1837 MHz, 7301 MHz, 17.46 W, 96 %"
+    },
+    {
+      "before_first": "P8, 210 MHz, 210 MHz, 405 MHz, 11.58 W, 3 %",
+      "visibility": {
+        "visibility": "visible",
+        "focus": true
+      },
+      "first": {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.23172710400000002,
+        "wallSeconds": 0.2335,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      "after_first": "P2, 210 MHz, 210 MHz, 405 MHz, 12.74 W, 91 %",
+      "second": {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.02528768,
+        "wallSeconds": 0.026099999994039537,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      "after_second": "P2, 1837 MHz, 1837 MHz, 7301 MHz, 12.74 W, 91 %"
+    },
+    {
+      "before_first": "P8, 240 MHz, 240 MHz, 405 MHz, 12.33 W, 3 %",
+      "visibility": {
+        "visibility": "visible",
+        "focus": true
+      },
+      "first": {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.213229568,
+        "wallSeconds": 0.21480000001192093,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      "after_first": "P2, 1837 MHz, 1837 MHz, 7301 MHz, 12.74 W, 96 %",
+      "second": {
+        "attempts": 16777216,
+        "winner": null,
+        "proof": null,
+        "digests": null,
+        "gpuSeconds": 0.025291776000000002,
+        "wallSeconds": 0.0265,
+        "explicitUploadBytes": 256,
+        "explicitReadbackBytes": 20
+      },
+      "after_second": "P2, 1837 MHz, 1837 MHz, 7301 MHz, 12.74 W, 96 %"
+    }
+  ]
+}

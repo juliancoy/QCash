@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "backend": "1",
+  "no_gpu_initialization_before_scan": true,
+  "downloaded_bytes": 272,
+  "sha3": "00088242488bc77b3a0203248c946c5e44e29a64d9e5abc9039060770cbeb675",
+  "native_validation": {
+    "status": "solved",
+    "blockId": "00088242488bc77b3a0203248c946c5e44e29a64d9e5abc9039060770cbeb675"
+  },
+  "local_node_height": 1,
+  "browser": "150.0.7871.128",
+  "native_binary_sha256": "1eb30545954e477747e5e692c4a5436871cbc2f81c84f42bd2b7d34bf86b6513",
+  "status_text": "1,048,576 candidates \u00b7 3.3 million/s\nVerified winner: nonce 1759\n00088242488bc77b3a0203248c946c5e44e29a64d9e5abc9039060770cbeb675"
+}

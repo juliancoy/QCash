@@ -1,7 +1,7 @@
 # QCash mining implementations
 
 This directory provides a bounded CPU/Vulkan mining controller, a standalone
-[WebGPU browser miner](webgpu/README.md), an optional
+[browser miner with WebGPU or SIMD WASM workers](webgpu/README.md), an optional
 QPU simulator demonstration, and a hardware-neutral work interface. Candidates
 use the same SHA3-256 proof and full-node validation. A portal account does not grant mining authority. These are
 experimental testnet coins, with no stated monetary value.

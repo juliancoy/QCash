@@ -1,0 +1,21 @@
+{
+  "compiler": "emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 6.0.0 (afa15e0c56d1292e073c2c91bafc1d5e0cdf0dd3)",
+  "flags": [
+    "-std=c++17",
+    "-O3",
+    "-msimd128",
+    "-fno-exceptions",
+    "-fno-rtti",
+    "--no-entry",
+    "-sSTANDALONE_WASM=1",
+    "-sFILESYSTEM=0",
+    "-sINITIAL_MEMORY=1048576",
+    "-sSTACK_SIZE=65536",
+    "-sEXPORTED_FUNCTIONS=[\"_get_header\",\"_get_output\",\"_prepare\",\"_scan\"]"
+  ],
+  "source_sha256": "aa580a5ec42a64cf9744b1ae4715be3d56bf564f2275b8b7305d3ef82a2b789c",
+  "wasm_sha256": "6b3006181205afdce0ad99ca051884632c8bdbdfa36e1789c16689a9637227b0",
+  "bytes": 6626,
+  "simd": "explicit wasm_simd128.h, two independent uint64 nonce lanes",
+  "memory": "one private nonshared linear memory per worker"
+}

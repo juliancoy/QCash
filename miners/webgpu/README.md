@@ -17,12 +17,12 @@ the existing pinned native controller/full node owns those checks.
 From the repository root:
 
 ```sh
-python3 -m http.server 8080 --bind 127.0.0.1 --directory miners/webgpu
+python3 -m http.server 8080 --bind 127.0.0.1 --directory miners
 ```
 
-Open `http://localhost:8080/` in a WebGPU-capable browser. Load a **public** 272-byte
+Open `http://localhost:8080/webgpu/` in a WebGPU-capable browser. Load a **public** 272-byte
 empty-transaction work file exported by `qcash work`, choose a bounded range, and
-press **Scan nonce range**. Nothing mines on page load or file selection. Download
+choose WebGPU or a [SIMD WASM worker pool](../wasm/README.md), and press **Scan nonce range**. Nothing mines on page load or file selection. Download
 an independently verified proof, then submit it using your pinned native client:
 
 ```sh
@@ -103,5 +103,5 @@ The hardware runner uses installed host Chrome and Python Playwright, opens a
 local browser window, tests eight browser configurations, and saves full receipts
 and source hashes. Headless hardware Chrome exposed no adapter on this host.
 `--software` is explicitly correctness-only and never yields hardware throughput.
-The test server binds loopback and serves only this directory; the node acceptance
+The browser-to-node test server binds loopback and serves the public miners directory; the node acceptance
 test creates an isolated temporary node and pins its peer key.
