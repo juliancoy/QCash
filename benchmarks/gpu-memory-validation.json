@@ -1,0 +1,18 @@
+{
+  "ctest": {
+    "passed": 13,
+    "failed": 0,
+    "seconds": 30.76
+  },
+  "independent_openssl_digest_comparisons": 74016,
+  "coverage": [
+    "all three memory policies",
+    "all four shaders and both prefix modes",
+    "both digest layouts",
+    "cached command reuse and nonce carry",
+    "node acceptance of staged worker proof",
+    "automatic staging for debug capture",
+    "three synthetic counter-reader schema tests"
+  ],
+  "runtime_counters_measured": false
+}

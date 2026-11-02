@@ -27,7 +27,7 @@ public:
   void prepare(std::span<const unsigned char> header, bool gpu = true);
   VulkanBatch run(std::uint64_t start, std::uint32_t count,
                   bool capture = false, std::uint32_t dispatch_size = 262144,
-                  bool coalesced_capture = true);
+                  bool coalesced_capture = false);
   std::string memory_topology() const;
   void dump_pipeline(const std::filesystem::path &directory) const;
   std::string pipeline_statistics() const;

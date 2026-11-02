@@ -374,3 +374,38 @@ python3 tools/benchmark_vulkan_optimizations.py --baseline BASELINE_QCASH_VULKAN
 python3 tools/plot_vulkan_optimizations.py benchmarks/my-gpu-optimization.json \
   --output benchmarks/my-gpu-optimization.png
 ```
+
+## Vulkan memory policies and hardware counters
+
+`qcash-vulkan info` reports actual memory types, heaps and mapping/cache flags.
+`--memory mapped|mapped-local|staged` selects the allocator; the controller forwards
+`--vulkan-memory` to its resident worker. Normal mining defaults to mapped memory
+(already device-local VRAM on the tested RTX 3060). Staged mode keeps GPU buffers
+unmapped and copies small job/parameter/winner payloads through cached host memory.
+Explicit byte counts measure API copy payloads, not physical memory traffic.
+
+Benchmark-only `--capture-layout aos|soa` downloads complete digests for up to
+4,096 candidates. Capture automatically uses staged memory when `--memory` is not
+explicit, because cached readback was about 35× faster in this debug workload.
+`aos` is the default record-major layout; `soa` enables adjacent-thread word-major
+stores. Both return identical digests; no GPU timing gain from SoA was established.
+Host decoding snapshots the readback buffer sequentially before decoding.
+
+The local Nsight Systems capture obtained a Vulkan timeline, but NVIDIA denied
+hardware counters (error 17; RmProfilingAdminOnly=1). Noninteractive sudo was
+unavailable. No driver policy was changed. To collect authorized readings, run
+from this repository in your terminal, using a new output directory:
+
+```sh
+sudo -v
+python3 tools/profile_vulkan_memory.py --tool systems --sudo --output .deps/vram-authorized
+```
+
+The tool captures an eight-second profiling-only interval, imports/exports the
+report when available, and writes `status.json` with real counter readings or an
+explicit unavailable reason. Raw profiler artifacts stay in the private output
+directory. It never infers cache/spill/DRAM counts from timings. Existing exports
+can be decoded with `--from-sqlite PATH --output NEW_DIRECTORY`; Graphics can be
+probed with `--tool graphics`. `--dump-shader NEW_DIRECTORY` requests driver shader
+representations, which were empty on this driver. See the [memory comparison](../benchmarks/README.md)
+for the measurements and limitations.

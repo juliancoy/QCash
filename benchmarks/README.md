@@ -1,5 +1,59 @@
 # QCash mining speed
 
+## VRAM placement and digest-readback study
+
+![RTX 3060 memory comparison](gpu-memory-rtx3060.png)
+
+Mapped buffers already occupy device-local VRAM on this RTX 3060: memory type 5,
+heap 0, DEVICE_LOCAL | HOST_VISIBLE | HOST_COHERENT, without HOST_CACHED.
+Prioritizing device locality selects the same type. Explicit staging uses unmapped
+GPU-local type 1 plus coherent, host-cached system-memory type 4 for transfers.
+`info` now reports these actual selections rather than assuming placement.
+
+Seven rotated-order runs measured normal full-wall throughput of **564.0 MH/s
+mapped**, **588.4 MH/s mapped-local**, and **576.0 MH/s staged**. Their observed
+ranges overlap substantially under active background load. GPU intervals were
+approximately 655, 655 and 650 MH/s respectively. There is no demonstrated mining
+benefit from staging; mapped remains the normal default. Warm verified proof
+requests were approximately 0.368–0.370 ms, excluding worker setup and using a
+preselected winning window, not expected network block times.
+
+For debug capture of 4,096 complete digests, cached staging reduced full wall time
+from **10.686 ms to 0.305 ms (35×)**. Capture therefore automatically selects staged
+memory unless `--memory` is explicitly supplied. This gain applies to bulk debug
+readback; normal mining returns only a winning index. CPU decoding first snapshots
+the buffer sequentially. The optional word-major (`soa`) GPU store layout produced
+no measurable GPU gain against record-major (`aos`), which remains the default.
+GPU capture intervals were approximately 17–18 microseconds; those timestamps end
+before result copying and host decoding.
+
+[Raw receipts](gpu-memory-rtx3060.json) retain all seven measurements, actual memory
+topologies, binary/source hashes, warm proof receipts and methodology. Capture
+samples summarize 20 iterations per session. The matrix used source `9f00ff4`;
+subsequent defaults select the measured mapped-mining/staged-debug paths. Every
+matrix case explicitly supplies its memory policy and layout.
+
+Explicit copy-byte counts describe Vulkan API payloads, **not physical DRAM,
+cache or PCIe traffic**. Mapped CPU accesses still cause hardware traffic.
+[Profiling availability](gpu-memory-counters-rtx3060.json) records a successful
+Nsight Systems Vulkan timeline capture/export but hardware-counter permission
+error 17. DRAM traffic, cache-hit rates and runtime spills remain null/unmeasured.
+Nsight Graphics attachment failed twice. Driver internal representations were
+empty; static register/shared-memory statistics do not establish runtime occupancy
+or spills, and an implausible local-memory field is flagged rather than used.
+
+[Validation](gpu-memory-validation.json): all 13 suites passed; 74,016 independent
+OpenSSL digest comparisons cover three memory policies, four shaders, both prefix
+modes, both layouts and command reuse. The staged worker proof was accepted by a
+local node. No new GPU device-loss event was observed during this study; the older
+failure receipt remains retained below.
+
+```sh
+python3 tools/benchmark_vulkan_memory.py --output benchmarks/my-memory.json
+python3 tools/plot_vulkan_memory.py benchmarks/my-memory.json --output benchmarks/my-memory.png
+```
+
+
 ## Resident GPU worker and shader optimization
 
 ![Resident GPU optimization comparison](gpu-optimized-rtx3060.png)

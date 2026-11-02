@@ -1,0 +1,33 @@
+{
+  "created_utc": "2026-11-02T17:42:27.518794+00:00",
+  "memory_policy": "mapped",
+  "binary_sha256": "6dfc93326e747c0910532a1e9212979c823f7919ffe29a3f232cd10db3295fe9",
+  "privileged_capture": false,
+  "status": "unavailable",
+  "commands": [],
+  "metrics": {
+    "dram_traffic": null,
+    "cache_hit_rates": null,
+    "runtime_spill_loads_stores": null
+  },
+  "scope": "No runtime metric is inferred from timestamps or pipeline statistics. An eight-second profiling-only window allows the injected profiler to attach.",
+  "counter_readings": {
+    "status": "unavailable",
+    "reason": "GPU Metrics [0]: The user running Nsight Systems does not have permission to access NVIDIA GPU Performance Counters on the target device. For more details, please visit https://developer.nvidia.com/ERR_NVGPUCTRPERM",
+    "metrics": []
+  },
+  "reason": "GPU Metrics [0]: The user running Nsight Systems does not have permission to access NVIDIA GPU Performance Counters on the target device. For more details, please visit https://developer.nvidia.com/ERR_NVGPUCTRPERM",
+  "nsight_systems": "2022.4.2.50; Vulkan timeline captured and SQLite exported; GPU counters denied (error 17)",
+  "nsight_graphics": "2026.2; two attachment attempts failed; no exported counters",
+  "driver_policy": {
+    "RmProfilingAdminOnly": 1,
+    "noninteractive_sudo_available": false
+  },
+  "driver_internal_representations": [],
+  "pipeline_statistics": {
+    "registers": 72,
+    "shared_memory_bytes": 768,
+    "local_memory_bytes_per_thread": 68719476736,
+    "local_memory_validity": "implausible; not used for occupancy or spill claims"
+  }
+}

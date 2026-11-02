@@ -89,7 +89,7 @@ struct Options {
   std::uint64_t seconds = 120;
   std::string shader = "pair32", memory = "mapped", capture_layout = "off",
               dump_shader;
-  bool gpu_prepare = true, diagnostics = false;
+  bool gpu_prepare = true, diagnostics = false, memory_explicit = false;
 };
 Hash unhash(const std::string &text) {
   need(text.size() == 64, "Invalid work identity");
@@ -294,6 +294,7 @@ int main(int argc, char **argv) {
         need(value == "mapped" || value == "mapped-local" || value == "staged",
              "Unknown memory policy");
         o.memory = value;
+        o.memory_explicit = true;
         continue;
       }
       if (option == "--capture-layout") {
@@ -345,6 +346,8 @@ int main(int argc, char **argv) {
     need(o.batch > 0 && o.batch <= VulkanMiner::max_dispatch && o.depth >= 1 &&
              o.depth <= 16,
          "Invalid batch or queue depth");
+    if (o.capture_layout != "off" && !o.memory_explicit)
+      o.memory = "staged";
     need(command == "bench" || o.profile_min_seconds == 0,
          "Profiling window is benchmark-only");
     need(command == "bench" || o.capture_layout == "off",
@@ -378,7 +381,7 @@ int main(int argc, char **argv) {
       auto test = miner.run(
           block.nonce,
           static_cast<std::uint32_t>(std::min<std::uint64_t>(budget, 256)),
-          true, o.batch, o.capture_layout != "aos");
+          true, o.batch, o.capture_layout == "soa");
       for (std::size_t i = 0; i < test.digests.size(); i++) {
         auto check = block;
         check.nonce += i;
@@ -388,7 +391,7 @@ int main(int argc, char **argv) {
       auto warm_count = static_cast<std::uint32_t>(
           std::min<std::uint64_t>(std::uint64_t(o.batch) * o.depth, budget));
       miner.run(block.nonce, warm_count, capture, o.batch,
-                o.capture_layout != "aos");
+                o.capture_layout == "soa");
       std::cout << '{' << ident << ",\"setup_seconds\":" << seconds(began)
                 << ",\"hashes_per_round\":" << budget << ",\"samples\":[";
       auto profile_started = Clock::now();
@@ -408,7 +411,7 @@ int main(int argc, char **argv) {
           auto n = static_cast<std::uint32_t>(std::min<std::uint64_t>(
               std::uint64_t(o.batch) * o.depth, budget - done));
           auto result = miner.run(block.nonce + done, n, capture, o.batch,
-                                  o.capture_layout != "aos");
+                                  o.capture_layout == "soa");
           waits++;
           uploads += result.explicit_upload_bytes;
           readbacks += result.explicit_readback_bytes;
