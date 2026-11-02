@@ -129,5 +129,7 @@ if(QCASH_VULKAN)
       QCASH_BINARY=$<TARGET_FILE:qcash> QCASH_VULKAN_BINARY=$<TARGET_FILE:qcash-vulkan>
       ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/vulkan_worker_test.py)
     set_tests_properties(vulkan-mining-worker PROPERTIES TIMEOUT 120)
+    add_test(NAME vulkan-counter-reader COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/vulkan_counter_reader_test.py)
+    set_tests_properties(vulkan-counter-reader PROPERTIES TIMEOUT 30)
   endif()
 endif()

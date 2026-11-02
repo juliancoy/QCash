@@ -7,6 +7,7 @@
 #include <array>
 #include <bit>
 #include <cstring>
+#include <fstream>
 #include <limits>
 #include <pqcoin/vulkan_miner.hpp>
 #include <sstream>
@@ -83,12 +84,19 @@ struct VulkanMiner::Impl {
   VkQueryPool queries{};
   unsigned timestamp_bits{};
   bool diagnostics = false;
+  std::string memory_policy;
+  bool staged = false, pending_upload = false, cached_upload = false,
+       cached_capture = false;
   struct Buffer {
     VkBuffer buffer{};
     VkDeviceMemory memory{};
     void *mapped{};
     bool coherent{};
-  } input, output, parameters;
+    VkMemoryPropertyFlags flags{};
+    std::uint32_t type{}, heap{};
+    VkDeviceSize size{}, allocation{}, heap_bytes{};
+    VkMemoryHeapFlags heap_flags{};
+  } input, output, parameters, upload, parameter_upload, readback;
   bool prepared = false, pending_prepare = false;
   std::uint32_t cached_count = 0, cached_dispatch = 0;
   bool cached_prepare = false;
@@ -116,7 +124,8 @@ struct VulkanMiner::Impl {
         vkDestroyDescriptorPool(device, descriptor_pool, nullptr);
       if (descriptor_layout)
         vkDestroyDescriptorSetLayout(device, descriptor_layout, nullptr);
-      for (auto *b : {&parameters, &output, &input}) {
+      for (auto *b : {&readback, &parameter_upload, &upload, &parameters,
+                      &output, &input}) {
         if (b->mapped)
           vkUnmapMemory(device, b->memory);
         if (b->buffer)
@@ -129,10 +138,13 @@ struct VulkanMiner::Impl {
     if (instance)
       vkDestroyInstance(instance, nullptr);
   }
-  void buffer(Buffer &out, VkDeviceSize size) {
+  void buffer(Buffer &out, VkDeviceSize size, bool gpu_only = false,
+              bool staging = false) {
     VkBufferCreateInfo info{VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO};
     info.size = size;
-    info.usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT;
+    info.usage = VK_BUFFER_USAGE_STORAGE_BUFFER_BIT |
+                 VK_BUFFER_USAGE_TRANSFER_SRC_BIT |
+                 VK_BUFFER_USAGE_TRANSFER_DST_BIT;
     vkcheck(vkCreateBuffer(device, &info, nullptr, &out.buffer));
     VkMemoryRequirements required{};
     vkGetBufferMemoryRequirements(device, out.buffer, &required);
@@ -141,17 +153,37 @@ struct VulkanMiner::Impl {
     int best = -1, score = -1;
     for (std::uint32_t i = 0; i < memory.memoryTypeCount; i++) {
       auto flags = memory.memoryTypes[i].propertyFlags;
-      if (!(required.memoryTypeBits & (1U << i)) ||
-          !(flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT))
+      if (!(required.memoryTypeBits & (1U << i)))
         continue;
-      int candidate = ((flags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) ? 2 : 0) +
-                      ((flags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) ? 1 : 0);
+      if (gpu_only ? !(flags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
+                   : !(flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT))
+        continue;
+      int candidate;
+      if (gpu_only)
+        candidate = (flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) ? 0 : 10;
+      else if (staging)
+        candidate = ((flags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) ? 4 : 0) +
+                    ((flags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT) ? 2 : 0) +
+                    ((flags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) ? 0 : 1);
+      else
+        candidate = ((flags & VK_MEMORY_PROPERTY_HOST_COHERENT_BIT) ? 2 : 0) +
+                    ((flags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
+                         ? (memory_policy == "mapped-local" ? 4 : 1)
+                         : 0);
       if (candidate > score) {
         best = static_cast<int>(i);
         score = candidate;
       }
     }
-    need(best >= 0, "No host-visible Vulkan memory");
+    need(best >= 0, gpu_only ? "No eligible device-local Vulkan memory"
+                             : "No host-visible Vulkan memory");
+    out.type = static_cast<std::uint32_t>(best);
+    out.heap = memory.memoryTypes[best].heapIndex;
+    out.flags = memory.memoryTypes[best].propertyFlags;
+    out.size = size;
+    out.allocation = required.size;
+    out.heap_bytes = memory.memoryHeaps[out.heap].size;
+    out.heap_flags = memory.memoryHeaps[out.heap].flags;
     out.coherent = memory.memoryTypes[best].propertyFlags &
                    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT;
     VkMemoryAllocateInfo allocation{VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO};
@@ -159,7 +191,9 @@ struct VulkanMiner::Impl {
     allocation.memoryTypeIndex = static_cast<std::uint32_t>(best);
     vkcheck(vkAllocateMemory(device, &allocation, nullptr, &out.memory));
     vkcheck(vkBindBufferMemory(device, out.buffer, out.memory, 0));
-    vkcheck(vkMapMemory(device, out.memory, 0, VK_WHOLE_SIZE, 0, &out.mapped));
+    if (!gpu_only)
+      vkcheck(
+          vkMapMemory(device, out.memory, 0, VK_WHOLE_SIZE, 0, &out.mapped));
   }
   void cache(Buffer &b, bool flush) {
     if (b.coherent)
@@ -171,7 +205,12 @@ struct VulkanMiner::Impl {
                   : vkInvalidateMappedMemoryRanges(device, 1, &range));
   }
   void init(std::optional<std::uint32_t> requested, std::uint32_t workgroup,
-            const std::string &variant, bool capture_statistics) {
+            const std::string &variant, bool capture_statistics,
+            const std::string &memory) {
+    need(memory == "mapped" || memory == "mapped-local" || memory == "staged",
+         "Unknown memory policy");
+    memory_policy = memory;
+    staged = memory == "staged";
     need(workgroup == 32 || workgroup == 64 || workgroup == 128 ||
              workgroup == 256,
          "Workgroup must be 32, 64, 128 or 256");
@@ -265,9 +304,14 @@ struct VulkanMiner::Impl {
     }
     vkcheck(vkCreateDevice(physical, &dinfo, nullptr, &device));
     vkGetDeviceQueue(device, family, 0, &queue);
-    buffer(input, sizeof(Job));
-    buffer(parameters, 16);
-    buffer(output, 16 + 4096 * 32);
+    buffer(input, sizeof(Job), staged);
+    buffer(parameters, 16, staged);
+    buffer(output, 16 + 4096 * 32, staged);
+    if (staged) {
+      buffer(upload, sizeof(Job), false, true);
+      buffer(parameter_upload, 16, false, true);
+      buffer(readback, 16 + 4096 * 32, false, true);
+    }
     VkDescriptorSetLayoutBinding bindings[3]{};
     for (unsigned i = 0; i < 3; i++) {
       bindings[i].binding = i;
@@ -311,7 +355,8 @@ struct VulkanMiner::Impl {
         VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO};
     pinfo.layout = pipeline_layout;
     if (diagnostics)
-      pinfo.flags = VK_PIPELINE_CREATE_CAPTURE_STATISTICS_BIT_KHR;
+      pinfo.flags = VK_PIPELINE_CREATE_CAPTURE_STATISTICS_BIT_KHR |
+                    VK_PIPELINE_CREATE_CAPTURE_INTERNAL_REPRESENTATIONS_BIT_KHR;
     pinfo.stage.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
     pinfo.stage.stage = VK_SHADER_STAGE_COMPUTE_BIT;
     pinfo.stage.module = shader;
@@ -374,11 +419,122 @@ struct VulkanMiner::Impl {
 };
 VulkanMiner::VulkanMiner(std::optional<std::uint32_t> device,
                          std::uint32_t group, std::string shader,
-                         bool diagnostics)
+                         bool diagnostics, std::string memory)
     : impl_(std::make_unique<Impl>()) {
-  impl_->init(device, group, shader, diagnostics);
+  impl_->init(device, group, shader, diagnostics, memory);
 }
 VulkanMiner::~VulkanMiner() = default;
+std::string VulkanMiner::memory_topology() const {
+  const auto &v = *impl_;
+  std::ostringstream out;
+  out << "{\"policy\":\"" << v.memory_policy << "\",\"buffers\":[";
+  bool first = true;
+  for (const auto &[role, buffer] :
+       std::array<std::pair<const char *, const Impl::Buffer *>, 6>{
+           {{"job", &v.input},
+            {"result", &v.output},
+            {"parameters", &v.parameters},
+            {"job_upload", &v.upload},
+            {"parameter_upload", &v.parameter_upload},
+            {"result_readback", &v.readback}}}) {
+    if (!buffer->buffer)
+      continue;
+    if (!first)
+      out << ',';
+    first = false;
+    const auto &b = *buffer;
+    out << "{\"role\":\"" << role << "\",\"memory_type_index\":" << b.type
+        << ",\"heap_index\":" << b.heap << ",\"property_flags\":" << b.flags
+        << ",\"device_local\":"
+        << ((b.flags & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT) ? "true" : "false")
+        << ",\"host_visible\":"
+        << ((b.flags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT) ? "true" : "false")
+        << ",\"host_coherent\":" << (b.coherent ? "true" : "false")
+        << ",\"host_cached\":"
+        << ((b.flags & VK_MEMORY_PROPERTY_HOST_CACHED_BIT) ? "true" : "false")
+        << ",\"mapped\":" << (b.mapped ? "true" : "false")
+        << ",\"usage_bytes\":" << b.size
+        << ",\"allocation_bytes\":" << b.allocation
+        << ",\"heap_bytes\":" << b.heap_bytes << ",\"heap_device_local\":"
+        << ((b.heap_flags & VK_MEMORY_HEAP_DEVICE_LOCAL_BIT) ? "true" : "false")
+        << '}';
+  }
+  out << "]}";
+  return out.str();
+}
+void VulkanMiner::dump_pipeline(const std::filesystem::path &directory) const {
+  const auto &v = *impl_;
+  need(v.diagnostics, "Enable diagnostics to export shader representations");
+  need(!std::filesystem::exists(directory),
+       "Shader export directory must be new");
+  std::filesystem::create_directories(directory);
+  std::filesystem::permissions(directory, std::filesystem::perms::owner_all,
+                               std::filesystem::perm_options::replace);
+  auto props = reinterpret_cast<PFN_vkGetPipelineExecutablePropertiesKHR>(
+      vkGetDeviceProcAddr(v.device, "vkGetPipelineExecutablePropertiesKHR"));
+  auto representations =
+      reinterpret_cast<PFN_vkGetPipelineExecutableInternalRepresentationsKHR>(
+          vkGetDeviceProcAddr(
+              v.device, "vkGetPipelineExecutableInternalRepresentationsKHR"));
+  need(props && representations,
+       "Pipeline representations entry points unavailable");
+  VkPipelineInfoKHR info{VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR};
+  info.pipeline = v.pipeline;
+  std::uint32_t count = 0;
+  vkcheck(props(v.device, &info, &count, nullptr));
+  need(count <= 32, "Too many shader executables");
+  std::vector<VkPipelineExecutablePropertiesKHR> executables(count);
+  for (auto &e : executables)
+    e.sType = VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_PROPERTIES_KHR;
+  vkcheck(props(v.device, &info, &count, executables.data()));
+  std::ostringstream metadata;
+  metadata << "{\"executables\":" << count << ",\"representations\":[";
+  bool first = true;
+  std::size_t total = 0;
+  for (std::uint32_t i = 0; i < count; i++) {
+    VkPipelineExecutableInfoKHR query{
+        VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INFO_KHR};
+    query.pipeline = v.pipeline;
+    query.executableIndex = i;
+    std::uint32_t n = 0;
+    vkcheck(representations(v.device, &query, &n, nullptr));
+    need(n <= 64, "Too many shader representations");
+    std::vector<VkPipelineExecutableInternalRepresentationKHR> entries(n);
+    for (auto &e : entries)
+      e.sType =
+          VK_STRUCTURE_TYPE_PIPELINE_EXECUTABLE_INTERNAL_REPRESENTATION_KHR;
+    vkcheck(representations(v.device, &query, &n, entries.data()));
+    std::vector<std::vector<char>> data(n);
+    for (std::uint32_t j = 0; j < n; j++) {
+      need(entries[j].dataSize <= 32 * 1024 * 1024,
+           "Shader representation exceeds bound");
+      total += entries[j].dataSize;
+      need(total <= 64 * 1024 * 1024, "Shader export exceeds bound");
+      data[j].resize(entries[j].dataSize);
+      entries[j].pData = data[j].data();
+    }
+    vkcheck(representations(v.device, &query, &n, entries.data()));
+    for (std::uint32_t j = 0; j < n; j++) {
+      std::string file = "executable-" + std::to_string(i) +
+                         "-representation-" + std::to_string(j) +
+                         (entries[j].isText ? ".txt" : ".bin");
+      std::ofstream output(directory / file, std::ios::binary);
+      output.exceptions(std::ios::badbit | std::ios::failbit);
+      output.write(data[j].data(),
+                   static_cast<std::streamsize>(data[j].size()));
+      if (!first)
+        metadata << ',';
+      first = false;
+      metadata << "{\"executable\":" << i << ",\"file\":\"" << file
+               << "\",\"text\":" << (entries[j].isText ? "true" : "false")
+               << ",\"bytes\":" << data[j].size() << '}';
+    }
+  }
+  metadata << "]}";
+  std::ofstream manifest(directory / "manifest.json");
+  manifest.exceptions(std::ios::badbit | std::ios::failbit);
+  manifest << metadata.str() << '\n';
+}
 std::string VulkanMiner::pipeline_statistics() const {
   auto &v = *impl_;
   if (!v.diagnostics)
@@ -487,12 +643,15 @@ void VulkanMiner::prepare(std::span<const unsigned char> header, bool gpu) {
   job.tail[16] |= std::uint64_t(0x80) << 56;
   for (unsigned i = 0; i < 32; i++)
     job.target[i / 4] |= std::uint32_t(header[100 + i]) << ((3 - i % 4) * 8);
-  std::memcpy(impl_->input.mapped, &job, sizeof(job));
-  impl_->cache(impl_->input, true);
+  auto &target = impl_->staged ? impl_->upload : impl_->input;
+  std::memcpy(target.mapped, &job, sizeof(job));
+  impl_->cache(target, true);
+  impl_->pending_upload = impl_->staged;
   impl_->prepared = true;
 }
 VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
-                             bool capture, std::uint32_t dispatch_size) {
+                             bool capture, std::uint32_t dispatch_size,
+                             bool coalesced_capture) {
   auto &v = *impl_;
   need(v.prepared, "No prepared work template");
   need(dispatch_size > 0 && dispatch_size <= max_dispatch,
@@ -501,30 +660,54 @@ VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
        "Invalid Vulkan batch/capture count");
   need(start <= std::numeric_limits<std::uint64_t>::max() - (count - 1),
        "Nonce window overflows");
-  *static_cast<std::uint32_t *>(v.output.mapped) =
-      std::numeric_limits<std::uint32_t>::max();
-  v.cache(v.output, true);
+  if (!v.staged) {
+    *static_cast<std::uint32_t *>(v.output.mapped) =
+        std::numeric_limits<std::uint32_t>::max();
+    v.cache(v.output, true);
+  }
   std::uint32_t params[] = {static_cast<std::uint32_t>(start),
                             static_cast<std::uint32_t>(start >> 32), count,
-                            capture ? 1U : 0U};
-  std::memcpy(v.parameters.mapped, params, sizeof(params));
-  v.cache(v.parameters, true);
+                            capture ? (coalesced_capture ? 3U : 1U) : 0U};
+  auto &param = v.staged ? v.parameter_upload : v.parameters;
+  std::memcpy(param.mapped, params, sizeof(params));
+  v.cache(param, true);
   if (v.cached_count != count || v.cached_dispatch != dispatch_size ||
-      v.cached_prepare != v.pending_prepare) {
+      v.cached_prepare != v.pending_prepare ||
+      v.cached_upload != v.pending_upload || v.cached_capture != capture) {
     vkcheck(vkResetCommandBuffer(v.command, 0));
     VkCommandBufferBeginInfo begin{VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     vkcheck(vkBeginCommandBuffer(v.command, &begin));
     VkMemoryBarrier before{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
     before.srcAccessMask = VK_ACCESS_HOST_WRITE_BIT;
     before.dstAccessMask =
-        VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+        v.staged ? VK_ACCESS_TRANSFER_READ_BIT
+                 : (VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT);
     vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_HOST_BIT,
-                         VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &before, 0,
-                         nullptr, 0, nullptr);
+                         v.staged ? VK_PIPELINE_STAGE_TRANSFER_BIT
+                                  : VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
+                         0, 1, &before, 0, nullptr, 0, nullptr);
     if (v.queries) {
       vkCmdResetQueryPool(v.command, v.queries, 0, 2);
       vkCmdWriteTimestamp(v.command, VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
                           v.queries, 0);
+    }
+    if (v.staged) {
+      if (v.pending_upload) {
+        VkBufferCopy copy{0, 0, sizeof(Job)};
+        vkCmdCopyBuffer(v.command, v.upload.buffer, v.input.buffer, 1, &copy);
+      }
+      VkBufferCopy parameters_copy{0, 0, 16};
+      vkCmdCopyBuffer(v.command, v.parameter_upload.buffer, v.parameters.buffer,
+                      1, &parameters_copy);
+      vkCmdFillBuffer(v.command, v.output.buffer, 0, 4,
+                      std::numeric_limits<std::uint32_t>::max());
+      VkMemoryBarrier uploaded{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
+      uploaded.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+      uploaded.dstAccessMask =
+          VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT;
+      vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_TRANSFER_BIT,
+                           VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1,
+                           &uploaded, 0, nullptr, 0, nullptr);
     }
     vkCmdBindDescriptorSets(v.command, VK_PIPELINE_BIND_POINT_COMPUTE,
                             v.pipeline_layout, 0, 1, &v.descriptors, 0,
@@ -560,15 +743,30 @@ VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
                           v.queries, 1);
     VkMemoryBarrier after{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
     after.srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT;
-    after.dstAccessMask = VK_ACCESS_HOST_READ_BIT;
+    after.dstAccessMask =
+        v.staged ? VK_ACCESS_TRANSFER_READ_BIT : VK_ACCESS_HOST_READ_BIT;
     vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-                         VK_PIPELINE_STAGE_HOST_BIT, 0, 1, &after, 0, nullptr,
-                         0, nullptr);
+                         v.staged ? VK_PIPELINE_STAGE_TRANSFER_BIT
+                                  : VK_PIPELINE_STAGE_HOST_BIT,
+                         0, 1, &after, 0, nullptr, 0, nullptr);
+    if (v.staged) {
+      VkBufferCopy copy{
+          0, 0, capture ? VkDeviceSize(16 + count * 32) : VkDeviceSize(4)};
+      vkCmdCopyBuffer(v.command, v.output.buffer, v.readback.buffer, 1, &copy);
+      VkMemoryBarrier downloaded{VK_STRUCTURE_TYPE_MEMORY_BARRIER};
+      downloaded.srcAccessMask = VK_ACCESS_TRANSFER_WRITE_BIT;
+      downloaded.dstAccessMask = VK_ACCESS_HOST_READ_BIT;
+      vkCmdPipelineBarrier(v.command, VK_PIPELINE_STAGE_TRANSFER_BIT,
+                           VK_PIPELINE_STAGE_HOST_BIT, 0, 1, &downloaded, 0,
+                           nullptr, 0, nullptr);
+    }
     vkcheck(vkEndCommandBuffer(v.command));
     ++v.recordings;
     v.cached_count = count;
     v.cached_dispatch = dispatch_size;
     v.cached_prepare = v.pending_prepare;
+    v.cached_upload = v.pending_upload;
+    v.cached_capture = capture;
   }
   vkcheck(vkResetFences(v.device, 1, &v.fence));
   VkSubmitInfo submit{VK_STRUCTURE_TYPE_SUBMIT_INFO};
@@ -576,10 +774,16 @@ VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
   submit.pCommandBuffers = &v.command;
   vkcheck(vkQueueSubmit(v.queue, 1, &submit, v.fence));
   vkcheck(vkWaitForFences(v.device, 1, &v.fence, VK_TRUE, 30000000000ULL));
-  v.cache(v.output, false);
-  v.pending_prepare = false;
+  auto &output = v.staged ? v.readback : v.output;
+  v.cache(output, false);
   VulkanBatch result;
-  auto *words = static_cast<std::uint32_t *>(v.output.mapped);
+  result.explicit_upload_bytes =
+      v.staged ? (16 + (v.pending_upload ? 368 : 0)) : 0;
+  result.explicit_readback_bytes =
+      v.staged ? (capture ? 16 + std::uint64_t(count) * 32 : 4) : 0;
+  v.pending_prepare = false;
+  v.pending_upload = false;
+  auto *words = static_cast<std::uint32_t *>(output.mapped);
   if (words[0] != std::numeric_limits<std::uint32_t>::max()) {
     need(words[0] < count, "GPU returned invalid index");
     result.winner = words[0];
@@ -596,11 +800,18 @@ VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
                          double(v.properties.limits.timestampPeriod) * 1e-9;
   }
   if (capture) {
+    // Read mapped VRAM sequentially once; decode word-major data from CPU
+    // cache.
+    std::vector<std::uint32_t> snapshot(4 + std::size_t(count) * 8);
+    std::memcpy(snapshot.data(), words, snapshot.size() * sizeof(snapshot[0]));
+    words = snapshot.data();
     result.digests.resize(count);
     for (std::uint32_t i = 0; i < count; i++)
       for (unsigned j = 0; j < 32; j++)
         result.digests[i][j] = static_cast<unsigned char>(
-            words[4 + i * 8 + j / 4] >> ((3 - j % 4) * 8));
+            words[4 +
+                  (coalesced_capture ? (j / 4) * count + i : i * 8 + j / 4)] >>
+            ((3 - j % 4) * 8));
   }
   return result;
 }

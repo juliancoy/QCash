@@ -69,7 +69,7 @@ class VulkanWorkerTests(unittest.TestCase):
                         self.assertIsNone(node.poll()); time.sleep(.05)
                     else: self.fail('Node did not start')
                     native('work', d/'client', peer, reward, d/'work.bin')
-                    solved = json.loads(call(GPU, 'solve', d/'work.bin', d/'solved.bin', 1000000))
+                    solved = json.loads(call(GPU, 'solve', d/'work.bin', d/'solved.bin',1000000,'--memory','staged'))
                     self.assertTrue(solved['native_verified'])
                     self.assertEqual(solved['backend'], 'vulkan-sha3-midstate')
                     self.assertEqual((d/'solved.bin').stat().st_mode & 0o777, 0o600)
@@ -122,7 +122,7 @@ class VulkanWorkerTests(unittest.TestCase):
                     self.assertEqual(json.loads(native('query', d/'client', peer))['height'],3)
                     # Rejection must not poison the next template in the same
                     # context. Exercise the optional GPU prefix preparation too.
-                    with VulkanWorker(GPU,deadline=time.monotonic()+20,options=['--prepare','gpu']) as worker:
+                    with VulkanWorker(GPU,deadline=time.monotonic()+20,options=['--prepare','gpu','--memory','staged']) as worker:
                         pid=worker.process.pid
                         bad=worker.solve(d/'work.bin',d/'wrong.bin',1000000,'ab'*32,reward)
                         self.assertEqual(bad['status'],'failed');self.assertFalse((d/'wrong.bin').exists())

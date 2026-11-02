@@ -85,9 +85,10 @@ double seconds(Clock::time_point start) {
 
 struct Options {
   std::optional<std::uint32_t> device;
-  std::uint32_t batch = 262144, group = 64, depth = 4;
+  std::uint32_t batch = 262144, group = 64, depth = 4, profile_min_seconds = 0;
   std::uint64_t seconds = 120;
-  std::string shader = "pair32";
+  std::string shader = "pair32", memory = "mapped", capture_layout = "off",
+              dump_shader;
   bool gpu_prepare = true, diagnostics = false;
 };
 Hash unhash(const std::string &text) {
@@ -126,7 +127,8 @@ void budget_check(const p::Block &block, std::uint64_t budget) {
   need(block.nonce <= std::numeric_limits<std::uint64_t>::max() - (budget - 1),
        "Nonce budget overflows; request fresh work");
 }
-std::string identity(VulkanMiner &miner, const Options &o) {
+std::string identity(VulkanMiner &miner, const Options &o,
+                     bool detailed = true) {
   return "\"backend\":\"vulkan-sha3-midstate\",\"device\":" +
          quoted(miner.device_name()) +
          ",\"device_index\":" + std::to_string(miner.device_index()) +
@@ -134,7 +136,12 @@ std::string identity(VulkanMiner &miner, const Options &o) {
          ",\"shader\":" + quoted(o.shader) +
          ",\"queue_depth\":" + std::to_string(o.depth) +
          ",\"prefix_preparation\":" + quoted(o.gpu_prepare ? "gpu" : "cpu") +
-         ",\"pipeline_statistics\":" + miner.pipeline_statistics();
+         ",\"memory_policy\":" + quoted(o.memory) +
+         (detailed ? ",\"memory_topology\":" + miner.memory_topology()
+                   : std::string()) +
+         ",\"capture_layout\":" + quoted(o.capture_layout) +
+         (detailed ? ",\"pipeline_statistics\":" + miner.pipeline_statistics()
+                   : std::string());
 }
 std::string
 solve(VulkanMiner &miner, p::Block block, const char *output,
@@ -257,7 +264,7 @@ void serve(VulkanMiner &miner, const Options &o, Clock::time_point began) {
            "Work identity mismatch");
       auto result = solve(miner, block, path_from_hex(out).c_str(), budget,
                           options, deadline);
-      std::cout << '{' << identity(miner, o) << ',' << result
+      std::cout << '{' << identity(miner, o, false) << ',' << result
                 << ",\"request_id\":" << id << ",\"worker_pid\":" << ::getpid()
                 << '}' << std::endl;
     } catch (const std::exception &) {
@@ -283,6 +290,23 @@ int main(int argc, char **argv) {
     for (int i = (command == "info" || service) ? 2 : 5; i < argc; i += 2) {
       need(i + 1 < argc, "Missing option value");
       std::string option = argv[i], value = argv[i + 1];
+      if (option == "--memory") {
+        need(value == "mapped" || value == "mapped-local" || value == "staged",
+             "Unknown memory policy");
+        o.memory = value;
+        continue;
+      }
+      if (option == "--capture-layout") {
+        need(value == "off" || value == "aos" || value == "soa",
+             "Unknown capture layout");
+        o.capture_layout = value;
+        continue;
+      }
+      if (option == "--dump-shader") {
+        o.dump_shader = value;
+        o.diagnostics = true;
+        continue;
+      }
       if (option == "--shader") {
         need(value == "scalar64" || value == "pair32" || value == "compact64" ||
                  value == "compact32",
@@ -300,7 +324,10 @@ int main(int argc, char **argv) {
       auto small = static_cast<std::uint32_t>(n);
       if (option == "--device")
         o.device = small;
-      else if (option == "--batch")
+      else if (option == "--profile-min-seconds") {
+        need(n <= 15, "Profiling window must be 0..15 seconds");
+        o.profile_min_seconds = small;
+      } else if (option == "--batch")
         o.batch = small;
       else if (option == "--workgroup")
         o.group = small;
@@ -318,11 +345,17 @@ int main(int argc, char **argv) {
     need(o.batch > 0 && o.batch <= VulkanMiner::max_dispatch && o.depth >= 1 &&
              o.depth <= 16,
          "Invalid batch or queue depth");
+    need(command == "bench" || o.profile_min_seconds == 0,
+         "Profiling window is benchmark-only");
+    need(command == "bench" || o.capture_layout == "off",
+         "Digest capture option is benchmark-only");
     std::signal(SIGINT, stop);
     std::signal(SIGTERM, stop);
     std::signal(SIGPIPE, SIG_IGN);
     auto began = Clock::now();
-    VulkanMiner miner(o.device, o.group, o.shader, o.diagnostics);
+    VulkanMiner miner(o.device, o.group, o.shader, o.diagnostics, o.memory);
+    if (!o.dump_shader.empty())
+      miner.dump_pipeline(o.dump_shader);
     auto ident = identity(miner, o);
     if (command == "info") {
       std::cout << '{' << ident << "}\n";
@@ -338,11 +371,14 @@ int main(int argc, char **argv) {
     if (command == "bench") {
       auto repeats = number(argv[4]);
       need(repeats >= 1 && repeats <= 20, "Repeats must be 1..20");
+      const bool capture = o.capture_layout != "off";
+      need(!capture || budget <= 4096,
+           "Capture benchmark requires at most 4096 attempts");
       miner.prepare(p::header(block), o.gpu_prepare);
       auto test = miner.run(
           block.nonce,
           static_cast<std::uint32_t>(std::min<std::uint64_t>(budget, 256)),
-          true, o.batch);
+          true, o.batch, o.capture_layout != "aos");
       for (std::size_t i = 0; i < test.digests.size(); i++) {
         auto check = block;
         check.nonce += i;
@@ -351,13 +387,19 @@ int main(int argc, char **argv) {
       // Warm the measured command shape so steady-state results include reuse.
       auto warm_count = static_cast<std::uint32_t>(
           std::min<std::uint64_t>(std::uint64_t(o.batch) * o.depth, budget));
-      miner.run(block.nonce, warm_count, false, o.batch);
+      miner.run(block.nonce, warm_count, capture, o.batch,
+                o.capture_layout != "aos");
       std::cout << '{' << ident << ",\"setup_seconds\":" << seconds(began)
                 << ",\"hashes_per_round\":" << budget << ",\"samples\":[";
-      for (std::uint64_t repeat = 0; repeat < repeats; repeat++) {
+      auto profile_started = Clock::now();
+      for (std::uint64_t repeat = 0;
+           repeat < repeats ||
+           seconds(profile_started) < double(o.profile_min_seconds);
+           repeat++) {
         auto started = Clock::now();
         auto cpu = std::clock();
-        std::uint64_t done = 0, waits = 0, records = miner.command_recordings();
+        std::uint64_t done = 0, waits = 0, records = miner.command_recordings(),
+                      uploads = 0, readbacks = 0;
         double gpu = 0;
         bool timed = true;
         while (done < budget) {
@@ -365,8 +407,11 @@ int main(int argc, char **argv) {
                "Benchmark cancelled or deadline reached");
           auto n = static_cast<std::uint32_t>(std::min<std::uint64_t>(
               std::uint64_t(o.batch) * o.depth, budget - done));
-          auto result = miner.run(block.nonce + done, n, false, o.batch);
+          auto result = miner.run(block.nonce + done, n, capture, o.batch,
+                                  o.capture_layout != "aos");
           waits++;
+          uploads += result.explicit_upload_bytes;
+          readbacks += result.explicit_readback_bytes;
           if (result.winner) {
             auto check = block;
             check.nonce += done + *result.winner;
@@ -383,7 +428,10 @@ int main(int argc, char **argv) {
         std::cout << "{\"wall_seconds\":" << seconds(started)
                   << ",\"host_cpu_seconds\":"
                   << double(std::clock() - cpu) / CLOCKS_PER_SEC
-                  << ",\"host_waits\":" << waits << ",\"command_recordings\":"
+                  << ",\"host_waits\":" << waits
+                  << ",\"explicit_upload_bytes\":" << uploads
+                  << ",\"explicit_readback_bytes\":" << readbacks
+                  << ",\"command_recordings\":"
                   << miner.command_recordings() - records
                   << ",\"gpu_seconds\":";
         if (timed)

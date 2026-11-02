@@ -38,7 +38,7 @@ void main(){
     bool less=false,equal=true;
     [[unroll]] for(uint i=0;i<8;i++){
         uint word=swap32(word32(a[i/2],i%2));
-        if(params.capture!=0)result.digests[index*8+i]=word;
+        if((params.capture&1u)!=0)result.digests[(params.capture&2u)!=0 ? i*params.count+index : index*8+i]=word;
         if(equal&&word<job.target[i])less=true;
         if(word!=job.target[i])equal=false;
     }

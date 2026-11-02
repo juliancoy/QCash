@@ -43,6 +43,7 @@ def main():
     parser.add_argument('--vulkan-batch', type=int, default=262144)
     parser.add_argument('--vulkan-queue-depth', type=int, default=4)
     parser.add_argument('--vulkan-shader', choices=['scalar64','pair32','compact64','compact32'], default='pair32')
+    parser.add_argument('--vulkan-memory', choices=['mapped','mapped-local','staged'], default='mapped')
     parser.add_argument('--vulkan-prepare', choices=['cpu','gpu'], default='gpu')
     parser.add_argument('--simulator-bits', type=int, default=10)
     parser.add_argument('--simulator-shots', type=int, default=128)
@@ -108,7 +109,7 @@ def main():
         state()
         if args.backend=='vulkan':
             options=['--batch',args.vulkan_batch,'--queue-depth',args.vulkan_queue_depth,
-                     '--shader',args.vulkan_shader,'--prepare',args.vulkan_prepare]
+                     '--shader',args.vulkan_shader,'--prepare',args.vulkan_prepare,'--memory',args.vulkan_memory]
             if args.vulkan_device is not None: options += ['--device',args.vulkan_device]
             worker=VulkanWorker(gpu,deadline=deadline,cancelled=lambda: stopping,options=options)
             report('vulkan_ready',result=worker.ready)
