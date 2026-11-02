@@ -1,8 +1,11 @@
 #include "mining_compact32.hpp"
 #include "mining_compact64.hpp"
+#include "mining_final32.hpp"
 #include "mining_pair32.hpp"
 #include "mining_prepare.hpp"
+#include "mining_row32.hpp"
 #include "mining_scalar64.hpp"
+#include "mining_unroll32.hpp"
 #include <algorithm>
 #include <array>
 #include <bit>
@@ -73,7 +76,7 @@ struct VulkanMiner::Impl {
   VkDescriptorSetLayout descriptor_layout{};
   VkPipelineLayout pipeline_layout{};
   VkShaderModule shader{};
-  VkPipeline pipeline{};
+  VkPipeline pipeline{}, capture_pipeline{};
   VkShaderModule prepare_shader{};
   VkPipeline prepare_pipeline{};
   VkDescriptorPool descriptor_pool{};
@@ -110,6 +113,8 @@ struct VulkanMiner::Impl {
         vkDestroyFence(device, fence, nullptr);
       if (command_pool)
         vkDestroyCommandPool(device, command_pool, nullptr);
+      if (capture_pipeline)
+        vkDestroyPipeline(device, capture_pipeline, nullptr);
       if (pipeline)
         vkDestroyPipeline(device, pipeline, nullptr);
       if (prepare_pipeline)
@@ -346,11 +351,21 @@ struct VulkanMiner::Impl {
       select(mining_compact64);
     else if (variant == "compact32")
       select(mining_compact32);
+    else if (variant == "row32")
+      select(mining_row32);
+    else if (variant == "final32")
+      select(mining_final32);
+    else if (variant == "unroll32")
+      select(mining_unroll32);
     else
       throw std::runtime_error("Unknown shader variant");
     vkcheck(vkCreateShaderModule(device, &sinfo, nullptr, &shader));
-    VkSpecializationMapEntry entry{0, 0, sizeof(group)};
-    VkSpecializationInfo specialization{1, &entry, sizeof(group), &group};
+    std::uint32_t constants[] = {group, 0};
+    VkSpecializationMapEntry entries[] = {
+        {0, 0, sizeof(std::uint32_t)},
+        {1, sizeof(std::uint32_t), sizeof(std::uint32_t)}};
+    VkSpecializationInfo specialization{2, entries, sizeof(constants),
+                                        constants};
     VkComputePipelineCreateInfo pinfo{
         VK_STRUCTURE_TYPE_COMPUTE_PIPELINE_CREATE_INFO};
     pinfo.layout = pipeline_layout;
@@ -364,6 +379,10 @@ struct VulkanMiner::Impl {
     pinfo.stage.pSpecializationInfo = &specialization;
     vkcheck(vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pinfo, nullptr,
                                      &pipeline));
+    // Eliminate debug digest stores and layout branches from normal mining.
+    constants[1] = 1;
+    vkcheck(vkCreateComputePipelines(device, VK_NULL_HANDLE, 1, &pinfo, nullptr,
+                                     &capture_pipeline));
     sinfo.codeSize = sizeof(mining_prepare);
     sinfo.pCode = mining_prepare;
     vkcheck(vkCreateShaderModule(device, &sinfo, nullptr, &prepare_shader));
@@ -724,7 +743,8 @@ VulkanBatch VulkanMiner::run(std::uint64_t start, std::uint32_t count,
                            VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, 0, 1, &between,
                            0, nullptr, 0, nullptr);
     }
-    vkCmdBindPipeline(v.command, VK_PIPELINE_BIND_POINT_COMPUTE, v.pipeline);
+    vkCmdBindPipeline(v.command, VK_PIPELINE_BIND_POINT_COMPUTE,
+                      capture ? v.capture_pipeline : v.pipeline);
     for (std::uint32_t base = 0; base < count;) {
       auto n = std::min(dispatch_size, count - base);
       std::uint32_t offset[] = {base, n};

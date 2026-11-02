@@ -340,14 +340,22 @@ Board power snapshots are diagnostic, not isolated miner energy use.
 
 ### Shader and host-path tuning
 
-The measured default is `pair32`: pairs of 32-bit words implement exact 64-bit
-Keccak operations. The alternatives `scalar64`, `compact64` and `compact32` remain
-available through `--vulkan-shader NAME`. The compact variants use in-place rho/pi
-and fewer source temporaries. Their measured advantage was not consistent on
-the RTX 3060; compact32 was slightly faster in the final confirmation, while
-pair32 led initial selection and used fewer registers. Source-level temporary counts do not establish physical register
-use. All variants and both prefix modes are checked against OpenSSL, including
-queued partial workgroups, changing templates, nonce carry and command reuse.
+The measured default is `final32`: paired 32-bit words implement exact Keccak,
+with only the consumed output lanes calculated in the final round. This preserves
+all 24 rounds and the exact SHA3-256 digest. On the RTX 3060, separate confirmation
+measured 3.21% higher GPU throughput and 8.79% higher full-wall throughput under
+active background load. Results on other devices may differ; select the previous
+path with `--vulkan-shader pair32` (standalone `--shader pair32`).
+
+The alternatives `scalar64`, `pair32`, `compact64`, `compact32`, `row32` and
+`unroll32` remain explicit options. Row fusion and paired-round unrolling did not
+beat the selected final-round pruning. Register use increased to 92 for the winner;
+source temporary counts do not establish physical register use or runtime spills.
+Normal mining uses a capture-free pipeline specialization. Debug capture has a
+separate specialization, created during worker initialization. All variants and
+both prefix modes are checked against OpenSSL, including partial workgroups,
+changing templates, nonce carry and command reuse. See the
+[shader comparison](../benchmarks/README.md) for raw data and reproducible scripts.
 
 Standalone executable options are `--shader NAME`, `--prepare cpu|gpu`,
 `--queue-depth 1..16`, `--batch 1..1048576` and `--workgroup 32|64|128|256`.

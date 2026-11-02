@@ -87,7 +87,7 @@ struct Options {
   std::optional<std::uint32_t> device;
   std::uint32_t batch = 262144, group = 64, depth = 4, profile_min_seconds = 0;
   std::uint64_t seconds = 120;
-  std::string shader = "pair32", memory = "mapped", capture_layout = "off",
+  std::string shader = "final32", memory = "mapped", capture_layout = "off",
               dump_shader;
   bool gpu_prepare = true, diagnostics = false, memory_explicit = false;
 };
@@ -310,7 +310,8 @@ int main(int argc, char **argv) {
       }
       if (option == "--shader") {
         need(value == "scalar64" || value == "pair32" || value == "compact64" ||
-                 value == "compact32",
+                 value == "compact32" || value == "row32" ||
+                 value == "unroll32" || value == "final32",
              "Unknown shader");
         o.shader = value;
         continue;

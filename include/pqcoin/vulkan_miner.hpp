@@ -19,7 +19,7 @@ public:
   static constexpr std::uint32_t max_batch = max_dispatch * 16;
   explicit VulkanMiner(std::optional<std::uint32_t> device = {},
                        std::uint32_t workgroup = 64,
-                       std::string shader = "pair32", bool diagnostics = false,
+                       std::string shader = "final32", bool diagnostics = false,
                        std::string memory = "mapped");
   ~VulkanMiner();
   VulkanMiner(const VulkanMiner &) = delete;

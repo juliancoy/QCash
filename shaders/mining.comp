@@ -3,6 +3,7 @@
 #extension GL_EXT_control_flow_attributes : require
 #extension GL_GOOGLE_include_directive : require
 layout(local_size_x_id=0) in;
+layout(constant_id=1) const bool capture_enabled=false;
 layout(std430,binding=0) readonly buffer Job {
     uint64_t midstate[25];
     uint64_t tail[17];
@@ -38,7 +39,7 @@ void main(){
     bool less=false,equal=true;
     [[unroll]] for(uint i=0;i<8;i++){
         uint word=swap32(word32(a[i/2],i%2));
-        if((params.capture&1u)!=0)result.digests[(params.capture&2u)!=0 ? i*params.count+index : index*8+i]=word;
+        if(capture_enabled)result.digests[(params.capture&2u)!=0 ? i*params.count+index : index*8+i]=word;
         if(equal&&word<job.target[i])less=true;
         if(word!=job.target[i])equal=false;
     }

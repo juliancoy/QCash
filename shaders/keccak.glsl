@@ -27,8 +27,34 @@ uint swap32(uint v){return ((v&0xffu)<<24)|((v&0xff00u)<<8)|((v>>8)&0xff00u)|(v>
 const uint PI[24]=uint[](10,7,11,17,18,3,5,16,8,21,24,4,15,23,19,13,12,2,20,14,22,9,6,1);
 const uint ROT[24]=uint[](1,3,6,10,15,21,28,36,45,55,2,14,27,41,56,8,25,43,62,18,39,61,20,44);
 void keccak(inout Lane a[25]) {
+#ifdef UNROLL_PAIRS
+    for(uint pair=0;pair<12;pair++){
+    [[unroll]] for(uint subround=0;subround<2;subround++){
+    uint round=pair*2+subround;
+#else
+#ifdef PRUNE_FINAL
+    for(uint round=0;round<23;round++){
+#else
     for(uint round=0;round<24;round++){
-#ifdef COMPACT
+#endif
+#endif
+#if defined(ROW_FUSED)
+        // Fuse rho/pi and chi by destination row. Only five rotated lanes are
+        // live at once; keep output separate until all source rows are read.
+        Lane c[5],d[5],out_state[25];
+        [[unroll]] for(uint x=0;x<5;x++)c[x]=a[x]^a[x+5]^a[x+10]^a[x+15]^a[x+20];
+        [[unroll]] for(uint x=0;x<5;x++)d[x]=c[(x+4)%5]^rol(c[(x+1)%5],1);
+        [[unroll]] for(uint y=0;y<5;y++){
+            Lane row[5];
+            [[unroll]] for(uint x=0;x<5;x++){
+                uint sx=(x+3*y)%5;
+                uint source=sx+5*x;
+                row[x]=rol(a[source]^d[sx],RHO[source]);
+            }
+            [[unroll]] for(uint x=0;x<5;x++)out_state[x+5*y]=row[x]^((~row[(x+1)%5])&row[(x+2)%5]);
+        }
+        [[unroll]] for(uint i=0;i<25;i++)a[i]=out_state[i];
+#elif defined(COMPACT)
         Lane c[5];
         [[unroll]] for(uint x=0;x<5;x++)c[x]=a[x]^a[x+5]^a[x+10]^a[x+15]^a[x+20];
         [[unroll]] for(uint x=0;x<5;x++){
@@ -58,4 +84,17 @@ void keccak(inout Lane a[25]) {
 #endif
         a[0]^=from64(RC[round]);
     }
+#ifdef UNROLL_PAIRS
+    }
+#endif
+#ifdef PRUNE_FINAL
+    // SHA3-256 consumes only lanes 0..3 after the last permutation round.
+    // Theta needs the full input state; rho/pi/chi need just destination row 0.
+    Lane parity[5], delta[5], row[5];
+    [[unroll]] for(uint x=0;x<5;x++)parity[x]=a[x]^a[x+5]^a[x+10]^a[x+15]^a[x+20];
+    [[unroll]] for(uint x=0;x<5;x++)delta[x]=parity[(x+4)%5]^rol(parity[(x+1)%5],1);
+    [[unroll]] for(uint x=0;x<5;x++)row[x]=rol(a[6*x]^delta[x],RHO[6*x]);
+    [[unroll]] for(uint x=0;x<4;x++)a[x]=row[x]^((~row[(x+1)%5])&row[(x+2)%5]);
+    a[0]^=from64(RC[23]);
+#endif
 }

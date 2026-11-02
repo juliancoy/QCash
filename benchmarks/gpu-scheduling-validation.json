@@ -1,0 +1,32 @@
+{
+  "ctest": {
+    "passed": 13,
+    "failed": 0,
+    "seconds": 40.62
+  },
+  "validation_layers": [
+    "VK_LAYER_KHRONOS_validation",
+    "VK_VALIDATION_FEATURE_ENABLE_SYNCHRONIZATION_VALIDATION_EXT"
+  ],
+  "independent_openssl_digest_comparisons": 137238,
+  "normal_specialization_winner_checks": "Randomized target results independently checked; separate capture-free pipeline compared against OpenSSL-derived winner.",
+  "coverage": [
+    "seven shader variants",
+    "three memory policies",
+    "both prefix modes and both capture layouts",
+    "all four benchmark workgroup sizes for the five 32-bit variants",
+    "partial groups, nonce carry, cached-command reuse",
+    "resident default final32 worker proof accepted by local node"
+  ],
+  "validation_errors_found": 0,
+  "new_kernel_xid_events_observed": 0,
+  "spirv_validation": "All seven mining modules and preparation module passed spirv-val",
+  "tested_binary_sha256": "b8ed69762db907f011eeb2e9fd35d1c17a8f183cf1b77c7ebbe413f5dc12eee1",
+  "shader_source_sha256": {
+    "mining.comp": "fc27527e8a3f4aea0537e5ae0a3934001f288b3e7fddd74ba1a1417b1ffd36f8",
+    "prepare.comp": "fe2518c1e1f5fe8a80a29bf6f997a9ec0b3262c154c0d1abcd7546727c3c37d2",
+    "keccak.glsl": "c758dbb730e8c38fc241aa3fbb41b244eccac63b4dfaf4f8bdbea0a51a32c9fa"
+  },
+  "measurement_note": "Benchmark kernels explicitly selected final32/64 before defaults were changed. Default selection and expanded normal-search assertions were tested afterward; shader sources are identical.",
+  "new_shader_runtime_counters_measured": false
+}

@@ -1,5 +1,65 @@
 # QCash mining speed
 
+## Shader scheduling and final-round pruning
+
+![Separate confirmation of the selected shader](gpu-scheduling-rtx3060-summary.png)
+
+The new default is **`final32`, workgroup 64**. It retains the paired 32-bit Keccak
+operations, performs 23 complete rounds, and computes only the four consumed output
+lanes in round 24. All dependencies of those lanes are retained. This is exactly
+the same SHA3-256 digest and consensus rule, not a reduction in hash rounds/security.
+Normal mining also uses a capture-free pipeline specialization; full debug capture
+uses a separate specialization of the same shader.
+
+Seven randomized sweep rounds compared five shaders at four workgroup sizes. The
+same `final32/64` case led both median full-wall and GPU-interval throughput. A
+separate eleven-pair confirmation against the pre-change `38c6739` executable gave:
+
+| Measured throughput | Previous paired-word shader | Pruned final round | Change |
+| --- | ---: | ---: | ---: |
+| Full wall time | 582.28 MH/s | 633.44 MH/s | +8.79% |
+| GPU interval | 713.75 MH/s | 736.65 MH/s | +3.21% |
+
+The candidate won all eleven paired GPU intervals and nine of eleven full-wall
+pairs. Active background workloads affect wall timing; the larger wall gain is not
+all attributable to shader execution. These rounds contain 67,108,864 attempts,
+exclude initialization, and do not measure network block times. Benchmark setup
+medians were 313 ms previous and 355 ms current; both specializations are created
+up front and the resident worker amortizes that setup.
+
+[Complete sweep chart](gpu-scheduling-rtx3060.png), [raw receipts](gpu-scheduling-rtx3060.json)
+and [validation](gpu-scheduling-validation.json) preserve both time scopes, source
+and binary hashes, static compiler diagnostics and all samples. Defaults were
+selected after the measurements; every measured case explicitly supplied shader
+and workgroup, so that selection does not alter the tested kernels.
+
+The row-fused (`row32`) and two-round-unrolled (`unroll32`) variants remain explicit
+experimental options. The initial unspecialized [study](gpu-scheduling-initial-rtx3060.json)
+found only a small row-fusion benefit. A subsequent specialized sweep was
+[interrupted after four checkpointed rounds](gpu-scheduling-specialized-partial-rtx3060.json);
+it is not a completed comparison. The final matrix above was restarted and completed.
+
+Register pressure did **not** improve: the driver reports 92 registers for the
+selected pruned shader versus 72 for the old default, with zero reported shared
+memory versus 768 bytes. Current capture-free `pair32/64` reports 74 registers.
+Removing unused operations beat the attempted reductions in temporary lifetimes on
+this GPU. These are static compiler statistics, not measured spill traffic or
+achieved occupancy. Cache hit rates, runtime spills and stall reasons remain
+unmeasured; the earlier authorized counter capture applies to the previous shader.
+Performance on other devices needs separate measurements; the previous shader
+remains available with `--shader pair32 --workgroup 64`.
+
+To reproduce, build commit `38c6739` separately as `BASELINE_QCASH_VULKAN`, then run:
+
+```sh
+python3 tools/benchmark_vulkan_scheduling.py --baseline BASELINE_QCASH_VULKAN --output benchmarks/my-scheduling.json
+python3 tools/plot_vulkan_scheduling.py benchmarks/my-scheduling.json --output benchmarks/my-scheduling.png
+```
+
+The sweep checkpoints after each complete round. `--resume` requires identical
+binaries and shader sources. Use a new output file for changed implementations.
+
+
 ## Authorized hardware-counter follow-up
 
 The authorized Nsight Systems run succeeded. [Sanitized readings and raw artifact
@@ -93,7 +153,7 @@ python3 tools/plot_vulkan_memory.py benchmarks/my-memory.json --output benchmark
 
 ![Resident GPU optimization comparison](gpu-optimized-rtx3060.png)
 
-The default Vulkan path now uses a persistent local worker, cached command buffers,
+The previous default Vulkan path used a persistent local worker, cached command buffers,
 four bounded dispatches per fence wait, GPU-side prefix preparation and the exact
 `pair32` SHA3 shader. No unsuccessful nonce is hashed on the CPU. One independent
 CPU rehash of a winning proof remains, along with network/job control and occasional

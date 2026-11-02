@@ -23,7 +23,8 @@ int main() {
     unsigned verified = 0;
     for (const auto *memory : {"mapped", "mapped-local", "staged"}) {
       for (const auto *variant :
-           {"scalar64", "pair32", "compact64", "compact32"}) {
+           {"scalar64", "pair32", "compact64", "compact32", "row32", "unroll32",
+            "final32"}) {
         VulkanMiner gpu({}, 64, variant, false, memory);
         check(gpu.memory_topology().find("\"policy\":\"" + std::string(memory) +
                                          "\"") != std::string::npos);
@@ -65,6 +66,8 @@ int main() {
                 verified++;
               }
               check(result.winner == winner);
+              // Normal mining uses a separate capture-free specialization.
+              check(gpu.run(start, 257, false, 65).winner == winner);
             }
           }
           p::Block block;
@@ -87,6 +90,27 @@ int main() {
         std::cout
             << "Passed memory " << memory << " shader " << variant
             << " CPU/GPU preparation, command reuse and queued dispatches\n";
+      }
+    }
+    // Workgroup tuning must preserve partial-group bounds and nonce carry.
+    for (const auto *variant :
+         {"pair32", "compact32", "row32", "unroll32", "final32"}) {
+      for (unsigned group : {32u, 128u, 256u}) {
+        VulkanMiner gpu({}, group, variant);
+        for (bool prepare_gpu : {false, true}) {
+          p::Block block;
+          block.nonce = 0xfffffffcULL;
+          block.target.fill(255);
+          gpu.prepare(p::header(block), prepare_gpu);
+          auto result = gpu.run(block.nonce, 257, true, 65);
+          check(result.winner == 0);
+          for (unsigned i = 0; i < 257; ++i) {
+            auto candidate = block;
+            candidate.nonce += i;
+            check(result.digests[i] == p::id(candidate));
+            ++verified;
+          }
+        }
       }
     }
     std::cout << "Verified " << verified
