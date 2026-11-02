@@ -1,5 +1,15 @@
 # QCash — permissionless proof-of-work development chain
 
+The hosted payment trial is **QCash Beta**. It retains the existing test chain,
+wallets and `QCash` currency identifier. Mining uses the fixed 12-bit target
+(4096 classical hash attempts per proof on average); the operator's miner is
+paced at 30 seconds, which other miners are not required to follow. Rewards
+mature after two more blocks. These are experimental test coins with no stated
+monetary value; the beta can be reset and confirmations can be reversed.
+The gateway is authenticated behind the portal HTTPS adapter; this release does
+not expose the native mining peer publicly. See the sibling portal's
+`docs/finance/QCASH_TESTNET.md` for browser payments and wallet recovery.
+
 For conventional miners and custom accelerator integrations, see the
 [mining implementation guide](miners/README.md). It includes a bounded CPU
 controller and a hardware-neutral work/nonce verification interface. A complete

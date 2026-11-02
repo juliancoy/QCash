@@ -64,7 +64,7 @@ def main():
     for name, command in commands.items():
         dependency = 'After=qcash-testnet-node.service\nWants=qcash-testnet-node.service\n' if name.endswith('gateway') else ''
         (units / (name + '.service')).write_text(f'''[Unit]
-Description=QCash experimental testnet ({name})
+Description=QCash Beta test network ({name})
 After=network-online.target
 {dependency}[Service]
 ExecStart={command}
@@ -94,7 +94,7 @@ WantedBy=default.target
         except subprocess.CalledProcessError:
             if attempt == 29:raise
             time.sleep(1)
-    config.update(commit=commit, binary_sha256=hashlib.sha256(binary.read_bytes()).hexdigest(), chain_id=chain_id)
+    config.update(name='QCash Beta', commit=commit, binary_sha256=hashlib.sha256(binary.read_bytes()).hexdigest(), chain_id=chain_id)
     config_file.write_text(json.dumps(config, indent=2) + '\n')
     print(json.dumps({k: v for k, v in config.items() if k != 'mine_to'}, indent=2))
 

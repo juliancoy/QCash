@@ -40,7 +40,7 @@ def serve(binary,home,peer,host,port,token=None,release_commit=None):
             path=urlsplit(self.path).path
             if self.command=='GET' and path=='/network':
                 status=call('query')
-                return self.reply(200,dict(currency='QCash',name='QCash Testnet',chainId=status['chain'],height=status['height'],tip=status['tip'],decimals=0,experimental=True,commit=release_commit))
+                return self.reply(200,dict(currency='QCash',name='QCash Beta',chainId=status['chain'],height=status['height'],tip=status['tip'],decimals=0,experimental=True,commit=release_commit))
             for prefix,command in [('/accounts/','account-query'),('/transactions/','transaction-query')]:
                 if self.command=='GET' and path.startswith(prefix) and HEX.fullmatch(path[len(prefix):]):
                     return self.reply(200,call(command,path[len(prefix):]))
