@@ -90,9 +90,15 @@ A seven-T decomposition and a conservative serial schedule cost these additions.
 The logical workspace budget is 4096 including separately budgeted scratch/input.
 The C++ regression checks header size; accounting tests check formulas.
 
-This is **literature-derived accounting**, not a compiled, phase-simulated mining
-oracle. Binding absorption, bit order, comparator phase and ancilla cleanup to an
-actual quantum compiler remains necessary. Hardware parameters in the saved JSON
+This is **literature-derived accounting**, not a measured full mining oracle.
+Binding that optimized schedule to an actual quantum compiler remains necessary.
+The separate `miners/reversible_sha3.py` trace-preserving reference now tests
+FIPS-202 absorption/padding, bit order, threshold phase and inverse cleanup on
+classical basis states. Small comparator components are phase-tested with Qiskit
+statevectors. That reference is qubit-heavy and does not validate the optimized
+resource counts above. `miners/quantum_simulator.py` runs small Grover circuits
+with a classically precomputed SHA3 truth table; it is not a full-hash quantum
+simulation or evidence of quantum mining advantage. Hardware parameters in the saved JSON
 are illustrative. The timing is a floor for this selected schedule under those
 parameters; it is not a lower bound on all attacks or an achievable benchmark.
 It omits Clifford latency, routing, QEC and factory overhead. Physical qubit counts

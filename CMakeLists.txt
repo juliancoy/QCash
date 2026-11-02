@@ -62,6 +62,15 @@ if(BUILD_TESTING)
   add_test(NAME mining-worker COMMAND ${CMAKE_COMMAND} -E env QCASH_BINARY=$<TARGET_FILE:qcash>
     ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/mining_worker_test.py)
   set_tests_properties(mining-worker PROPERTIES TIMEOUT 120)
+  add_test(NAME reversible-sha3-reference COMMAND ${Python3_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/reversible_sha3_test.py)
+  set_tests_properties(reversible-sha3-reference PROPERTIES TIMEOUT 120)
+  set(QCASH_SIMULATOR_PYTHON "" CACHE FILEPATH "Optional isolated Python with pinned Qiskit/Aer for real simulator tests")
+  if(QCASH_SIMULATOR_PYTHON)
+    add_test(NAME quantum-simulator COMMAND ${CMAKE_COMMAND} -E env QCASH_BINARY=$<TARGET_FILE:qcash>
+      ${QCASH_SIMULATOR_PYTHON} ${CMAKE_CURRENT_SOURCE_DIR}/tests/quantum_simulator_test.py)
+    set_tests_properties(quantum-simulator PROPERTIES TIMEOUT 120)
+  endif()
 endif()
 
 option(PQCOIN_FUZZ "Build Clang libFuzzer parser harness" OFF)

@@ -1,0 +1,3 @@
+# Optional local CPU simulator. Tested on Linux with Python 3.12.
+# Exact direct and transitive versions are isolated from node/wallet dependencies.
+-r requirements-simulator.lock

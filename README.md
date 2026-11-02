@@ -4,6 +4,9 @@ For conventional miners and custom accelerator integrations, see the
 [mining implementation guide](miners/README.md). It includes a bounded CPU
 controller and a hardware-neutral work/nonce verification interface. A complete
 quantum-hardware mining backend is not supplied.
+An optional [local QPU simulator](miners/README.md#local-qpu-simulation) executes
+small Grover circuits with an explicitly classically precomputed oracle. Full
+reversible SHA3 reference components are separately tested on basis states.
 
 The current direction is a native C++23 SHA3 proof-of-work chain with ML-DSA
 transactions, hybrid ML-KEM peer transport, cumulative-work fork choice and a

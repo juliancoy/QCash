@@ -111,12 +111,13 @@ keep QPU service authentication in the operator's local/provider environment.
 
 ### Quantum status
 
-The backend contract and independent nonce-verification path are implemented and
-tested. **A reversible SHA3 threshold oracle, QPU circuit, provider integration
-and successful quantum-hardware mining run are not supplied or claimed.** A QPU
-backend must implement the full canonical-header hash/target predicate; searching
-a toy oracle or classically precomputing winning nonces is not a quantum mining
-implementation. See the resource-model limitations in `SECURITY_REVIEW.md` and
+The backend contract, native nonce verification and an optional local Qiskit
+simulator are implemented and tested. The simulator uses a classically
+precomputed oracle; full reversible SHA3 reference components are separately
+basis-tested. **Full-hash quantum statevector mining, a provider integration and
+a successful quantum-hardware mining run are not supplied or claimed.** A real
+QPU backend must execute the full canonical-header hash/target predicate;
+classically precomputing winners is not evidence of quantum mining advantage. See the resource-model limitations in `SECURITY_REVIEW.md` and
 IBM's [Grover tutorial](https://quantum.cloud.ibm.com/docs/en/tutorials/grovers-algorithm).
 Provider queue delay and circuit execution can make a template stale; cancel
 obsolete work and impose an explicit provider spending budget.
@@ -130,3 +131,115 @@ An HTTPS wallet gateway URL is not a native peer endpoint. Public seed discovery
 NAT traversal, scalable peer admission and a hardened public mining service are
 not implemented by this addition; do not expose the experimental peer directly
 to the Internet and describe it as production hardened.
+
+## Local QPU simulation
+
+Use Python 3.12 and an isolated environment. No quantum-provider account, cloud
+credential, GPU or physical QPU is needed. Nothing runs in the browser.
+
+```sh
+python3 -m venv .deps/quantum-venv
+.deps/quantum-venv/bin/python -m pip install -r miners/requirements-simulator.txt
+```
+
+With your separately running private node and verified identity values from the
+conventional setup, opt into the simulator explicitly:
+
+```sh
+.deps/quantum-venv/bin/python miners/cpu_worker.py --backend qpu-simulator \
+  --binary ./build/qcash --home miner-home --peer 127.0.0.1:29600 \
+  --peer-key PEER_FINGERPRINT --chain-id EXACT_CHAIN_ID \
+  --address YOUR_PUBLIC_REWARD_ADDRESS --rounds 4 --seconds 60 \
+  --attempts 4096 --simulator-bits 12 --simulator-shots 128
+```
+
+The controller retains peer pinning, chain/reward checks, deadline cancellation,
+stale-parent checks and native full-node submission. Cancellation terminates its
+whole child process group, including the simulator's isolated worker. The CPU
+backend remains the default. An exhausted simulator window is not a failed node
+and does not produce a fabricated solution.
+
+### What is actually simulated
+
+1. Classically hash every nonce in a bounded window of the **real canonical
+   QCash header**. Count every hash and record the window and marked-state count.
+2. Construct a small phase oracle from that precomputed truth table, then run
+   Hadamard preparation, Grover iterations and measurements in **Qiskit Aer**.
+3. Select a candidate only from measured outcomes. Never silently fall back to
+   an unmeasured nonce already known from classical enumeration.
+4. Rehash it and invoke native `complete-work`. Submit only after checking that
+   the parent is still current; full-node consensus checks remain unchanged.
+
+This is a **precomputed-oracle quantum-circuit demonstration**, not SHA3 executed
+inside Grover search, competitive mining, a quantum speedup, or hardware evidence.
+The classical lookup already discovers winning nonces; it is deliberately not
+hidden in timing or telemetry. Receipts identify the mode, classical hash count,
+qubits, marked states, iterations, shot counts, seeds, dependency versions,
+source hash, transpilation and simulation timings separately. A window with no
+winner reports `empty_window`, zero executed shots and `simulation_executed:false`.
+Shot sampling can also miss: no solution is written in that case.
+
+The simulator is capped at 1–12 search qubits, 1–1024 shots, 0–64 iterations and
+4096 phase-pattern applications. It uses one CPU thread and a separate process
+with a wall-clock limit; oversized requests are rejected before building a
+circuit. Aer receives a 128 MiB state allocation ceiling; this is **not** a claim
+that the entire Python process uses at most 128 MiB. The controller's attempt
+budget must cover the whole classical lookup window.
+
+### Offline candidate and receipt
+
+After exporting `work.bin`, run a single bounded simulation without connecting to
+any peer or submitting a block:
+
+```sh
+.deps/quantum-venv/bin/python miners/quantum_simulator.py \
+  --binary ./build/qcash --work work.bin --output simulated-solution.bin \
+  --chain-id EXACT_CHAIN_ID --address YOUR_PUBLIC_REWARD_ADDRESS \
+  --bits 12 --shots 128 --seed 7 --seconds 30 \
+  --verify-reversible --receipt simulation.json
+```
+
+Exit 0 means a measured nonce passed native verification and a new solution file
+was written. Exit 3 means an empty/missed window or elapsed budget; exit 130 is
+cancellation; exit 2 is invalid work, missing dependencies or another failure.
+Output and receipt paths must not already exist. `--nonce-start` selects another
+bounded 64-bit nonce window without changing the extra nonce or any commitments.
+A timeout or cancellation does not assert that no partial file could have been
+written during the final native output operation: inspect it with native tools
+before any deliberate submission. The managed controller uses temporary files
+and always removes them when it stops.
+
+### Actual reversible hash-oracle components
+
+`reversible_sha3.py` provides X/CX/CCX gate programs for all 24 rounds of
+Keccak-f[1600], SHA3-256 absorption/domain padding, an inclusive big-endian target
+comparator, Z phase marking, and inverse cleanup. These are **real reversible
+hash computations**, not a truth-table replacement. Independent tests compare
+hashes with `hashlib` for empty input, `abc`, rate-boundary messages and the actual
+268-byte QCash header length. Comparator truth tables are checked exhaustively
+at small widths; small Qiskit statevectors independently check relative phase
+and clean ancillas in superposition.
+
+The full hash reference intentionally retains intermediate rounds to make
+compute/uncompute straightforward. It is qubit-heavy and not an optimized mining
+oracle. Full SHA3 is executed only on classical basis states in these tests,
+**not as a dense full-circuit quantum simulation**. Qiskit export is capped at 20
+qubits for small components. `--verify-reversible` performs a separate full-header
+basis-gate verification of the sampled candidate and reports that distinction.
+Do not substitute these trace-heavy counts for the different literature-derived
+resource scenarios in `tools/quantum_circuit_estimate.py`.
+
+```sh
+.deps/quantum-venv/bin/python tests/reversible_sha3_test.py
+.deps/quantum-venv/bin/python tests/quantum_simulator_test.py
+# Optional CTest integration; ordinary builds do not install Python packages.
+cmake --preset local -DQCASH_SIMULATOR_PYTHON="$PWD/.deps/quantum-venv/bin/python"
+ctest --preset local
+```
+
+The simulator integration test uses an isolated loopback full node, chooses a
+small fixture window classically, runs real Aer measurements, verifies the nonce
+with the native executable and gets the block accepted by that local node. It
+does not mine on or submit anything to the hosted testnet. See
+[Qiskit Aer](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html)
+for simulator semantics and supported methods.
