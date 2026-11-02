@@ -100,6 +100,7 @@ def main():
         'device':run(binary,'info')['device'],'load_start':load_start,'load_end':os.getloadavg(),
         'cpu_affinity':list(os.sched_getaffinity(0)),'source_commit':subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip(),
         'source_dirty':bool(subprocess.check_output(['git','-C',str(ROOT),'status','--porcelain'],text=True).strip()),
+        'source_tracked_dirty':bool(subprocess.check_output(['git','-C',str(ROOT),'diff','HEAD','--name-only'],text=True).strip()),
         'baseline_source_commit':'c3c8ac4','baseline_binary_sha256':hashlib.sha256(Path(baseline).read_bytes()).hexdigest(),
         'current_binary_sha256':hashlib.sha256(Path(binary).read_bytes()).hexdigest(),
         'script_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
