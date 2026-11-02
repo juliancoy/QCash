@@ -243,3 +243,8 @@ with the native executable and gets the block accepted by that local node. It
 does not mine on or submit anything to the hosted testnet. See
 [Qiskit Aer](https://qiskit.github.io/qiskit-aer/stubs/qiskit_aer.AerSimulator.html)
 for simulator semantics and supported methods.
+
+## Mining speed comparison
+
+See the [measured CPU and simulator comparison](../benchmarks/README.md) for the
+chart, raw samples, limitations and local reproduction commands.
