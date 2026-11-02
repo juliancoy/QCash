@@ -1,0 +1,31 @@
+{
+  "ctest": {
+    "passed": 13,
+    "failed": 0,
+    "seconds": 54.71
+  },
+  "independent_openssl_digest_comparisons": 237468,
+  "coverage": [
+    "twelve shader variants",
+    "three memory policies",
+    "both prefix modes and both digest layouts",
+    "four workgroup sizes for ten paired-word variants",
+    "normal capture-free target-search specialization checked against independent expected winners",
+    "partial groups, nonce carry, cached-command reuse",
+    "resident default worker proof accepted by local node"
+  ],
+  "validation_layers": [
+    "VK_LAYER_KHRONOS_validation",
+    "VK_VALIDATION_FEATURE_ENABLE_SYNCHRONIZATION_VALIDATION_EXT"
+  ],
+  "validation_errors_found": 0,
+  "tested_binary_sha256": "fca9648254ebd4060e3696238fcbe53a097b7a37c36cb19df4a1f96beaa2eb4d",
+  "baseline_matches_previous_validated_binary": true,
+  "shader_source_sha256": {
+    "mining.comp": "9fd068f4c0b9e06d8f217576c59ef205701577505a7fe343c01afbf5a849a0d8",
+    "prepare.comp": "fe2518c1e1f5fe8a80a29bf6f997a9ec0b3262c154c0d1abcd7546727c3c37d2",
+    "keccak.glsl": "07620e8cfb262ec4d1b0cb837145fc354694538e815c311570196d97ebae1f5a"
+  },
+  "default_retained": "final32/64",
+  "new_runtime_stall_spill_or_occupancy_measurements": false
+}

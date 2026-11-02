@@ -42,7 +42,7 @@ def main():
     parser.add_argument('--vulkan-device', type=int, help='Optional Vulkan enumeration index; default selects a physical GPU')
     parser.add_argument('--vulkan-batch', type=int, default=262144)
     parser.add_argument('--vulkan-queue-depth', type=int, default=4)
-    parser.add_argument('--vulkan-shader', choices=['scalar64','pair32','compact64','compact32','row32','unroll32','final32'], default='final32')
+    parser.add_argument('--vulkan-shader', choices=['scalar64','pair32','compact64','compact32','row32','unroll32','final32','tree32','lean32','column32','tail32','early32'], default='final32')
     parser.add_argument('--vulkan-memory', choices=['mapped','mapped-local','staged'], default='mapped')
     parser.add_argument('--vulkan-prepare', choices=['cpu','gpu'], default='gpu')
     parser.add_argument('--simulator-bits', type=int, default=10)

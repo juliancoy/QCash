@@ -24,7 +24,7 @@ int main() {
     for (const auto *memory : {"mapped", "mapped-local", "staged"}) {
       for (const auto *variant :
            {"scalar64", "pair32", "compact64", "compact32", "row32", "unroll32",
-            "final32"}) {
+            "final32", "tree32", "lean32", "column32", "tail32", "early32"}) {
         VulkanMiner gpu({}, 64, variant, false, memory);
         check(gpu.memory_topology().find("\"policy\":\"" + std::string(memory) +
                                          "\"") != std::string::npos);
@@ -94,7 +94,8 @@ int main() {
     }
     // Workgroup tuning must preserve partial-group bounds and nonce carry.
     for (const auto *variant :
-         {"pair32", "compact32", "row32", "unroll32", "final32"}) {
+         {"pair32", "compact32", "row32", "unroll32", "final32", "tree32",
+          "lean32", "column32", "tail32", "early32"}) {
       for (unsigned group : {32u, 128u, 256u}) {
         VulkanMiner gpu({}, group, variant);
         for (bool prepare_gpu : {false, true}) {

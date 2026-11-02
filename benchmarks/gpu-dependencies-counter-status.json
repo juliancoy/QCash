@@ -1,0 +1,14 @@
+{
+  "created_utc": "2026-11-02T19:09:37.449046+00:00",
+  "memory_policy": "mapped",
+  "binary_sha256": "fca9648254ebd4060e3696238fcbe53a097b7a37c36cb19df4a1f96beaa2eb4d",
+  "privileged_capture": true,
+  "status": "unavailable",
+  "metrics": {
+    "dram_traffic": null,
+    "cache_hit_rates": null,
+    "runtime_spill_loads_stores": null
+  },
+  "scope": "No runtime metric is inferred from timestamps or pipeline statistics. An eight-second profiling-only window allows the injected profiler to attach.",
+  "reason": "Noninteractive sudo is unavailable; authorize capture from a terminal. Driver policy was not changed."
+}

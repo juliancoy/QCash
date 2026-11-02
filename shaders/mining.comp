@@ -36,6 +36,19 @@ void main(){
         a[i]^=from64(lane);
     }
     keccak(a);
+#ifdef EARLY_TARGET
+    if(!capture_enabled){
+        // Public proof-of-work comparison: reject on the first unequal word.
+        // A tight target makes this branch coherent across almost every warp.
+        [[unroll]] for(uint i=0;i<8;i++){
+            uint word=swap32(word32(a[i/2],i%2));
+            if(word<job.target[i]){atomicMin(result.winner,index);return;}
+            if(word>job.target[i])return;
+        }
+        atomicMin(result.winner,index);
+        return;
+    }
+#endif
     bool less=false,equal=true;
     [[unroll]] for(uint i=0;i<8;i++){
         uint word=swap32(word32(a[i/2],i%2));

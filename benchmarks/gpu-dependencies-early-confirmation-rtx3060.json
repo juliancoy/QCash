@@ -1,0 +1,2015 @@
+{
+  "requested_confirmation_case": "early32/64",
+  "baseline_case": "previous final32/64",
+  "source_commit": "4582804b1acca4b7742a4c993969f56238b5fa9a",
+  "source_diff_sha256": "e5d1699d8c234f2d56a5c3a2501e4708b947f65439a2ab65981ad328c8754bd5",
+  "binary_sha256": {
+    "current": "fca9648254ebd4060e3696238fcbe53a097b7a37c36cb19df4a1f96beaa2eb4d",
+    "baseline": "b8ed69762db907f011eeb2e9fd35d1c17a8f183cf1b77c7ebbe413f5dc12eee1"
+  },
+  "shader_source_sha256": {
+    "mining.comp": "9fd068f4c0b9e06d8f217576c59ef205701577505a7fe343c01afbf5a849a0d8",
+    "prepare.comp": "fe2518c1e1f5fe8a80a29bf6f997a9ec0b3262c154c0d1abcd7546727c3c37d2",
+    "keccak.glsl": "07620e8cfb262ec4d1b0cb837145fc354694538e815c311570196d97ebae1f5a"
+  },
+  "created_utc": "2026-11-02T19:11:12Z",
+  "attempts_per_round": 67108864,
+  "sweep_receipts": {
+    "final32/64": [],
+    "early32/64": []
+  },
+  "host_load_start": [
+    15.0537109375,
+    17.17138671875,
+    16.6884765625
+  ],
+  "cpu_affinity": [
+    0
+  ],
+  "methodology": "Preselected confirmation only; eleven alternating baseline/candidate rounds. Candidate selected from prior GPU timing sweep. Full wall and GPU interval rates; mapped memory, GPU prefix, queue depth four. Active background load; no inferred profiling counters.",
+  "status": "complete",
+  "sweep_rates": {},
+  "selected_candidate": "early32/64",
+  "selection_mode": "preselected_confirmation_only",
+  "diagnostics": {
+    "final32/64": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "final32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "memory_policy": "mapped",
+      "memory_topology": {
+        "policy": "mapped",
+        "buffers": [
+          {
+            "role": "job",
+            "memory_type_index": 5,
+            "heap_index": 0,
+            "property_flags": 7,
+            "device_local": true,
+            "host_visible": true,
+            "host_coherent": true,
+            "host_cached": false,
+            "mapped": true,
+            "usage_bytes": 368,
+            "allocation_bytes": 368,
+            "heap_bytes": 12884901888,
+            "heap_device_local": true
+          },
+          {
+            "role": "result",
+            "memory_type_index": 5,
+            "heap_index": 0,
+            "property_flags": 7,
+            "device_local": true,
+            "host_visible": true,
+            "host_coherent": true,
+            "host_cached": false,
+            "mapped": true,
+            "usage_bytes": 131088,
+            "allocation_bytes": 131088,
+            "heap_bytes": 12884901888,
+            "heap_device_local": true
+          },
+          {
+            "role": "parameters",
+            "memory_type_index": 5,
+            "heap_index": 0,
+            "property_flags": 7,
+            "device_local": true,
+            "host_visible": true,
+            "host_coherent": true,
+            "host_cached": false,
+            "mapped": true,
+            "usage_bytes": 16,
+            "allocation_bytes": 16,
+            "heap_bytes": 12884901888,
+            "heap_device_local": true
+          }
+        ]
+      },
+      "capture_layout": "off",
+      "pipeline_statistics": {
+        "available": true,
+        "executables": [
+          {
+            "name": "CS",
+            "subgroup_size": 32,
+            "statistics": [
+              {
+                "name": "Register Count",
+                "description": "Number of temporary registers used by this shader stage",
+                "value": 92
+              },
+              {
+                "name": "Binary Size",
+                "description": "Size in bytes of the executable for this stage",
+                "value": 7936
+              },
+              {
+                "name": "Stack Size",
+                "description": "Size in bytes required for the shader stack",
+                "value": 0
+              },
+              {
+                "name": "Local Memory Size",
+                "description": "Size in bytes required per-thread for local memory",
+                "value": 68719476736,
+                "interpretation": "implausible_per_thread_size_not_used_for_occupancy"
+              },
+              {
+                "name": "Shared Memory Size",
+                "description": "Size in bytes used for shared memory",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "early32/64": {
+      "backend": "vulkan-sha3-midstate",
+      "device": "NVIDIA GeForce RTX 3060",
+      "device_index": 0,
+      "workgroup": 64,
+      "shader": "early32",
+      "queue_depth": 4,
+      "prefix_preparation": "gpu",
+      "memory_policy": "mapped",
+      "memory_topology": {
+        "policy": "mapped",
+        "buffers": [
+          {
+            "role": "job",
+            "memory_type_index": 5,
+            "heap_index": 0,
+            "property_flags": 7,
+            "device_local": true,
+            "host_visible": true,
+            "host_coherent": true,
+            "host_cached": false,
+            "mapped": true,
+            "usage_bytes": 368,
+            "allocation_bytes": 368,
+            "heap_bytes": 12884901888,
+            "heap_device_local": true
+          },
+          {
+            "role": "result",
+            "memory_type_index": 5,
+            "heap_index": 0,
+            "property_flags": 7,
+            "device_local": true,
+            "host_visible": true,
+            "host_coherent": true,
+            "host_cached": false,
+            "mapped": true,
+            "usage_bytes": 131088,
+            "allocation_bytes": 131088,
+            "heap_bytes": 12884901888,
+            "heap_device_local": true
+          },
+          {
+            "role": "parameters",
+            "memory_type_index": 5,
+            "heap_index": 0,
+            "property_flags": 7,
+            "device_local": true,
+            "host_visible": true,
+            "host_coherent": true,
+            "host_cached": false,
+            "mapped": true,
+            "usage_bytes": 16,
+            "allocation_bytes": 16,
+            "heap_bytes": 12884901888,
+            "heap_device_local": true
+          }
+        ]
+      },
+      "capture_layout": "off",
+      "pipeline_statistics": {
+        "available": true,
+        "executables": [
+          {
+            "name": "CS",
+            "subgroup_size": 32,
+            "statistics": [
+              {
+                "name": "Register Count",
+                "description": "Number of temporary registers used by this shader stage",
+                "value": 92
+              },
+              {
+                "name": "Binary Size",
+                "description": "Size in bytes of the executable for this stage",
+                "value": 8832
+              },
+              {
+                "name": "Stack Size",
+                "description": "Size in bytes required for the shader stack",
+                "value": 0
+              },
+              {
+                "name": "Local Memory Size",
+                "description": "Size in bytes required per-thread for local memory",
+                "value": 68719476736,
+                "interpretation": "implausible_per_thread_size_not_used_for_occupancy"
+              },
+              {
+                "name": "Shared Memory Size",
+                "description": "Size in bytes used for shared memory",
+                "value": 0
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "confirmation_receipts": {
+    "previous final32/64": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.433629,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.121159,
+            "host_cpu_seconds": 0.001803,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0992332
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.404255,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.10618,
+            "host_cpu_seconds": 0.001486,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0919312
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.385932,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.111148,
+            "host_cpu_seconds": 0.001458,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0923319
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.394281,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.116147,
+            "host_cpu_seconds": 0.00146,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0985075
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.392461,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.10627,
+            "host_cpu_seconds": 0.001574,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0926956
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.461503,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.108061,
+            "host_cpu_seconds": 0.001784,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0912413
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.437212,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.117732,
+            "host_cpu_seconds": 0.001844,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0922956
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.430435,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.107847,
+            "host_cpu_seconds": 0.001542,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0911975
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.378699,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.101225,
+            "host_cpu_seconds": 0.001512,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0912319
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.370763,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.101869,
+            "host_cpu_seconds": 0.001448,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0912701
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "final32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.369193,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.102086,
+            "host_cpu_seconds": 0.001475,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0915934
+          }
+        ]
+      }
+    ],
+    "early32/64": [
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.446451,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.103177,
+            "host_cpu_seconds": 0.001689,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0917319
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.396419,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.123486,
+            "host_cpu_seconds": 0.001851,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0920755
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.406745,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.104374,
+            "host_cpu_seconds": 0.001665,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0914576
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.399831,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.110164,
+            "host_cpu_seconds": 0.001452,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0915634
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.391995,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.111925,
+            "host_cpu_seconds": 0.00158,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0924468
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.403425,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.104363,
+            "host_cpu_seconds": 0.001579,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0904749
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.457613,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.10644,
+            "host_cpu_seconds": 0.001609,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0911106
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.419456,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.116963,
+            "host_cpu_seconds": 0.001861,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.0918655
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.360438,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.103083,
+            "host_cpu_seconds": 0.001334,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.090471
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.407329,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.105957,
+            "host_cpu_seconds": 0.001578,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.091704
+          }
+        ]
+      },
+      {
+        "backend": "vulkan-sha3-midstate",
+        "device": "NVIDIA GeForce RTX 3060",
+        "device_index": 0,
+        "workgroup": 64,
+        "shader": "early32",
+        "queue_depth": 4,
+        "prefix_preparation": "gpu",
+        "memory_policy": "mapped",
+        "memory_topology": {
+          "policy": "mapped",
+          "buffers": [
+            {
+              "role": "job",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 368,
+              "allocation_bytes": 368,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "result",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 131088,
+              "allocation_bytes": 131088,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            },
+            {
+              "role": "parameters",
+              "memory_type_index": 5,
+              "heap_index": 0,
+              "property_flags": 7,
+              "device_local": true,
+              "host_visible": true,
+              "host_coherent": true,
+              "host_cached": false,
+              "mapped": true,
+              "usage_bytes": 16,
+              "allocation_bytes": 16,
+              "heap_bytes": 12884901888,
+              "heap_device_local": true
+            }
+          ]
+        },
+        "capture_layout": "off",
+        "pipeline_statistics": {
+          "available": false
+        },
+        "setup_seconds": 0.36185,
+        "hashes_per_round": 67108864,
+        "samples": [
+          {
+            "wall_seconds": 0.104551,
+            "host_cpu_seconds": 0.001578,
+            "host_waits": 64,
+            "explicit_upload_bytes": 0,
+            "explicit_readback_bytes": 0,
+            "command_recordings": 0,
+            "gpu_seconds": 0.09078
+          }
+        ]
+      }
+    ]
+  },
+  "confirmation_rates": {
+    "previous final32/64": {
+      "wall": {
+        "median": 622259905.2361215,
+        "min": 553890870.6740729,
+        "max": 662967290.689059,
+        "samples": [
+          553890870.6740729,
+          632029233.3772839,
+          603779321.26534,
+          577792487.106856,
+          631493968.1942222,
+          621027604.7787824,
+          570013794.0407026,
+          622259905.2361215,
+          662967290.689059,
+          658776114.4214629,
+          657375781.2040828
+        ]
+      },
+      "gpu": {
+        "median": 729990079.5377412,
+        "min": 676274311.4199684,
+        "max": 735862978.700074,
+        "samples": [
+          676274311.4199684,
+          729990079.5377412,
+          726822084.241741,
+          681256391.6453062,
+          723970328.6887404,
+          735509730.7907712,
+          727107944.4740593,
+          735862978.700074,
+          735585513.4004662,
+          735277642.952073,
+          732682311.1708922
+        ]
+      }
+    },
+    "early32/64": {
+      "wall": {
+        "median": 633359419.3871099,
+        "min": 543453217.3687706,
+        "max": 651017762.3856504,
+        "samples": [
+          650424648.90431,
+          543453217.3687706,
+          642965336.1948378,
+          609172361.2069279,
+          599587795.3987045,
+          643033105.6025603,
+          630485381.4355505,
+          573761480.1261938,
+          651017762.3856504,
+          633359419.3871099,
+          641876825.66403
+        ]
+      },
+      "gpu": {
+        "median": 732922368.5446368,
+        "min": 725918733.8014945,
+        "max": 741772103.7680583,
+        "samples": [
+          731576082.0390725,
+          728846044.8219124,
+          733770227.952625,
+          732922368.5446368,
+          725918733.8014945,
+          741740129.0302614,
+          736564834.3880954,
+          730512150.9162852,
+          741772103.7680583,
+          731798656.5471518,
+          739247235.0738049
+        ]
+      }
+    }
+  },
+  "host_load_end": [
+    14.8447265625,
+    17.0166015625,
+    16.64453125
+  ]
+}

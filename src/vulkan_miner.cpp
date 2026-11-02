@@ -1,10 +1,15 @@
+#include "mining_column32.hpp"
 #include "mining_compact32.hpp"
 #include "mining_compact64.hpp"
+#include "mining_early32.hpp"
 #include "mining_final32.hpp"
+#include "mining_lean32.hpp"
 #include "mining_pair32.hpp"
 #include "mining_prepare.hpp"
 #include "mining_row32.hpp"
 #include "mining_scalar64.hpp"
+#include "mining_tail32.hpp"
+#include "mining_tree32.hpp"
 #include "mining_unroll32.hpp"
 #include <algorithm>
 #include <array>
@@ -357,6 +362,16 @@ struct VulkanMiner::Impl {
       select(mining_final32);
     else if (variant == "unroll32")
       select(mining_unroll32);
+    else if (variant == "tree32")
+      select(mining_tree32);
+    else if (variant == "lean32")
+      select(mining_lean32);
+    else if (variant == "column32")
+      select(mining_column32);
+    else if (variant == "tail32")
+      select(mining_tail32);
+    else if (variant == "early32")
+      select(mining_early32);
     else
       throw std::runtime_error("Unknown shader variant");
     vkcheck(vkCreateShaderModule(device, &sinfo, nullptr, &shader));

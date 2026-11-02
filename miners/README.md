@@ -357,6 +357,16 @@ both prefix modes are checked against OpenSSL, including partial workgroups,
 changing templates, nonce carry and command reuse. See the
 [shader comparison](../benchmarks/README.md) for raw data and reproducible scripts.
 
+Further dependency and register-pressure experiments are available explicitly as
+`tree32` (balanced parity XORs), `column32` (column scheduling), `lean32` (in-place
+pruned permutation), `tail32` (rolling final-round mixing), and `early32` (public
+proof-of-work target comparison with early rejection). Select them with
+`--vulkan-shader NAME`, or standalone `--shader NAME`. All retain exact SHA3-256
+and consensus behavior. None reduced the tested RTX 3060's 92-register footprint
+or established a reliable confirmation gain; `final32` remains the default.
+See the [focused experiment results](../benchmarks/README.md) before selecting an
+experimental path for another device.
+
 Standalone executable options are `--shader NAME`, `--prepare cpu|gpu`,
 `--queue-depth 1..16`, `--batch 1..1048576` and `--workgroup 32|64|128|256`.
 `info --diagnostics 1` requests `VK_KHR_pipeline_executable_properties` statistics

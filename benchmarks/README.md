@@ -1,5 +1,80 @@
 # QCash mining speed
 
+## Focused instruction-dependency, scheduling and register-pressure experiments
+
+**The default remains `final32/64`.** Five additional transformations were
+implemented and validated, but none established a reliable improvement sufficient
+to replace it. All five still use **92 driver-reported registers per thread**.
+Lower source-level temporary counts did not lower the allocated register count.
+
+| Experiment | Option | GPU change in matching sweep rounds, median | Registers |
+| --- | --- | ---: | ---: |
+| Balanced five-input XOR parity trees | `tree32` | −4.79% | 92 |
+| Consume theta corrections column by column | `column32` | +0.17% | 92 |
+| In-place permutation plus final-round pruning | `lean32` | −0.07% | 92 |
+| Consume final-round chi inputs as they become available | `tail32` | −0.10% | 92 |
+| Stop target comparison at the first unequal word | `early32` | +1.05% | 92 |
+
+These are exploratory **seven-round GPU-interval ratios**, each paired with
+`final32/64` from the same sweep round, not absolute rates pooled across runs.
+The first three cases and last two cases used separate sweeps. Large occasional
+outliers remain in the raw data, including a −43% rolling-tail ratio and a +31%
+early-rejection ratio under background load. They are not discarded or treated as
+shader improvements. Both prefix modes, digest capture and normal target search
+continue to produce the same SHA3-256/consensus results.
+
+Three separate eleven-pair confirmations against the exact validated `4582804`
+executable produced:
+
+| Candidate and selection | GPU median change | Full-wall median change | Paired wins: GPU / wall |
+| --- | ---: | ---: | ---: |
+| `lean32/64`, first sweep wall winner | −0.44% | −0.58% | 6/11 · 6/11 |
+| `tail32/128`, second sweep wall winner | +1.31% | +6.05% | 6/11 · 8/11 |
+| `early32/64`, preselected from GPU sweep | +0.40% | +1.78% | 8/11 · 5/11 |
+
+![Early-rejection separate confirmation; default retained](gpu-dependencies-early-confirmation-rtx3060-summary.png)
+
+The small, mixed confirmation gains do not establish a dependable end-to-end win.
+In particular, early rejection did not win a majority of wall-time pairs. These
+options remain explicitly experimental; no default selection or running production
+miner was changed. Register count, binary size and zero reported shared memory are
+static compiler observations. Equal footprints do not prove identical machine
+instructions, nor establish occupancy, spills or instruction stall reasons.
+
+Raw data: [first sweep/confirmation](gpu-dependencies-rtx3060.json),
+[rolling-tail and early-rejection sweep](gpu-dependencies-tail-rtx3060.json),
+[preselected early-rejection confirmation](gpu-dependencies-early-confirmation-rtx3060.json).
+Full charts: [first sweep](gpu-dependencies-rtx3060.png),
+[second sweep](gpu-dependencies-tail-rtx3060.png).
+[Validation](gpu-dependencies-validation.json): all 13 suites passed with Vulkan
+synchronization validation, 237,468 independent OpenSSL digest comparisons, and
+all 13 SPIR-V modules validated. Normal target-search results are also checked
+against independent expected winners, including cached capture/noncapture switches.
+
+A [fresh counter attempt](gpu-dependencies-counter-status.json) could not start
+because noninteractive sudo authorization was unavailable. Driver policy was not
+changed. The earlier authorized hardware capture concerns the earlier recorded
+binary; its occupancy cannot be assigned to these variants. Fresh occupancy and
+shader-level stall/dependency measurements are needed to establish why 92 registers
+persist and whether that limits throughput. Nsight Systems supplies GPU-wide
+activity/residency metrics, not a per-instruction stall diagnosis. To refresh the
+available hardware readings, run in your terminal with a new output directory:
+
+```sh
+sudo -v
+python3 tools/profile_vulkan_memory.py --tool systems --sudo --output .deps/dependencies-authorized-v2
+```
+
+Reproduce with a separately built `4582804` executable as `BASELINE_QCASH_VULKAN`:
+
+```sh
+python3 tools/benchmark_vulkan_scheduling.py --baseline BASELINE_QCASH_VULKAN --baseline-shader final32 --shaders final32,tree32,lean32,column32 --output benchmarks/my-dependencies.json
+python3 tools/benchmark_vulkan_scheduling.py --baseline BASELINE_QCASH_VULKAN --baseline-shader final32 --shaders final32,tail32,early32 --output benchmarks/my-tail.json
+python3 tools/benchmark_vulkan_scheduling.py --baseline BASELINE_QCASH_VULKAN --baseline-shader final32 --confirm-case early32/64 --output benchmarks/my-early-confirmation.json
+python3 tools/plot_vulkan_scheduling.py benchmarks/my-early-confirmation.json --output benchmarks/my-early-confirmation.png
+```
+
+
 ## Shader scheduling and final-round pruning
 
 ![Separate confirmation of the selected shader](gpu-scheduling-rtx3060-summary.png)

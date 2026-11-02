@@ -311,7 +311,9 @@ int main(int argc, char **argv) {
       if (option == "--shader") {
         need(value == "scalar64" || value == "pair32" || value == "compact64" ||
                  value == "compact32" || value == "row32" ||
-                 value == "unroll32" || value == "final32",
+                 value == "unroll32" || value == "final32" ||
+                 value == "tree32" || value == "lean32" ||
+                 value == "column32" || value == "tail32" || value == "early32",
              "Unknown shader");
         o.shader = value;
         continue;
