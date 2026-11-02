@@ -162,3 +162,9 @@ a different local chain. Mining refuses to overwrite an existing directory.
 
 The optional [Vulkan GPU miner](miners/README.md#vulkan-gpu-mining) searches real
 SHA3-256 work and validates every candidate natively. CPU-only builds remain the default.
+
+The standalone [WebGPU browser miner](miners/webgpu/README.md) uses persistent
+GPU state, paired-u32 SHA3 and final-round pruning, with independent CPU verification
+of winning proofs. It reached 668.4 MH/s versus native Vulkan 678.6 MH/s in the
+[recorded RTX 3060 comparison](benchmarks/README.md). The browser tool scans explicit
+public work files and exports verified solutions for a pinned native client.

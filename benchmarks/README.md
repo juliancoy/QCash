@@ -1,5 +1,81 @@
 # QCash mining speed
 
+## Browser WebGPU mining
+
+![Browser WebGPU and native Vulkan on the same RTX 3060](webgpu-final-rtx3060.png)
+
+The browser now implements the measured native architecture: persistent GPU
+buffers/pipelines, GPU-side first-block prefix preparation, paired-u32 Keccak,
+final-round pruning, grouped dispatches and a tiny winner-only readback. Eight
+browser configurations (full/pruned final round × four workgroup sizes) were
+compared in seven randomized rounds with an interleaved native control. The
+selected **`final32/64`** configuration then underwent eleven separate alternating
+confirmation pairs against native Vulkan `final32/64`:
+
+| Backend | Full-wall median | GPU-interval median | Full-wall observed range |
+| --- | ---: | ---: | ---: |
+| Native Vulkan | 678.6 MH/s | 713.1 MH/s | 622.3–700.1 MH/s |
+| Browser WebGPU | 668.4 MH/s | 700.5 MH/s | 318.4–668.4 MH/s |
+
+The browser reaches **98.5% of native by the ratio of full-wall medians**. Its
+median paired throughput ratio was 97.5%, and native led all eleven pairs. Browser
+wall-time outliers were larger; the near-native median is not a latency guarantee.
+All samples, including the slow browser sample, are retained. The GPU intervals
+are closer than the broad wall-time tails suggest, but no stall/occupancy diagnosis
+is inferred from them.
+
+Each throughput round hashes every one of 16,777,216 candidates against the same
+hard-target header, with no CPU hashing of unsuccessful candidates. Browser GPU
+intervals cover the mining pass; wall time includes submissions and mapped
+readback. Native timings retain their existing dispatch/fence scope. Initialization
+and prefix preparation are excluded from both steady-state rates. Browser results
+use sixteen 1M-candidate dispatches with one submission/readback per round; the
+native default uses sixteen groups/waits per round. These are the implementations'
+measured configurations, not identical host synchronization schedules.
+
+Chrome **150.0.7871.128** exposed an NVIDIA Ampere hardware adapter; this host has
+one NVIDIA GPU, **RTX 3060, driver 580.142**. The browser hides the specific model
+string. The hardware runner rejects a recognized software/fallback adapter for
+speed measurements. Headless hardware Chrome exposed no adapter here; recorded
+hardware tests used the host display. Software-mode runs are correctness-only.
+
+Normal readback copies/maps only the four-byte winner index, plus 16 timestamp
+bytes when supported. Each dispatch uploads 16 parameter bytes; a prepared public
+template uploads 272 bytes once. Prefix state remains on the GPU. WebGPU requires
+separate MAP_READ staging; this is not a claim of physical zero-copy VRAM access.
+The [WebGPU specification](https://www.w3.org/TR/webgpu/) defines the mapping and
+timestamp-query constraints. Register allocation, occupancy, cache traffic and
+runtime spills were not measured for WGSL; native statistics cannot be transferred.
+
+Every winning result is independently hashed by the included BigInt CPU SHA3
+reference and checked against the target. Warm preselected 256-nonce winning
+requests measured **2.7 ms median**, including that verification and excluding
+initialization. This conditional latency is not a network block-time estimate.
+A faster host verifier remains possible; bulk throughput is GPU-resident already.
+
+[Raw performance/correctness receipts](webgpu-final-rtx3060.json),
+[shader/source validation manifest](webgpu-validation.json), and
+[browser-to-node acceptance receipt](webgpu-ui-rtx3060.json) preserve the evidence.
+Validation covers **8,780 OpenSSL digest comparisons**, both shader variants, four
+workgroup sizes, forced multi-dispatch capture, partial groups, nonce carry and
+overflow, normal/capture winner equivalence, timestamp-free four-byte readback,
+concurrent-operation rejection, pre/in-flight cancellation and disposal. Three
+Node host-reference tests also pass. The explicit-start browser UI initialized no
+GPU before Scan, downloaded a verified block byte-for-byte compatible with native
+completion, and advanced an isolated pinned local node to height 1.
+
+The reusable [module and browser tool](../miners/webgpu/README.md) start no mining
+on page load and require no wallet secrets. This is a standalone public-work-file
+tool; hosted OrgPortal routes/deployment were not changed. Production networking,
+chain/reward/tip checks and full consensus validation remain with the native node.
+
+```sh
+python3 tools/test_webgpu_mining.py --output benchmarks/my-webgpu.json
+python3 tools/test_webgpu_ui.py --output benchmarks/my-webgpu-ui.json
+python3 tools/plot_webgpu_mining.py benchmarks/my-webgpu.json --output benchmarks/my-webgpu.png
+```
+
+
 ## Focused instruction-dependency, scheduling and register-pressure experiments
 
 **The default remains `final32/64`.** Five additional transformations were
@@ -422,7 +498,7 @@ found every winner during classical precomputation; the subsequent quantum circu
 is an educational demonstration and supplies no mining speedup.
 
 In that earlier run, no physical QPU, full reversible SHA3 statevector, Vulkan,
-WebGPU or WASM mining backend was timed. ML-KEM encryption benchmarks are unrelated to mining throughput.
+WebGPU or WASM mining backend was timed in that earlier experiment; see the new browser comparison above. ML-KEM encryption benchmarks are unrelated to mining throughput.
 The reversible SHA3 reference is for circuit correctness/resource exploration,
 not a competitive CPU miner.
 

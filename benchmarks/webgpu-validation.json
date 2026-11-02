@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "independent_openssl_digests": 8780,
+  "host_reference_tests_passed": 3,
+  "ctest_registration": "webgpu-host-reference passed",
+  "browser_ui_native_node_height": 1,
+  "generated_wgsl_sha256": {
+    "final32/32": "c075710a4de113f7b0c47d8363bdc138fd6d8ced2af4a2523102dc6a975d2a36",
+    "pair32/32": "ef617148d2a39b28d53c1717256387491c6b34f9c6e7775beb0948d9cbbdd577",
+    "final32/64": "7619ae06aeb7bce04e242129a306107a48d8e2d14952a6638934d5032fdbe118",
+    "pair32/64": "5884f009ed6f3d8ad035427f60a06b164d56be33f4941e2fbcf1a267648ed16a",
+    "final32/128": "cc52285123a5bf8bcaae344b6d7a701f733f3024bbe48515db690863c756f0ac",
+    "pair32/128": "9f303fc7eae515e37ebd192ccd20af154c5ff518cb1bbfc81044d6d08123124f",
+    "final32/256": "786948caf2657af19a6053d1f91ff491f22e52350780246cd2c205d7a034d5e4",
+    "pair32/256": "e541f5ac3ff80ed6c0dc597d6dde4ed7cf58dd03c58b908f9f736bfa71bd1bea"
+  },
+  "source_hashes": {
+    "miners/webgpu/demo.mjs": "72b5088074fcb6335c56ade4d2e0cab1b4768f3dc3fe888426980c1868a79ebe",
+    "miners/webgpu/miner.mjs": "b5548120a5611e414710b7f9ce44b346860000f7649cbd3cd0b1a11a44f801b1",
+    "miners/webgpu/sha3.mjs": "44b370646c162e62137d5d16e8456d502ac9cea07bd0bb8f678723097fe69c34",
+    "miners/webgpu/shader.mjs": "19d8152d5a7bee290387eb888c0ca09684e57b48ff557edd759df7ed88661325",
+    "tools/test_webgpu_mining.py": "a7170c36497e2b5531a2acea61b19dd2ec25568d3e5f9c52ca0e7730aef13c7a",
+    "tools/test_webgpu_ui.py": "a8b3b9750def26f03bc9f3d834587204b5ec83cb43035116009afac12bd1045a",
+    "tools/plot_webgpu_mining.py": "ded35e60b9772eab35f5fa0e2934dafb3ae0e20ad63769d14f36fe3ca509d3dd",
+    "tests/webgpu_reference_test.mjs": "315724f08ecba115a696867eee33ec5c4704d5726fdd5d362140b736e51c13b4"
+  },
+  "playwright_version": "1.58.0",
+  "hardware": "NVIDIA GeForce RTX 3060, 580.142, 00000000:04:00.0",
+  "software_performance_claimed": false,
+  "register_occupancy_or_traffic_counters_measured": false
+}

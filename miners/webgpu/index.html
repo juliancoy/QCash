@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>QCash WebGPU miner</title>
+<style>body{font:16px system-ui;max-width:44rem;margin:3rem auto;padding:0 1rem;color:#182334;background:#f7f9fc}h1{font-size:1.8rem}label{display:block;margin:1rem 0}input{display:block;box-sizing:border-box;max-width:100%;margin-top:.4rem;padding:.55rem;font:inherit}button{font:inherit;padding:.6rem 1rem;margin:.4rem .4rem .4rem 0;border:1px solid #245ea8;border-radius:.3rem;background:#245ea8;color:white}button:disabled{opacity:.45}output{display:block;white-space:pre-wrap;padding:1rem;background:white;border:1px solid #d5dce5;margin-top:1rem}small{color:#4d5a6c}</style></head>
+<body><h1>QCash WebGPU miner</h1>
+<p>Scan a bounded nonce range on your GPU. Mining starts only when you press Scan. Winners are independently verified on the CPU.</p>
+<p><small>Experimental testnet software. Load a public, empty-transaction work file exported by your native node. Full-node validation remains required.</small></p>
+<label>Work file (.bin, 272 bytes)<input id="work" type="file" accept=".bin"></label>
+<label>Starting nonce<input id="nonce" inputmode="numeric" value="0"></label>
+<label>Candidates (1–16,777,216)<input id="count" type="number" min="1" max="16777216" value="1048576"></label>
+<button id="scan" disabled>Scan nonce range</button><button id="cancel" disabled>Cancel</button><button id="download" disabled>Download verified proof</button>
+<output id="status" aria-live="polite">Load a work file to begin. HTTPS or localhost and a WebGPU-capable browser are required.</output>
+<script type="module" src="./demo.mjs"></script></body></html>
