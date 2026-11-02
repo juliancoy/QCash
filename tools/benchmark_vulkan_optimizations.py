@@ -35,9 +35,17 @@ def main():
     if hasattr(os,'sched_getaffinity'):os.sched_setaffinity(0,{min(os.sched_getaffinity(0))})
     binary=str(args.binary.resolve(strict=True));baseline=str(args.baseline.resolve(strict=True))
     native=str(ROOT/'build/qcash')
+    receipts={}
+    current_case={'phase':'initialization'}
     def run(*argv):
         r=subprocess.run(list(map(str,argv)),capture_output=True,text=True,timeout=120)
-        if r.returncode:raise RuntimeError(r.stderr[-1000:]+r.stdout[-1000:])
+        if r.returncode:
+            failure={'created_utc':time.strftime('%Y-%m-%dT%H:%M:%SZ',time.gmtime()),
+                'case':dict(current_case),'exit_code':r.returncode,'stderr':r.stderr[-4000:],
+                'stdout':r.stdout[-4000:],'completed_sustained_receipts':receipts}
+            failed=args.output.with_suffix('.failed.json')
+            with failed.open('x') as out:json.dump(failure,out,indent=2);out.write('\n')
+            raise RuntimeError('Benchmark stopped; failure receipt: '+str(failed))
         return json.loads(r.stdout)
     fixture=json.loads(args.fixture.read_text())['fixture']['job']
     cases={'Previous Vulkan':(baseline,[]),'Cached commands · scalar64':(binary,['--queue-depth',1,'--shader','scalar64'])}
@@ -60,6 +68,7 @@ def main():
             if repeat%2:order.reverse()
             for name in order:
                 exe,options=cases[name]
+                current_case.update(phase='sustained',name=name,repeat=repeat+1)
                 report=run(exe,'bench',d/'hard.bin',args.attempts,1,'--batch',262144,*options)
                 receipts[name].append(report)
             print(f'Sustained comparison {repeat+1}/{args.repeats}',flush=True)
