@@ -1,0 +1,332 @@
+{
+  "created_utc": "2026-11-02T18:41:11.878058+00:00",
+  "memory_policy": "mapped",
+  "binary_sha256": "64ad7935dd18339a06a81ce4b5b26fcc7dccacfa43f543cd31b7a830d22c25be",
+  "privileged_capture": true,
+  "status": "available",
+  "metrics": {
+    "dram_traffic": [
+      {
+        "type_id": 281479271677952,
+        "metric_id": 0,
+        "name": "DRAM Read Throughput",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 31.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 7,
+        "name": "DRAM Write Throughput",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 45.0
+      }
+    ],
+    "cache_hit_rates": null,
+    "runtime_spill_loads_stores": null
+  },
+  "scope": "No runtime metric is inferred from timestamps or pipeline statistics. An eight-second profiling-only window allows the injected profiler to attach.",
+  "counter_readings": {
+    "status": "available",
+    "reason": null,
+    "metrics": [
+      {
+        "type_id": 281479271677952,
+        "metric_id": 0,
+        "name": "DRAM Read Throughput",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 31.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 1,
+        "name": "Unallocated Warps in Active SMs",
+        "samples": 87087,
+        "median": 42.0,
+        "p25": 42.0,
+        "p75": 42.0,
+        "min": 0.0,
+        "max": 51.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 11,
+        "name": "PCIe TX Throughput",
+        "samples": 87087,
+        "median": 1.0,
+        "p25": 1.0,
+        "p75": 1.0,
+        "min": 1.0,
+        "max": 5.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 13,
+        "name": "PCIe Write Requests to BAR1",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 73.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 14,
+        "name": "PCIe Read Requests to BAR1",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 61.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 15,
+        "name": "SM Active",
+        "samples": 87087,
+        "median": 100.0,
+        "p25": 95.0,
+        "p75": 100.0,
+        "min": 0.0,
+        "max": 100.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 2,
+        "name": "Compute Warps In Flight",
+        "samples": 87087,
+        "median": 58.0,
+        "p25": 47.0,
+        "p75": 58.0,
+        "min": 0.0,
+        "max": 58.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 3,
+        "name": "Pixel Warps In Flight",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 45.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 4,
+        "name": "Vertex/Tess/Geometry Warps In Flight",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 1.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 6,
+        "name": "SM Issue",
+        "samples": 87087,
+        "median": 53.0,
+        "p25": 50.0,
+        "p75": 53.0,
+        "min": 0.0,
+        "max": 53.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 7,
+        "name": "DRAM Write Throughput",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 45.0
+      },
+      {
+        "type_id": 281479271677952,
+        "metric_id": 9,
+        "name": "PCIe RX Throughput",
+        "samples": 87087,
+        "median": 0.0,
+        "p25": 0.0,
+        "p75": 0.0,
+        "min": 0.0,
+        "max": 9.0
+      }
+    ],
+    "collection_messages": [],
+    "submission_metrics": {
+      "Target Vulkan submit-to-fence windows": [
+        {
+          "type_id": 281479271677952,
+          "metric_id": 0,
+          "name": "DRAM Read Throughput",
+          "samples": 79804,
+          "median": 0.0,
+          "p25": 0.0,
+          "p75": 0.0,
+          "min": 0.0,
+          "max": 31.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 1,
+          "name": "Unallocated Warps in Active SMs",
+          "samples": 79804,
+          "median": 42.0,
+          "p25": 42.0,
+          "p75": 42.0,
+          "min": 0.0,
+          "max": 51.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 11,
+          "name": "PCIe TX Throughput",
+          "samples": 79804,
+          "median": 1.0,
+          "p25": 1.0,
+          "p75": 1.0,
+          "min": 1.0,
+          "max": 5.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 13,
+          "name": "PCIe Write Requests to BAR1",
+          "samples": 79804,
+          "median": 0.0,
+          "p25": 0.0,
+          "p75": 0.0,
+          "min": 0.0,
+          "max": 73.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 14,
+          "name": "PCIe Read Requests to BAR1",
+          "samples": 79804,
+          "median": 0.0,
+          "p25": 0.0,
+          "p75": 0.0,
+          "min": 0.0,
+          "max": 51.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 15,
+          "name": "SM Active",
+          "samples": 79804,
+          "median": 100.0,
+          "p25": 95.0,
+          "p75": 100.0,
+          "min": 0.0,
+          "max": 100.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 2,
+          "name": "Compute Warps In Flight",
+          "samples": 79804,
+          "median": 58.0,
+          "p25": 47.0,
+          "p75": 58.0,
+          "min": 0.0,
+          "max": 58.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 3,
+          "name": "Pixel Warps In Flight",
+          "samples": 79804,
+          "median": 0.0,
+          "p25": 0.0,
+          "p75": 0.0,
+          "min": 0.0,
+          "max": 45.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 4,
+          "name": "Vertex/Tess/Geometry Warps In Flight",
+          "samples": 79804,
+          "median": 0.0,
+          "p25": 0.0,
+          "p75": 0.0,
+          "min": 0.0,
+          "max": 1.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 6,
+          "name": "SM Issue",
+          "samples": 79804,
+          "median": 53.0,
+          "p25": 50.0,
+          "p75": 53.0,
+          "min": 0.0,
+          "max": 53.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 7,
+          "name": "DRAM Write Throughput",
+          "samples": 79804,
+          "median": 0.0,
+          "p25": 0.0,
+          "p75": 0.0,
+          "min": 0.0,
+          "max": 45.0
+        },
+        {
+          "type_id": 281479271677952,
+          "metric_id": 9,
+          "name": "PCIe RX Throughput",
+          "samples": 79804,
+          "median": 0.0,
+          "p25": 0.0,
+          "p75": 0.0,
+          "min": 0.0,
+          "max": 9.0
+        }
+      ]
+    },
+    "submission_windows": 4962,
+    "operation_labels_verified": false,
+    "timing_scope": "GPU-wide counter samples during target queue-submit through fence-wait intervals; other GPU clients and CPU synchronization may contribute."
+  },
+  "reason": "Recorded native-unit GPU-wide readings attached; other GPU clients may contribute.",
+  "raw_artifacts_sha256": {
+    "capture.nsys-rep": "920a00ef126fc4737de22dbf3e58480d585e34c92244efda942d6dbb2316cb92",
+    "capture.sqlite": "2e83cec3af51fc2c90c02169e8ad90bef2436fa9094bddc62ac4e3a606f4bd74",
+    "systems.log": "1f458c5c8db49d8fb7f7213e6476c784ceebe9f0750842f2b0a2a8ebe7878f12"
+  },
+  "unit_reference": "https://docs.nvidia.com/nsight-systems/2022.4/pdf/UserGuide.pdf",
+  "interpretation": {
+    "scope": "GPU-wide counters within target submit-to-fence windows, not isolated per-shader measurements. Other clients were active.",
+    "units": "Native exported integer values retained. SM activity/issue/warp and DRAM throughput metrics are normalized percentage metrics, not bytes/sec or absolute warp counts.",
+    "zero": "Zero is an exported rounded/quantized value, not proof of zero traffic.",
+    "inference": "Low typical DRAM throughput and high SM activity suggest compute execution/latency is a higher priority than VRAM bandwidth. No stall-reason or register-limiting diagnosis established.",
+    "not_measured": [
+      "L1/L2 cache hit rates",
+      "runtime spill loads/stores",
+      "per-instruction stall reasons"
+    ]
+  }
+}

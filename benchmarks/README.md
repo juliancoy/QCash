@@ -1,5 +1,40 @@
 # QCash mining speed
 
+## Authorized hardware-counter follow-up
+
+The authorized Nsight Systems run succeeded. [Sanitized readings and raw artifact
+hashes](gpu-memory-authorized-rtx3060.json) supersede the earlier permission-denied
+receipt for counter availability; the earlier timing study remains unchanged.
+There are **79,804 samples** inside **4,962 target submit-to-fence windows**:
+
+| Metric | Median | Interquartile range |
+| --- | ---: | ---: |
+| SM Active | 100% | 95–100% |
+| SM Issue | 53% | 50–53% |
+| Compute Warps In Flight | 58% | 47–58% |
+| Unallocated Warps in Active SMs | 42% | 42–42% |
+| DRAM Read Throughput | 0 | 0–0 |
+| DRAM Write Throughput | 0 | 0–0 |
+
+The DRAM values are native rounded percentage-throughput readings, **not bytes/s**;
+zero does not establish zero traffic. Occasional recorded maxima were 31 and 45
+respectively. NVIDIA documents the normalized metrics in the
+[Nsight Systems guide](https://docs.nvidia.com/nsight-systems/2022.4/pdf/UserGuide.pdf).
+
+**Inference:** typical external-memory bandwidth is unlikely to be the principal
+normal-mining bottleneck in this capture. SMs are active almost continuously while
+issue utilization and warp residency leave headroom. Prioritize instruction
+scheduling, dependency chains and register-pressure experiments over more VRAM
+layout changes. These counters do not prove which of those limits execution, nor
+that the remaining percentage is recoverable performance.
+
+Samples are GPU-wide, restricted by target API windows rather than isolated kernel
+timestamps; other clients contributed (graphics warps occasionally appeared).
+Cache hit rates, runtime spill traffic and instruction stall reasons remain
+**unmeasured**. The profile used the final default-selection binary recorded in the
+receipt; it is a diagnostic run, not another uninstrumented speed comparison.
+Raw profiler files remain private under `.deps/vram-authorized`.
+
 ## VRAM placement and digest-readback study
 
 ![RTX 3060 memory comparison](gpu-memory-rtx3060.png)
