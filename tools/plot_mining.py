@@ -21,7 +21,7 @@ def main():
               'Python hashlib miner': '#059669', 'Qiskit Aer Grover demo': '#9333ea', 'Vulkan GPU · dispatch + wait': '#ea580c',
               'Vulkan GPU · kernel only': '#fb923c', 'Vulkan GPU miner': '#ea580c'}
     for ax, key, title, descending, scale in [
-        (axes[0], 'throughput_hashes_per_second', 'CPU nonce-search throughput\nHigher is faster', True, 1),
+        (axes[0], 'throughput_hashes_per_second', ('Nonce-search throughput · log scale\nHigher is faster' if data.get('gpu_receipts') else 'CPU nonce-search throughput\nHigher is faster'), True, 1),
         (axes[1], 'verified_proof_latency_seconds', 'Time to a verified proof · log scale\nLower is faster', False, 1000),
     ]:
         rows = sorted(data[key].items(), key=lambda item: item[1]['median'], reverse=descending)
@@ -42,6 +42,7 @@ def main():
             ax.xaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{x/1000:,.0f}k'))
             if data.get('gpu_receipts'):
                 ax.set_xscale('log')
+                ax.xaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{x/1e6:g}M' if x>=1e6 else f'{x/1000:g}k'))
                 ax.set_xlim(min(values)/3, max(row['max'] for _, row in rows)*8)
             else:
                 ax.set_xlim(0, max(row['max'] for _, row in rows) * 1.45)
@@ -52,7 +53,7 @@ def main():
             ax.xaxis.set_major_formatter(FuncFormatter(lambda x, _: f'{x:,.0f}'))
         for index, (_, row) in enumerate(rows):
             value = row['median'] * scale
-            text = f'{value:,.0f} H/s' if descending else f'{value:,.2f} ms'
+            text = (f'{value/1e6:,.2f} MH/s' if data.get('gpu_receipts') else f'{value:,.0f} H/s') if descending else f'{value:,.2f} ms'
             position = row['max'] * scale
             ax.text(position * 1.08 if not descending or data.get('gpu_receipts') else position + max(values) * .03,
                     index, text, va='center', fontsize=10, weight='bold')

@@ -1,0 +1,40 @@
+{
+  "source_commit": "e9c75292c28c8e6d788adebf9c027c2e07d237bb",
+  "device": {
+    "backend": "vulkan-sha3-midstate",
+    "device": "NVIDIA GeForce RTX 3060",
+    "device_index": 0,
+    "workgroup": 64
+  },
+  "shader_sha256": "8ded1103f17dcb65c60f79f293a8fe092375b3ef3cb9e79e3cdae92d62cb83d5",
+  "spirv_sha256": "6ad0cc76b20e7549ff4ddb51a82e619024ce217c75390cf50c68b68c336e7dd2",
+  "checks": [
+    {
+      "command": "ctest --preset local --output-on-failure",
+      "passed": true,
+      "suites": 12
+    },
+    {
+      "command": "spirv-val --target-env vulkan1.1 build/mining.spv",
+      "passed": true
+    },
+    {
+      "command": "VK_INSTANCE_LAYERS=VK_LAYER_KHRONOS_validation VK_LAYER_ENABLES=VK_VALIDATION_FEATURE_ENABLE_SYNCHRONIZATION_VALIDATION_EXT ./build/qcash-vulkan-tests",
+      "passed": true,
+      "reported_validation_errors": 0,
+      "independent_gpu_digest_comparisons": 3084
+    }
+  ],
+  "integration": {
+    "native_verified_gpu_proof": true,
+    "isolated_loopback_node_accepted_block": true,
+    "controller_backend_accepted_block": true,
+    "private_output_mode_0600": true,
+    "exhaustion": true,
+    "nonce_overflow_rejected": true,
+    "exclusive_output": true,
+    "cancellation": true
+  },
+  "production_mining_performed": false,
+  "physical_qpu_used": false
+}

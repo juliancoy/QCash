@@ -1,8 +1,8 @@
 # QCash mining implementations
 
-This directory provides a runnable, bounded conventional CPU controller and a
-hardware-neutral work interface. Both use the same SHA3-256 proof and full-node
-validation. A portal account does not grant mining authority. These are
+This directory provides a bounded CPU/Vulkan mining controller, an optional
+QPU simulator demonstration, and a hardware-neutral work interface. Candidates
+use the same SHA3-256 proof and full-node validation. A portal account does not grant mining authority. These are
 experimental testnet coins, with no stated monetary value.
 
 ## Build the conventional implementation
