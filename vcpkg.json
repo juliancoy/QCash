@@ -1,0 +1,10 @@
+{
+  "name": "pqcoin",
+  "version-semver": "0.3.0",
+  "builtin-baseline": "9a5dfef5d1a0438a7d24856a85bd60f309d355e9",
+  "dependencies": [{"name": "openssl", "version>=": "3.5.0"}],
+  "features": {
+    "node": {"description": "Planned native node dependencies", "dependencies": ["boost-asio", "rocksdb", "protobuf", "grpc", "cli11", "spdlog"]},
+    "test-tools": {"description": "Planned extended test and benchmark tooling", "dependencies": ["gtest", "benchmark"]}
+  }
+}

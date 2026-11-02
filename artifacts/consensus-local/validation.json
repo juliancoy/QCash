@@ -1,0 +1,56 @@
+{
+  "native_release_ctest": [
+    "crypto-transfer",
+    "genesis",
+    "application"
+  ],
+  "native_asan_ubsan_ctest": [
+    "crypto-transfer",
+    "genesis",
+    "application"
+  ],
+  "go_adapter_tests": [
+    "TestABCIProposalAndCommitIsolation",
+    "TestMLDSAPersistentDoubleSignProtection"
+  ],
+  "upstream_consensus_tests": [
+    "TestStateLockPOLSafety1",
+    "TestStateLockPOLSafety2",
+    "TestByzantinePrevoteEquivocation",
+    "TestByzantineConflictingProposalsWithPartition",
+    "TestCommitFromPreviousRound"
+  ],
+  "upstream_commit": "6aef1e12197f587d1e85bc4cf3b3db4bf8d1be43",
+  "daemon_sha256": "1f63d785f6a5e7f36d3cc9df4100ebad9f623f8d51c41fc61f4bd129d90fb90a",
+  "source_sha256": {
+    "src/app.cpp": "3f606fb9fa7af5752904fd03abe9330bb62b69c51370793c2f639376d345048c",
+    "src/app_bridge.cpp": "455b2f12d7bf707195458e3293dd52632e9243aed4c3d7da0f11c23b29b1101c",
+    "src/crypto.cpp": "ead04211085c1d255b3a92bded8e391b27df222ccb97af423285d726ec66905b",
+    "src/genesis.cpp": "fb6ec7f74b99dda9f67b2d9da754ad2b7f7c9437446da29cc51b3cf424308658",
+    "src/genesis_main.cpp": "7f3896e6100afdf74fc4f01d37a0706c4accb7f3c2675988d582c0338391e649",
+    "src/ledger.cpp": "c26781f8ea390234cceae8a0b0996cd9274bd6682f0652d4c25ebb5491eb195f",
+    "src/main.cpp": "0475ccf25a0472e7161f1c0fdb42da55fa1f5c868168aab473c005ba4fa4cc97",
+    "include/pqcoin/app.h": "3e83ca2ef32460d545225c330beca5e1b99073bb446e4c23591e59b05611b82b",
+    "include/pqcoin/app.hpp": "3ef17cd3d4a3ae7787c6084eb525e3110c895e437f282b41b442355b066bdea9",
+    "include/pqcoin/crypto.hpp": "ee68efdaf892b14a8e3e0ac84c22ad1d414387733bca1fe41c6bef7cb9d97ed2",
+    "include/pqcoin/genesis.hpp": "d76a1091f7129499f3e88a18c36e4d6cb98fdd3b1051bf6944a7153711301d47",
+    "include/pqcoin/ledger.hpp": "dfad04fe249668cca16f17400acead6ad624f30b1827ad263b3b258271ccf21c",
+    "node/application_test.go": "0a4b1355d2205b17af83578c2ab84495cef1669382659dea36831fd8f5fb63ba",
+    "node/certificate.go": "0e4616f5a767b533517f5000ae4534e9ad2ed92d2a73dffdf7a9b1f092a5a662",
+    "node/go.mod": "96e36ee208755de8e0c7ab7b458a81f46e7188864914674cc8adf7024cb849b9",
+    "node/go.sum": "5f2ef49e7a79404a76d9ea48b89abf0cdf31a63005c2088340dd8d5e461a54c8",
+    "node/main.go": "80c943772d0ca4842a8b37cb180f3daf83373f335ba0328538dcf7a54f2a32e1",
+    "node/native.go": "5eaab597d64f722e9bedc4b6941ce7e0c48c25d5435eecd9e5178634598d4561",
+    "node/validator_test.go": "73e3ebb9529da9db51a29a34ee63e502b91a64eb6d1401ab6b4fbd6136d161f9",
+    "tests/app_test.cpp": "f5b386194a0f3d7756fdbdc69d711e2cfc325b32c6445457302d0103d7cd2dff",
+    "tests/consensus_fixture.cpp": "e917bd9f9033e4e11aa0adec8fa97d8118cc25cec67fed2e91254626c01ea8e5",
+    "tests/consensus_network.py": "ea65ec7080785ab8954e246ca0c9b635d735c17aef3bea87168cbb5d9ffafd57",
+    "tests/crypto_test.cpp": "4099b55dbe0e9b900ad5abc8a874089aec1c0c9b3a190ef5179eb5a06f9d5e0f",
+    "tests/genesis_test.cpp": "aeaa224dd9a4864f0b88e862ca20b8e3ac1af34ed4676827b5387cc43e1522d1",
+    "tools/bootstrap-openssl.sh": "1388a8497c61f3e5f97172ea7a3e2555c3cc53b4dbe715ad80b20776add2b22f",
+    "tools/build-node.sh": "f03979fd12246852dc9cc8faa3a6ff174775b2a8a42c7bf0fd1b1efa395b55cf",
+    "tools/run-devnet.py": "67d1dbca6c2d5e47b749fc6a674dd8c4b60ac2cadeef7ff0ceb52810a5770c73"
+  },
+  "status": "passed",
+  "zero_supply_launcher_smoke_test": "../consensus-empty/report.json"
+}

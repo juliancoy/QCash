@@ -1,0 +1,95 @@
+{
+  "status": "internal_review_completed_external_audit_pending",
+  "created_utc": "2026-11-01T18:44:03.870492+00:00",
+  "ctest": {
+    "release": {
+      "name": "Linux-c++",
+      "tests": "7",
+      "failures": "0",
+      "disabled": "0",
+      "skipped": "0",
+      "hostname": "compai",
+      "time": "0",
+      "timestamp": "2026-11-01T13:43:21"
+    },
+    "sanitize": {
+      "name": "Linux-c++",
+      "tests": "7",
+      "failures": "0",
+      "disabled": "0",
+      "skipped": "0",
+      "hostname": "compai",
+      "time": "1",
+      "timestamp": "2026-11-01T13:43:24"
+    }
+  },
+  "network_release": "passed",
+  "network_sanitize": "passed",
+  "fuzz": {
+    "runs": 1151991,
+    "seconds": 61,
+    "sanitizer_findings": 0,
+    "scope": "config/block/transfer canonical parser smoke campaign"
+  },
+  "static_analysis": {
+    "tool": "clang-tidy clang-analyzer-*",
+    "translation_units": 5,
+    "diagnostics": 0
+  },
+  "legacy_demo": {
+    "height": 56,
+    "tip_unchanged": true,
+    "state_unchanged": true
+  },
+  "cli_profiles_verified": true,
+  "limitations": [
+    "No independent audit",
+    "No compiled quantum oracle or hardware benchmark",
+    "No complete all-quantum consensus proof",
+    "OpenSSL itself not sanitizer instrumented"
+  ],
+  "source_sha256": {
+    "CMakeLists.txt": "63a1eb2555a92143a987ff2829afcdd6148c0186af05cbe71b96e6fd703eda9d",
+    "CMakePresets.json": "60bf3bdeb2309158298ff1f097a07390364ddb5475dea28737b9c75e8f28624c",
+    "POW.md": "e278d4d7f190bee75674db77653a6cbf4fa16949e1d281dbbeb6cc5afe538b7f",
+    "SECURITY_REVIEW.md": "87227d435a377f3b91ebac04b6b5ef7bd9316c68f0afe79b2f2bc9c0188d42d5",
+    "include/pqcoin/app.h": "3e83ca2ef32460d545225c330beca5e1b99073bb446e4c23591e59b05611b82b",
+    "include/pqcoin/app.hpp": "3ef17cd3d4a3ae7787c6084eb525e3110c895e437f282b41b442355b066bdea9",
+    "include/pqcoin/crypto.hpp": "ee68efdaf892b14a8e3e0ac84c22ad1d414387733bca1fe41c6bef7cb9d97ed2",
+    "include/pqcoin/genesis.hpp": "d76a1091f7129499f3e88a18c36e4d6cb98fdd3b1051bf6944a7153711301d47",
+    "include/pqcoin/ledger.hpp": "dfad04fe249668cca16f17400acead6ad624f30b1827ad263b3b258271ccf21c",
+    "include/pqcoin/pow.hpp": "18e28bf5bdc262b46e15926ec8b70b601ed4ca517e89566b01843ba39f8ba005",
+    "src/app.cpp": "3f606fb9fa7af5752904fd03abe9330bb62b69c51370793c2f639376d345048c",
+    "src/app_bridge.cpp": "455b2f12d7bf707195458e3293dd52632e9243aed4c3d7da0f11c23b29b1101c",
+    "src/crypto.cpp": "ead04211085c1d255b3a92bded8e391b27df222ccb97af423285d726ec66905b",
+    "src/genesis.cpp": "fb6ec7f74b99dda9f67b2d9da754ad2b7f7c9437446da29cc51b3cf424308658",
+    "src/genesis_main.cpp": "7f3896e6100afdf74fc4f01d37a0706c4accb7f3c2675988d582c0338391e649",
+    "src/ledger.cpp": "c26781f8ea390234cceae8a0b0996cd9274bd6682f0652d4c25ebb5491eb195f",
+    "src/main.cpp": "0475ccf25a0472e7161f1c0fdb42da55fa1f5c868168aab473c005ba4fa4cc97",
+    "src/pow.cpp": "c7e196324365d2616b06a0fe8754c5fc6ca8285d04edb4c26cb2096dcc614c9d",
+    "src/pow_main.cpp": "bca5af7491884d64fcf98a8a272c8adb6f146cca426f4aa1c91a9fe18631046b",
+    "tests/app_test.cpp": "f5b386194a0f3d7756fdbdc69d711e2cfc325b32c6445457302d0103d7cd2dff",
+    "tests/circuit_model_test.py": "3485329565745e4014aea3bdd2409178c45bb0d78c5bfb1f064e3cc1115a6003",
+    "tests/consensus_adversary.cpp": "1651464d599c651eb85fa1ce399fde3cf577332a68d152bad77e3b72055ee1f0",
+    "tests/consensus_fixture.cpp": "e917bd9f9033e4e11aa0adec8fa97d8118cc25cec67fed2e91254626c01ea8e5",
+    "tests/consensus_network.py": "ea65ec7080785ab8954e246ca0c9b635d735c17aef3bea87168cbb5d9ffafd57",
+    "tests/crypto_test.cpp": "4099b55dbe0e9b900ad5abc8a874089aec1c0c9b3a190ef5179eb5a06f9d5e0f",
+    "tests/genesis_test.cpp": "aeaa224dd9a4864f0b88e862ca20b8e3ac1af34ed4676827b5387cc43e1522d1",
+    "tests/parser_fuzz.cpp": "d47c8f478cfe6df90684b53b8b06076525bbe4c85bc547929a70f47d4856a687",
+    "tests/pow_network.py": "533a7de333643b6e4af74c262ab6918120827356fc57abb1a78f873fad430650",
+    "tests/pow_test.cpp": "cf3eec51e864c27c6bcc9e7fa13ff7ec69e30ba587c3750f8ec0c182e0ecbdf9",
+    "tests/quantum_model_test.py": "7a7b7e1c0842a299e0351f4081f97aa615c2b189a8eda8943dac50ba583bca7b",
+    "tools/bootstrap-openssl.sh": "1388a8497c61f3e5f97172ea7a3e2555c3cc53b4dbe715ad80b20776add2b22f",
+    "tools/build-node.sh": "f03979fd12246852dc9cc8faa3a6ff174775b2a8a42c7bf0fd1b1efa395b55cf",
+    "tools/package_audit.py": "da081ba77da7a1a44d9d6af03040aac42748d515939d1059d04854ef737c16d0",
+    "tools/quantum_circuit_estimate.py": "420e001d19c966f5cfe96624927d2146cb7eb3c6b170c584ccbc97a44901954b",
+    "tools/quantum_pow_model.py": "ff56dc28b9dae103f0887646cf98bbf8ad88d9a5c9b5f134152f70a2bb98b8a0",
+    "tools/run-devnet.py": "67d1dbca6c2d5e47b749fc6a674dd8c4b60ac2cadeef7ff0ceb52810a5770c73"
+  },
+  "binary_sha256": {
+    "build/pqcoin-pow": "7e617b61a4cc87c1c6aa370e840667ac19af274cd1750264d95a8128bd377b71",
+    "build-sanitize/pqcoin-pow": "64c44136afeab76833b34ce3c423e5cc35398edd57f39a952ec7fab4147da7d9",
+    "build/pqcoin-consensus-adversary": "b38ac15dff250236113f39542f91ad0cc432645b5306070053c6376ea9c3d7be",
+    "build-fuzz/pqcoin-parser-fuzz": "122b3f2364bb0531d36b0d7e07a4722c8f749594d10dd6f937e2b4a251044abb"
+  }
+}

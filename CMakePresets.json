@@ -1,0 +1,35 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {
+      "name": "local",
+      "displayName": "Local isolated OpenSSL",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "OPENSSL_ROOT_DIR": "${sourceDir}/.deps/openssl",
+        "OPENSSL_USE_STATIC_LIBS": "ON",
+        "BUILD_TESTING": "ON"
+      }
+    },
+    {
+      "name": "sanitize",
+      "inherits": "local",
+      "binaryDir": "${sourceDir}/build-sanitize",
+      "cacheVariables": {"CMAKE_BUILD_TYPE": "Debug", "PQCOIN_SANITIZERS": "ON"}
+    },
+    {
+      "name": "vcpkg",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build-vcpkg",
+      "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+      "cacheVariables": {"CMAKE_BUILD_TYPE": "Release", "BUILD_TESTING": "ON"}
+    }
+  ],
+  "buildPresets": [{"name": "local", "configurePreset": "local"}, {"name": "sanitize", "configurePreset": "sanitize"}],
+  "testPresets": [
+    {"name": "local", "configurePreset": "local", "output": {"outputOnFailure": true}},
+    {"name": "sanitize", "configurePreset": "sanitize", "output": {"outputOnFailure": true}}
+  ]
+}

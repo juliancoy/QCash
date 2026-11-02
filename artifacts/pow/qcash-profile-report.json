@@ -1,0 +1,16 @@
+{
+  "isolated_identity_database": "qcash_fixture_2ca3c9e0057d46c49be4aea4d3266f5f",
+  "fixture_email_verification_required": false,
+  "account_namespace": "qcash-fixture",
+  "status": "passed",
+  "work_directory": "/home/julian/Documents/Organization/pqcoin/.deps/qcash-profiles-a_xfkm_e",
+  "portal": "https://localhost:8443",
+  "local_docker_identity": "lifetech-identity-api",
+  "real_local_identity": true,
+  "ownership_link": true,
+  "send_by_name": true,
+  "revocation_after_review_blocks_signing": true,
+  "replacement_requires_fresh_selection": true,
+  "unlink_hides_recipient": true,
+  "browser_mobile_and_desktop": true
+}

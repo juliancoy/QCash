@@ -1,0 +1,24 @@
+{
+  "status": "passed",
+  "home": ".deps/pow-demo",
+  "observer_home": ".deps/pow-observer",
+  "wallet": ".deps/pow-wallet.pem",
+  "miner_address": "9b92e8629d58795b2a64f3fa6e69326439bd01f167396b11d191dfed1f1a285b",
+  "node_identity": "8649a21cabe4198fdb10b93995be9e4f4ae883f4f06c951c373faa54010c53a5",
+  "observer_identity": "147c04aaad4fba06a8f4b3b46b77367faee076fd6fda68b1c7bb9095164fd5c2",
+  "chain": {
+    "chain": "6a25f711f5ae0141c177fb6cbc3cfb2b0b23ae421d009378e769ff6e1c12248d",
+    "height": 56,
+    "tip": "00000240d66ecbbcc6577d12637174c9f50c59aa1ce17a08cc7b8e1ab039416b",
+    "state": "529801c9af125e1294dfcf1627ef9e5037fd84d6082594da4bf4a78cdc10dee4",
+    "work": "15429632",
+    "transport": "TLS1.3/X25519MLKEM768/ML-DSA-65"
+  },
+  "balance": {
+    "spendable": 2700,
+    "immature": 100,
+    "nonce": 0
+  },
+  "independent_header_verification": true,
+  "private_keys_published": false
+}

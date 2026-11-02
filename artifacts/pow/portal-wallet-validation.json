@@ -1,0 +1,88 @@
+{
+  "status": "passed_local_testnet_only",
+  "created_utc": "2026-11-01T23:30:41.035123+00:00",
+  "frontend_tests": {
+    "files": 3,
+    "passed": 11
+  },
+  "api_tests": {
+    "passed": 7
+  },
+  "frontend_typecheck": "passed",
+  "worker_typecheck": "passed",
+  "native_ctest": {
+    "release_suites_passed": 7,
+    "sanitizer_suites_passed": 7
+  },
+  "native_network_regression": "passed",
+  "wallet_network_reports": {
+    "wallet-network-report.json": {
+      "status": "passed",
+      "binary": "/home/julian/Documents/Organization/pqcoin/build/pqcoin-pow",
+      "work_directory": "/home/julian/Documents/Organization/pqcoin/.deps/wallet-network-mz1qyysw",
+      "browser": true,
+      "chain_id": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "native_signed_queue_gossip_and_confirmation": "passed",
+      "confirmed_transaction": "a132abac1f6267b7f1e1e87e59b7a631eafec8eca20bf06b8a544ff7660f1c93",
+      "browser_self_custody_send_receive_qr_network_guard_and_dena": "passed",
+      "reorg_rolls_back_and_requeues_valid_detached_transfer": "passed",
+      "restart_history_rebuild_and_idempotent_resubmission": "passed"
+    },
+    "wallet-network-report-sanitize.json": {
+      "status": "passed",
+      "binary": "/home/julian/Documents/Organization/pqcoin/build-sanitize/pqcoin-pow",
+      "work_directory": "/home/julian/Documents/Organization/pqcoin/.deps/wallet-network-k_gxuqn9",
+      "browser": false,
+      "chain_id": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+      "native_signed_queue_gossip_and_confirmation": "passed",
+      "confirmed_transaction": "083a52c4b8dc193d93a28d88b3928e25826207e82a27b44057b39d68a3f2d3bd",
+      "reorg_rolls_back_and_requeues_valid_detached_transfer": "passed",
+      "restart_history_rebuild_and_idempotent_resubmission": "passed"
+    }
+  },
+  "clang_analyzer_main_diagnostics": 0,
+  "launcher_mines_spendable_rewards": "passed",
+  "legacy_demo_56_blocks_unchanged": true,
+  "production_deployed": false,
+  "limitations": [
+    "Wallet addresses only; no verified PIdP/profile-name wallet linking",
+    "Volatile bounded pending queue; exact signed retransmission supported",
+    "Experimental chain/wallet; external audit and quantum consensus proof still pending",
+    "Browser e2e serves the frontend from local Docker and routes PQT calls to the real isolated local adapter; no production gateway configured"
+  ],
+  "source_sha256": {
+    "OrgPortal/README.md": "727321adb62be8272c1a36145e7728bffc9ffa54cf61a037e611099066941533",
+    "OrgPortal/docs/finance/PQCOIN_TESTNET.md": "67b708d7376bd9b3d535aaf7a19c44beef63a6a4dafb927e0a4c0d11e229c08e",
+    "OrgPortal/org-worker/pqcoin-bindings.d.ts": "9c3f4cfdbebe90da50c2deae59db70b5f22247b3385e155e0ac30e52f9f76537",
+    "OrgPortal/org-worker/scripts/pqcoin-local-adapter.ts": "4cffe570f9cfcc814927c691f06d6410ce5a3a35dcf3402aa6afa709546d62d7",
+    "OrgPortal/org-worker/src/index.ts": "41f4403167a0016ac881c0007eace4ba362bf83de2130740d8d9704829ca4d45",
+    "OrgPortal/org-worker/src/pqcoin.ts": "17048d1b57e848e490db2c55e6d57917e9351c9dc3c2cfb340844a44547dc002",
+    "OrgPortal/org-worker/test/pqcoin.test.ts": "a5547b9a69b85d944e32a5dd2952f4e3dad69b3aa8926c5133c23c71d7607ab7",
+    "OrgPortal/org-worker/worker-configuration.d.ts": "6b2dac492a6a7eff238b65c3f7950d3b78ab8e008a6239550b3198d90f6a00d8",
+    "OrgPortal/org-worker/wrangler.jsonc": "190b4a4b03b6655a999f4ca57e7348347a38809cd3928789d6765a2d9b08fb2c",
+    "OrgPortal/web/package-lock.json": "f3d927b9d2c4248a4614dba9a8aefcdd40132aa2ff014a3585db23a9f8af770f",
+    "OrgPortal/web/package.json": "2a6f60ac66df079dabab85b96c356daf7b2e4f03647c2f57173986bb54f34d87",
+    "OrgPortal/web/scripts/pqcoin-fixture.ts": "cb9821c5085a20968c7ee9efe61d2d7aedb3b0b2265c01417dd144f490d4cd59",
+    "OrgPortal/web/src/features/pqcoin/CurrencyCard.tsx": "340d67cf167d9a5deea953a7a10df8f32f36ae9e3c4b4abb5f69980cdde11fa2",
+    "OrgPortal/web/src/features/pqcoin/PqcoinPayment.tsx": "361ae3633e51d9b3d3c54e420708c141551d053c17158fd19465c5f62e9b3fa0",
+    "OrgPortal/web/src/features/pqcoin/WalletBoundary.tsx": "70046c892a7b40045e309c209094062b6d80b8dcd4a9acd83c6fe6e35a147208",
+    "OrgPortal/web/src/features/pqcoin/api.ts": "dd065b7c5fe223f25ebf24a1aec408dffcdf5c2a657649e047e7fe80bed462f0",
+    "OrgPortal/web/src/features/pqcoin/wallet.test.ts": "4c2403cda4375a71cb60a10056a8d5c95110e42470ddcc3c8673062f20a23cd2",
+    "OrgPortal/web/src/features/pqcoin/wallet.ts": "617adcd3ac1e057591b6ba327e81837faad6a49507fffef76d111e99e96ea2b1",
+    "OrgPortal/web/src/ui/router/createAppRouter.tsx": "ca7eaab55a39d54011e7494cfaf52ebceeb8cc05e944020b44c5c3585df58a0c",
+    "OrgPortal/web/src/ui/views/EconomicOpsPage.tsx": "709e2ce3a19f3a4eb946560cec08e22eace30543d04e6ea5abc1fe9659de696a",
+    "OrgPortal/web/src/ui/views/ReceivePage.tsx": "723efefa7bf755613cb9568191e5e55fa9754c8a939b09dffc9ecc2aa23897d3",
+    "OrgPortal/web/src/ui/views/SendPage.tsx": "dca4e99d0a3f8eae09cb392f53229d2163430dbab65f5caff9e3fc52cd140c75",
+    "OrgPortal/web/src/ui/views/paymentCurrency.test.ts": "905c75566278570107e482fc797228d8e40978fff0101710bb1e13244c8d79b9",
+    "OrgPortal/web/src/ui/views/paymentCurrency.ts": "35555eac9c47b2aa87829d455828632bae93247405e922c47dc2b19086f25a73",
+    "pqcoin/POW.md": "ef094a5dbc16bdc6e2a91043e254f2b34cf77a1761bedd61be384fb5d918a327",
+    "pqcoin/src/pow_main.cpp": "45d8ddb5c8376e0e691cd65e9d82e94c55db88f892f44d1ab7e17f0375c4d624",
+    "pqcoin/tests/wallet_network.py": "186d5ceb052d469b60ebf3062f26f28a3b525cde634c14aa5027d8c775248cd0",
+    "pqcoin/tools/run_portal_testnet.py": "3fb1ea492a47c201118023b456a78f5c0fe6a0e1050ecfe4d50f83e5b1ac3d2a",
+    "pqcoin/tools/wallet_gateway.py": "a6935d3454de9dbfef37da6dee6d46be01d07c2b9389daf7bb0e0cdaf3489dec"
+  },
+  "binary_sha256": {
+    "pqcoin/build/pqcoin-pow": "e9524f0fb76d484b9ae3e6391dad33e69b9c1626671817255d098236c6c02ae5",
+    "pqcoin/build-sanitize/pqcoin-pow": "07e2cccdcbef2748c50d3b11fd3fcdb03685c00cf1f17b1163bab621e0b10fbd"
+  }
+}

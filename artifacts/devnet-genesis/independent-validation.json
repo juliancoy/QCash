@@ -1,0 +1,7 @@
+{
+  "validator": "independent Python hashlib.sha3_256 and struct big-endian encoding",
+  "canonical_header_bytes": 186,
+  "hash": "0000543d663261cbbf2a622612e1c4ce26b9a825e29c3a005ddf1369b1a391b6",
+  "proof_of_work_valid": true,
+  "overwrite_refused": true
+}

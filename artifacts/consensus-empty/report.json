@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "validator_count": 4,
+  "height": 1,
+  "block_hash": "957F0C4ADFFAFD07A23E86A27157EA0AAAFC8CC14ED78A9A5F10D99BF4C281DE",
+  "bootstrap_hash": "0000543d663261cbbf2a622612e1c4ce26b9a825e29c3a005ddf1369b1a391b6",
+  "issued_units": 0,
+  "launcher_tested": true
+}

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "initial_height": 8,
+  "final_height": 56,
+  "tip": "00000240d66ecbbcc6577d12637174c9f50c59aa1ce17a08cc7b8e1ab039416b",
+  "continuous_mining": true,
+  "observer_synced": true,
+  "preconfigured_peer_pins_verified": true,
+  "independent_header_verification": true
+}

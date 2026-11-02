@@ -1,0 +1,12 @@
+{
+  "network": "PQT1-local-development",
+  "height": 0,
+  "hash_algorithm": "SHA3-256",
+  "hash": "0000543d663261cbbf2a622612e1c4ce26b9a825e29c3a005ddf1369b1a391b6",
+  "timestamp": 1793552751,
+  "difficulty_bits": 16,
+  "nonce": 104761,
+  "transactions": 0,
+  "issued_units": 0,
+  "validation": "passed"
+}

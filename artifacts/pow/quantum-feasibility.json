@@ -1,0 +1,162 @@
+{
+  "status": "illustrative_model_only",
+  "assumptions": {
+    "iteration_rate": 1000000.0,
+    "processors": 16,
+    "coherence_seconds": 600.0,
+    "logical_qubits": 20000,
+    "physical_per_logical": 1000,
+    "budget_seconds": 600.0,
+    "attacker_processors": 4,
+    "rewrite_blocks": 6,
+    "target_spacing": 600,
+    "retarget_interval": 2016,
+    "epochs": 8,
+    "initial_bits": 48
+  },
+  "limitations": [
+    "No measured quantum hardware",
+    "Rate/qubit counts are supplied assumptions, not derived circuit estimates",
+    "Excludes state preparation, reset latency, network competition and adversarial strategies",
+    "Private suffix estimate holds difficulty fixed and does not race a growing honest chain",
+    "Retarget trajectory is expected-value feedback, not a stochastic network simulation; an epoch must finish before adjustment",
+    "Expected time is not a deadline guarantee or a consensus security bound"
+  ],
+  "scenarios": [
+    {
+      "effective_difficulty_bits": 12,
+      "classical_expected_hashes": "4096",
+      "iterations_per_run_per_processor": 12,
+      "success_probability_per_parallel_run": 0.9184348667913639,
+      "expected_seconds": 1.3065706054826834e-05,
+      "estimated_physical_qubits": 320000000,
+      "expected_time_within_budget": true,
+      "attacker_fixed_target_private_suffix_expected_seconds": 0.0001553344912289938,
+      "attacker_physical_qubits": 80000000
+    },
+    {
+      "effective_difficulty_bits": 32,
+      "classical_expected_hashes": "4294967296",
+      "iterations_per_run_per_processor": 12867,
+      "success_probability_per_parallel_run": 0.9206087765814022,
+      "expected_seconds": 0.013976621043936216,
+      "estimated_physical_qubits": 320000000,
+      "expected_time_within_budget": true,
+      "attacker_fixed_target_private_suffix_expected_seconds": 0.16470514477019615,
+      "attacker_physical_qubits": 80000000
+    },
+    {
+      "effective_difficulty_bits": 48,
+      "classical_expected_hashes": "281474976710656",
+      "iterations_per_run_per_processor": 3294198,
+      "success_probability_per_parallel_run": 0.920623640229412,
+      "expected_seconds": 3.5782244296693406,
+      "estimated_physical_qubits": 320000000,
+      "expected_time_within_budget": true,
+      "attacker_fixed_target_private_suffix_expected_seconds": 42.16573658932651,
+      "attacker_physical_qubits": 80000000
+    },
+    {
+      "effective_difficulty_bits": 64,
+      "classical_expected_hashes": "18446744073709551616",
+      "iterations_per_run_per_processor": 600000000,
+      "success_probability_per_parallel_run": 0.7179292731639602,
+      "expected_seconds": 835.7369206520326,
+      "estimated_physical_qubits": 320000000,
+      "expected_time_within_budget": false,
+      "attacker_fixed_target_private_suffix_expected_seconds": 13272.787400166126,
+      "attacker_physical_qubits": 80000000
+    },
+    {
+      "effective_difficulty_bits": 80,
+      "classical_expected_hashes": "1208925819614629174706176",
+      "iterations_per_run_per_processor": 600000000,
+      "success_probability_per_parallel_run": 1.9058063521292582e-05,
+      "expected_seconds": 31482736.917612392,
+      "estimated_physical_qubits": 320000000,
+      "expected_time_within_budget": false,
+      "attacker_fixed_target_private_suffix_expected_seconds": 755580286.001257,
+      "attacker_physical_qubits": 80000000
+    },
+    {
+      "effective_difficulty_bits": 96,
+      "classical_expected_hashes": "79228162514264337593543950336",
+      "iterations_per_run_per_processor": 600000000,
+      "success_probability_per_parallel_run": 2.908056845439468e-10,
+      "expected_seconds": 2063233395663.9954,
+      "estimated_physical_qubits": 320000000,
+      "expected_time_within_budget": false,
+      "attacker_fixed_target_private_suffix_expected_seconds": 49517601490535.89,
+      "attacker_physical_qubits": 80000000
+    },
+    {
+      "effective_difficulty_bits": 128,
+      "classical_expected_hashes": "340282366920938463463374607431768211456",
+      "iterations_per_run_per_processor": 600000000,
+      "success_probability_per_parallel_run": 6.770847472021122e-20,
+      "expected_seconds": 8.86151995713024e+21,
+      "estimated_physical_qubits": 320000000,
+      "expected_time_within_budget": false,
+      "attacker_fixed_target_private_suffix_expected_seconds": 2.1267647897112574e+23,
+      "attacker_physical_qubits": 80000000
+    }
+  ],
+  "expected_value_retarget_trajectory": [
+    {
+      "epoch": 0,
+      "effective_difficulty_bits": 48,
+      "expected_block_seconds": 3.5782244296693406,
+      "expected_epoch_seconds": 7213.7004502133905,
+      "next_effective_difficulty_bits": 50.0
+    },
+    {
+      "epoch": 1,
+      "effective_difficulty_bits": 50.0,
+      "expected_block_seconds": 7.156449103081085,
+      "expected_epoch_seconds": 14427.401391811469,
+      "next_effective_difficulty_bits": 52.0
+    },
+    {
+      "epoch": 2,
+      "effective_difficulty_bits": 52.0,
+      "expected_block_seconds": 14.312899647375406,
+      "expected_epoch_seconds": 28854.80568910882,
+      "next_effective_difficulty_bits": 54.0
+    },
+    {
+      "epoch": 3,
+      "effective_difficulty_bits": 54.0,
+      "expected_block_seconds": 28.625799538493172,
+      "expected_epoch_seconds": 57709.61186960224,
+      "next_effective_difficulty_bits": 56.0
+    },
+    {
+      "epoch": 4,
+      "effective_difficulty_bits": 56.0,
+      "expected_block_seconds": 57.25160051819965,
+      "expected_epoch_seconds": 115419.2266446905,
+      "next_effective_difficulty_bits": 58.0
+    },
+    {
+      "epoch": 5,
+      "effective_difficulty_bits": 58.0,
+      "expected_block_seconds": 114.50320128014165,
+      "expected_epoch_seconds": 230838.45378076556,
+      "next_effective_difficulty_bits": 60.0
+    },
+    {
+      "epoch": 6,
+      "effective_difficulty_bits": 60.0,
+      "expected_block_seconds": 229.00640340276112,
+      "expected_epoch_seconds": 461676.9092599664,
+      "next_effective_difficulty_bits": 61.38957456166422
+    },
+    {
+      "epoch": 7,
+      "effective_difficulty_bits": 61.38957456166422,
+      "expected_block_seconds": 370.6802430984607,
+      "expected_epoch_seconds": 747291.3700864968,
+      "next_effective_difficulty_bits": 62.08436183944157
+    }
+  ]
+}

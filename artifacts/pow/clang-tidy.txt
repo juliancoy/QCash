@@ -1,0 +1,5 @@
+[1/5] Processing file /home/julian/Documents/Organization/pqcoin/src/pow.cpp.
+[2/5] Processing file /home/julian/Documents/Organization/pqcoin/src/pow_main.cpp.
+[3/5] Processing file /home/julian/Documents/Organization/pqcoin/src/crypto.cpp.
+[4/5] Processing file /home/julian/Documents/Organization/pqcoin/src/ledger.cpp.
+[5/5] Processing file /home/julian/Documents/Organization/pqcoin/src/app.cpp.

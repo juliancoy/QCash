@@ -1,0 +1,38 @@
+{
+  "binary": "/home/julian/Documents/Organization/pqcoin/build-sanitize/pqcoin-pow",
+  "work_directory": "/home/julian/Documents/Organization/pqcoin/.deps/pow-network-5b7a0zm7",
+  "status": "passed",
+  "permissionless": true,
+  "test_retarget_interval": 0,
+  "signed_transfer_and_replay": {
+    "alice": {
+      "spendable": 224,
+      "immature": 101,
+      "nonce": 1
+    },
+    "replay_rejected": true
+  },
+  "initial_agreement": {
+    "chain": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+    "height": 7,
+    "tip": "000fac4231543787503ec8295dcf93d1aea86295ea89b4f1f1958272f940abaa",
+    "state": "0e8628f5d507f959b3dd7fa2dc12f41f405859c93d071ffe5154f9677b958121",
+    "work": "28672",
+    "transport": "TLS1.3/X25519MLKEM768/ML-DSA-65"
+  },
+  "classical_only_tls_rejected": true,
+  "changed_peer_identity_rejected": true,
+  "malformed_peer_block_rejected": true,
+  "incomplete_journal_tail_recovered": true,
+  "paged_fork_recovery": {
+    "chain": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+    "height": 25,
+    "tip": "000da8826f2767951e8ad104221fa533e166cd5f7f38c62057ea492304d02a0c",
+    "state": "8a5c5a7f9cd2cff12ea668d0fed86b0be2a0a17744477a9a7932cd9dc996b016",
+    "work": "102400",
+    "transport": "TLS1.3/X25519MLKEM768/ML-DSA-65"
+  },
+  "reorganization_rolled_back_spend_and_rewards": true,
+  "journal_corruption_rejected": true,
+  "duration_seconds": 10.747
+}

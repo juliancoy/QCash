@@ -1,0 +1,11 @@
+/build*/
+/.deps/
+/data/
+/devnet/
+**/priv_validator_key.json
+**/node_key.json
+__pycache__/
+
+*.pem
+**/peer-pins/
+**/blocks.log

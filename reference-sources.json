@@ -1,0 +1,26 @@
+[
+  {
+    "name": "bitcoin",
+    "url": "https://github.com/bitcoin/bitcoin.git",
+    "commit": "6c01bd0b2dc201c21e80ac3635828abf854ee5a0",
+    "shallow": true
+  },
+  {
+    "name": "cometbft",
+    "url": "https://github.com/cometbft/cometbft.git",
+    "commit": "6aef1e12197f587d1e85bc4cf3b3db4bf8d1be43",
+    "shallow": true
+  },
+  {
+    "name": "monero",
+    "url": "https://github.com/monero-project/monero.git",
+    "commit": "3fd0f88c20f559839cafb20911cb13cb45eba7bd",
+    "shallow": true
+  },
+  {
+    "name": "zcash",
+    "url": "https://github.com/zcash/zcash.git",
+    "commit": "558f686599586f55def3db86955d74d3be44605e",
+    "shallow": true
+  }
+]

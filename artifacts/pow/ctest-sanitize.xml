@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Linux-c++"
+	tests="7"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="compai"
+	time="1"
+	timestamp="2026-11-01T13:43:24"
+	>
+	<testcase name="crypto-transfer" classname="crypto-transfer" time="0.0439035" status="run">
+		<properties/>
+		<system-out>44 checks passed
+</system-out>
+	</testcase>
+	<testcase name="genesis" classname="genesis" time="0.169379" status="run">
+		<properties/>
+		<system-out>Genesis mining, canonical decoding, parameter tampering and work checks passed
+</system-out>
+	</testcase>
+	<testcase name="application" classname="application" time="0.0471201" status="run">
+		<properties/>
+		<system-out>Canonical wire, chain binding, staged commit, crash recovery and corruption checks passed
+</system-out>
+	</testcase>
+	<testcase name="proof-of-work" classname="proof-of-work" time="0.0553346" status="run">
+		<properties/>
+		<system-out>67 PoW checks passed
+</system-out>
+	</testcase>
+	<testcase name="consensus-adversary" classname="consensus-adversary" time="0.626849" status="run">
+		<properties/>
+		<system-out>{"status":"reproduced_with_native_valid_proofs","retarget":{"honest_blocks":16,"private_blocks":8,"honest_work":"65536","private_work":"143360","honest_sqrt_work_proxy":1024,"private_sqrt_work_proxy":960,"private_fork_selected":true},"fixed_target":{"honest_blocks":16,"private_blocks":8,"honest_work":"65536","private_work":"32768","honest_sqrt_work_proxy":1024,"private_sqrt_work_proxy":512,"private_fork_selected":false},"limitation":"sqrt(work) is an idealized Grover query proxy; no hardware timing, race probability, or all-quantum security proof"}
+</system-out>
+	</testcase>
+	<testcase name="quantum-circuit-model" classname="quantum-circuit-model" time="0.0436036" status="run">
+		<properties/>
+		<system-out>....
+----------------------------------------------------------------------
+Ran 4 tests in 0.000s
+
+OK
+</system-out>
+	</testcase>
+	<testcase name="quantum-resource-model" classname="quantum-resource-model" time="0.0467361" status="run">
+		<properties/>
+		<system-out>.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.000s
+
+OK
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,61 @@
+{
+  "work_directory": "/home/julian/Documents/Organization/pqcoin/.deps/consensus-bwtwc4uc",
+  "validator_signature": "ML-DSA-65",
+  "validators": 4,
+  "initial_agreement": {
+    "height": 4,
+    "block_hash": "419583E7E847ADA1975C241FFEA4904EE5AE1B0AC93B4D5FF3C1AA6181CD7495",
+    "app_hash": "9AB5678931BAFF28815034ABC4893DBA448AF94E75FC50D71AF7971B06411DFD"
+  },
+  "offline_certificate_verified": true,
+  "forged_certificate_rejected": true,
+  "commit_certificate": {
+    "height": 3,
+    "signatures": 4,
+    "signature_bytes": 3309
+  },
+  "invalid_transactions_rejected": [
+    "replay",
+    "foreign_chain",
+    "malformed"
+  ],
+  "one_validator_offline": {
+    "height": 6,
+    "block_hash": "1BFE8F7BECA39BFB4A20FC62975A4AFF3DA1B792714549B324657CA55354D931",
+    "app_hash": "E582C36FF75C9B2F5B7D27EFBBF90426205E861A011D25F1528B775FE39FF08F"
+  },
+  "quorum_loss": {
+    "before": [
+      8,
+      8
+    ],
+    "after": [
+      8,
+      8
+    ],
+    "halted": true
+  },
+  "recovered_agreement": {
+    "height": 13,
+    "block_hash": "3746E4204B1C9A45FCCCA059D47830109751A8B8AC6522C54B0C14FFBF3A7D80",
+    "app_hash": "F04BFE6CB36DB831240E8D0BE1E636AE0F524196112D695DC0CD5707F2D7D5FD"
+  },
+  "full_restart_agreement": {
+    "height": 16,
+    "block_hash": "F65C964544BD7BCE38877A18F9761714AEEC7B11B1E4A833E9B2CFB427332E2C",
+    "app_hash": "4AEDB3FEAA4CA7A8039BFE20E4F617BED4ED7BA362D654C7A67C18E8019EFA98"
+  },
+  "final_accounts": {
+    "alice": {
+      "balance": "999896",
+      "nonce": "4"
+    },
+    "bob": {
+      "balance": "100",
+      "nonce": "0"
+    }
+  },
+  "test_genesis_allocation": 1000000,
+  "status": "passed",
+  "duration_seconds": 91.153
+}

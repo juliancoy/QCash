@@ -1,0 +1,11 @@
+{
+  "status": "passed",
+  "binary": "/home/julian/Documents/Organization/pqcoin/build-sanitize/qcash",
+  "work_directory": "/home/julian/Documents/Organization/pqcoin/.deps/wallet-network-8on_5dx3",
+  "browser": false,
+  "chain_id": "d6337b8be0ca52c23f851f15017c534f8b0dc5ccf8b3db41c6bfa32707534b2a",
+  "native_signed_queue_gossip_and_confirmation": "passed",
+  "confirmed_transaction": "9a2d94cbcb33c19bb09d82cc1df5ce5d68b997d84b9af060bd56fba5c7e67718",
+  "reorg_rolls_back_and_requeues_valid_detached_transfer": "passed",
+  "restart_history_rebuild_and_idempotent_resubmission": "passed"
+}
