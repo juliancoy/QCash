@@ -177,3 +177,18 @@ fuzz peer frames and storage crash paths, and exercise C02/C03/C06 under hostile
 load. Require a written report, severity triage, remediation and retest before any
 production claim. No independent report exists yet; the handoff package is not
 an audit certificate.
+
+
+## Optional Vulkan mining backend
+
+The GPU is a candidate-search accelerator, not a consensus authority. Its
+SHA3-256 results are checked against OpenSSL in digest-vector tests and each
+winning candidate is rehashed natively before output. Submission still runs the
+original full-node consensus checks. Tests include loopback block acceptance,
+controller submission, arbitrary header contents, nonce carry/overflow, partial
+workgroups, exhaustion, cancellation and exclusive private solution files.
+The optional dependency and GPU availability do not affect the default CPU build.
+Only public work bytes are uploaded; peer-provided shaders and wallet keys are
+not accepted. Dispatches are bounded; cancellation cannot preempt a running GPU
+command. A faulty GPU can waste time or miss solutions, and this is not a formal
+shader audit or a claim of production consensus readiness.

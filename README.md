@@ -159,3 +159,6 @@ of the respective zero-terminated strings `pqcoin/devnet/empty-transactions/v1`,
 `pqcoin/devnet/empty-accounts/v1`, and `PQCoin local development genesis`.
 A particular chain must pin its exact genesis hash; another mined header creates
 a different local chain. Mining refuses to overwrite an existing directory.
+
+The optional [Vulkan GPU miner](miners/README.md#vulkan-gpu-mining) searches real
+SHA3-256 work and validates every candidate natively. CPU-only builds remain the default.

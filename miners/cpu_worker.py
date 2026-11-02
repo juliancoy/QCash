@@ -36,7 +36,10 @@ def main():
     parser.add_argument('--attempts', type=int, default=1000000)
     parser.add_argument('--seconds', type=int, default=60)
     parser.add_argument('--cooldown', type=float, default=1.0)
-    parser.add_argument('--backend', choices=['cpu','qpu-simulator'], default='cpu')
+    parser.add_argument('--backend', choices=['cpu','vulkan','qpu-simulator'], default='cpu')
+    parser.add_argument('--vulkan-binary', type=Path, help='Local qcash-vulkan executable; defaults beside --binary')
+    parser.add_argument('--vulkan-device', type=int, help='Optional Vulkan enumeration index; default selects a physical GPU')
+    parser.add_argument('--vulkan-batch', type=int, default=65536)
     parser.add_argument('--simulator-bits', type=int, default=10)
     parser.add_argument('--simulator-shots', type=int, default=128)
     parser.add_argument('--simulator-seed', type=int, default=7)
@@ -46,6 +49,11 @@ def main():
     if args.backend=='qpu-simulator' and (not 1<=args.simulator_bits<=12 or not 1<=args.simulator_shots<=1024 or not 0<=args.simulator_seed<2**32 or 2**args.simulator_bits>args.attempts):
         parser.error('Simulator requires 1..12 bits, 1..1024 shots, a uint32 seed and enough attempts for the classical lookup window')
     binary = args.binary.resolve(strict=True)
+    gpu = None
+    if args.backend=='vulkan':
+        if (args.vulkan_device is not None and not 0<=args.vulkan_device<2**32) or not 1<=args.vulkan_batch<=1048576:
+            parser.error('Invalid Vulkan device or batch size')
+        gpu = (args.vulkan_binary or binary.with_name('qcash-vulkan')).resolve(strict=True)
     home = args.home.resolve(strict=True)
     signal.signal(signal.SIGINT, stop)
     signal.signal(signal.SIGTERM, stop)
@@ -105,6 +113,11 @@ def main():
                     raise ValueError('Work identity or reward address mismatch')
                 if args.backend=='cpu':
                     code, output = command('solve', work, solved, args.attempts, allowed=(0, 3))
+                elif args.backend=='vulkan':
+                    device_options=[] if args.vulkan_device is None else ['--device',args.vulkan_device]
+                    code,output=command('solve',work,solved,args.attempts,'--batch',args.vulkan_batch,
+                        '--seconds',19,*device_options,program=gpu,allowed=(0,3))
+                    report('vulkan_result',result=json.loads(output))
                 else:
                     code,output=command(Path(__file__).with_name('quantum_simulator.py'),'--binary',binary,
                         '--work',work,'--output',solved,'--chain-id',args.chain_id,'--address',args.address,
@@ -113,7 +126,7 @@ def main():
                     report('simulator_result',result=json.loads(output))
                 if code == 3:
                     report('exhausted', round=index + 1, backend=args.backend,
-                           attempts=args.attempts if args.backend=='cpu' else json.loads(output).get('classical_hashes'))
+                           attempts=args.attempts if args.backend=='cpu' else json.loads(output).get('attempts' if args.backend=='vulkan' else 'classical_hashes'))
                 elif state()['tip'] != job['parent']:
                     report('stale', round=index + 1)
                 else:

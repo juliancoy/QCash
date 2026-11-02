@@ -87,3 +87,32 @@ if(PQCOIN_FUZZ)
   target_compile_options(pqcoin-parser-fuzz PRIVATE -fsanitize=fuzzer,address,undefined)
   target_link_options(pqcoin-parser-fuzz PRIVATE -fsanitize=fuzzer,address,undefined)
 endif()
+
+option(QCASH_VULKAN "Build the optional native Vulkan mining backend" OFF)
+if(QCASH_VULKAN)
+  find_package(Vulkan REQUIRED)
+  find_package(Python3 REQUIRED COMPONENTS Interpreter)
+  find_program(GLSLANG_VALIDATOR glslangValidator REQUIRED)
+  add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mining.spv
+    COMMAND ${GLSLANG_VALIDATOR} -V --target-env vulkan1.1 -Os ${CMAKE_CURRENT_SOURCE_DIR}/shaders/mining.comp -o ${CMAKE_CURRENT_BINARY_DIR}/mining.spv
+    DEPENDS shaders/mining.comp VERBATIM)
+  add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/mining_spirv.hpp
+    COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tools/embed_spirv.py ${CMAKE_CURRENT_BINARY_DIR}/mining.spv ${CMAKE_CURRENT_BINARY_DIR}/mining_spirv.hpp
+    DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/mining.spv tools/embed_spirv.py VERBATIM)
+  add_library(qcash_vulkan src/vulkan_miner.cpp ${CMAKE_CURRENT_BINARY_DIR}/mining_spirv.hpp)
+  target_include_directories(qcash_vulkan PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+  target_link_libraries(qcash_vulkan PUBLIC pqcoin_crypto Vulkan::Vulkan)
+  target_compile_options(qcash_vulkan PRIVATE -Wall -Wextra -Wpedantic -Wconversion -Wno-missing-field-initializers)
+  add_executable(qcash-vulkan src/vulkan_main.cpp)
+  target_link_libraries(qcash-vulkan PRIVATE qcash_vulkan pqcoin_pow)
+  if(BUILD_TESTING)
+    add_executable(qcash-vulkan-tests tests/vulkan_test.cpp)
+    target_link_libraries(qcash-vulkan-tests PRIVATE qcash_vulkan pqcoin_pow)
+    add_test(NAME vulkan-hash-search COMMAND qcash-vulkan-tests)
+    set_tests_properties(vulkan-hash-search PROPERTIES TIMEOUT 120)
+    add_test(NAME vulkan-mining-worker COMMAND ${CMAKE_COMMAND} -E env
+      QCASH_BINARY=$<TARGET_FILE:qcash> QCASH_VULKAN_BINARY=$<TARGET_FILE:qcash-vulkan>
+      ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/vulkan_worker_test.py)
+    set_tests_properties(vulkan-mining-worker PROPERTIES TIMEOUT 120)
+  endif()
+endif()

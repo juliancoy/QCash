@@ -248,3 +248,84 @@ for simulator semantics and supported methods.
 
 See the [measured CPU and simulator comparison](../benchmarks/README.md) for the
 chart, raw samples, limitations and local reproduction commands.
+
+## Vulkan GPU mining
+
+The optional native `qcash-vulkan` backend searches real SHA3-256 nonces on a
+Vulkan compute GPU. It has been tested on an NVIDIA RTX 3060. This is conventional
+GPU proof-of-work, separate from the QPU simulator. The CPU-only build remains
+the default; enable the backend explicitly:
+
+```sh
+# Requires Vulkan development headers/loader and glslangValidator.
+cmake --preset local -DQCASH_VULKAN=ON
+cmake --build --preset local --parallel 2
+./build/qcash-vulkan info
+ctest --test-dir build -R vulkan --output-on-failure
+```
+
+A physical GPU with `shaderInt64` is required by default. `info` reports the actual
+device, enumeration index and workgroup size. `--device N` explicitly selects a
+Vulkan enumeration index; there is no automatic software fallback.
+
+Use the existing pinned-peer controller with the GPU backend:
+
+```sh
+python3 miners/cpu_worker.py --backend vulkan \
+  --binary ./build/qcash --vulkan-binary ./build/qcash-vulkan \
+  --home CLIENT_HOME --peer YOUR_NODE_HOST:PORT --peer-key VERIFIED_PEER_KEY \
+  --chain-id VERIFIED_CHAIN_ID --address YOUR_PUBLIC_REWARD_ADDRESS \
+  --rounds 10 --attempts 1000000 --seconds 60
+```
+
+The uppercase arguments are placeholders. Choose your own reachable node and
+verify its chain ID and peer identity independently. This does not connect to a
+public hosted mining peer. The controller preserves reward checks, stale-tip
+checks and full-node submission/validation. No wallet private key goes to the GPU.
+Use `--vulkan-device N` for explicit device selection and `--vulkan-batch N` for
+bounded dispatches (default 65,536; maximum 1,048,576). Pipeline and mapped buffers
+are reused within each solve; each controller round currently starts a new GPU
+process/context, so short jobs can be dominated by setup.
+
+Offline work-file usage:
+
+```sh
+./build/qcash-vulkan solve work.bin NEW-solved.bin 1000000 --seconds 30
+./build/qcash submit CLIENT_HOME YOUR_NODE_HOST:PORT NEW-solved.bin
+```
+
+The output must be a new file and is created with mode 0600. Exit 0 means a
+CPU-verified candidate was written, 3 means the attempt/time budget ended, 130
+means cancellation, and 2 means failure. The shader returns the lowest winning
+index in a complete bounded dispatch; `attempts` counts all dispatched candidates,
+not just candidates before that winner. Cancellation is checked between dispatches
+and before writing a solution; an already submitted GPU dispatch must finish.
+A window that would overflow the 64-bit nonce is rejected; obtain a fresh template.
+Full-node acceptance is still required and is not finality or a reward guarantee.
+
+The kernel specializes for the canonical 268-byte header. It precomputes the fixed
+first 136-byte SHA3 rate block on the CPU, then performs the second absorption and
+Keccak permutation independently for each GPU nonce. SHA3 padding is 0x06, not
+legacy Ethereum Keccak padding. The big-endian nonce straddles two little-endian
+Keccak lanes; tests cover its 32-bit carry and upper 64-bit boundary. The full
+256-bit target comparison is inclusive.
+
+Only a 368-byte prepared job and a winning index are exchanged in normal mining;
+nonce generation and hash state stay on the GPU. Buffers stay mapped, without
+per-nonce uploads or digest downloads, and noncoherent memory is flushed/invalidated
+when needed. A separate bounded digest-capture mode exists for correctness tests.
+Shader SPIR-V is compiled and embedded at build time, never supplied by a peer.
+
+Run the measured comparison and export its chart:
+
+```sh
+python3 tools/benchmark_mining.py --vulkan-binary ./build/qcash-vulkan \
+  --output benchmarks/my-gpu.json
+python3 tools/plot_mining.py benchmarks/my-gpu.json --output benchmarks/my-gpu.png
+```
+
+The GPU has separate timestamp-based kernel throughput, dispatch/fence wall
+throughput and per-process verified-proof latency. Those are different costs.
+The CPU baseline recomputes both SHA3 rate blocks; the GPU uses a cached first-block
+state. Small devnet jobs may favor CPU latency despite much higher sustained GPU
+throughput. Board power snapshots are diagnostic, not isolated miner energy use.

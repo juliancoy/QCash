@@ -54,6 +54,8 @@ def main():
     parser.add_argument('--binary', type=Path, default=ROOT/'build/qcash')
     parser.add_argument('--simulator-python', type=Path, default=ROOT/'.deps/quantum-venv/bin/python')
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--vulkan-binary', type=Path, help='Include the optional built Vulkan miner')
+    parser.add_argument('--vulkan-batch', type=int, default=262144)
     parser.add_argument('--repeats', type=int, default=5)
     parser.add_argument('--hashes', type=int, default=262144)
     parser.add_argument('--bits', type=int, default=8)
@@ -73,12 +75,24 @@ def main():
     simulator_python = str(args.simulator_python.absolute())
     if not args.simulator_python.is_file():
         parser.error('Simulator Python does not exist')
+    gpu_binary = str(args.vulkan_binary.resolve(strict=True)) if args.vulkan_binary else None
+    if not 1<=args.vulkan_batch<=1048576:
+        parser.error('Vulkan batch must be 1..1048576')
     load_start = os.getloadavg()
     def run(*argv, codes=(0,)):
         result = subprocess.run(list(map(str, argv)), capture_output=True, text=True, timeout=120)
         if result.returncode not in codes:
             raise RuntimeError(f'Command failed ({result.returncode}): {result.stderr[-1000:]} {result.stdout[-1000:]}')
         return result.stdout.strip()
+    def telemetry():
+        if not gpu_binary:
+            return None
+        try:
+            return run('nvidia-smi','--query-gpu=name,driver_version,utilization.gpu,power.draw,temperature.gpu',
+                       '--format=csv,noheader,nounits')
+        except (OSError, RuntimeError):
+            return None
+    gpu_start = telemetry()
     def native(*argv, **kwargs):
         return run(binary, *argv, **kwargs)
     with tempfile.TemporaryDirectory(prefix='qcash-speed-') as directory:
@@ -126,15 +140,32 @@ def main():
                 throughput = {'Native C++ miner': [], 'Python hashlib loop': []}
                 latency = {'Native C++ miner': [], 'Python hashlib miner': [], 'Qiskit Aer Grover demo': []}
                 simulator_receipts = []
+                gpu_receipts = []
+                if gpu_binary:
+                    throughput['Vulkan GPU · dispatch + wait'] = []
+                    throughput['Vulkan GPU · kernel only'] = []
+                    latency['Vulkan GPU miner'] = []
                 # Warm up both hash paths; measured rounds alternate order.
                 native('solve', d/'hard.bin', d/'never.bin', 4096, codes=(3,))
                 scan(hard_job['header'], hard_job['target'], 4096, False)
                 for repeat in range(args.repeats):
-                    for name in list(throughput)[::1 if repeat % 2 == 0 else -1]:
+                    for name in ['Native C++ miner','Python hashlib loop','Vulkan GPU · dispatch + wait'][::1 if repeat % 2 == 0 else -1]:
+                        if name.startswith('Vulkan') and not gpu_binary:
+                            continue
                         began = time.perf_counter()
                         if name.startswith('Native'):
                             report = json.loads(native('solve', d/'hard.bin', d/'never.bin', args.hashes, codes=(3,)))
                             assert report['status'] == 'exhausted' and report['attempts'] == args.hashes
+                        elif name.startswith('Vulkan'):
+                            report = json.loads(run(gpu_binary, 'bench', d/'hard.bin', args.hashes, 1,
+                                                    '--batch',args.vulkan_batch))
+                            sample = report['samples'][0]
+                            throughput[name].append(args.hashes/sample['wall_seconds'])
+                            if sample['gpu_seconds'] is None:
+                                raise RuntimeError('GPU timestamp queries unavailable; cannot report kernel throughput')
+                            throughput['Vulkan GPU · kernel only'].append(args.hashes/sample['gpu_seconds'])
+                            gpu_receipts.append(report)
+                            continue
                         else:
                             found, count = scan(hard_job['header'], hard_job['target'], args.hashes, False)
                             assert found is None and count == args.hashes
@@ -144,6 +175,10 @@ def main():
                         began = time.perf_counter()
                         if name.startswith('Native'):
                             report = json.loads(native('solve', d/'window.bin', output, 1 << args.bits))
+                        elif name.startswith('Vulkan'):
+                            report = json.loads(run(gpu_binary, 'solve',d/'window.bin',output,1<<args.bits,
+                                                    '--batch',args.vulkan_batch))
+                            assert report['native_verified']
                         elif name.startswith('Python'):
                             report = json.loads(run(sys.executable, __file__, '--python-worker', binary,
                                                     d/'window.bin', output, 1 << args.bits))
@@ -174,6 +209,12 @@ def main():
             'source_commit': run('git', '-C', ROOT, 'rev-parse', 'HEAD'),
             'source_dirty': bool(run('git', '-C', ROOT, 'status', '--porcelain')),
             'load_average_start': load_start, 'load_average_end': os.getloadavg(),
+            'gpu_telemetry_fields': ['name','driver_version','utilization_percent','board_power_watts','temperature_celsius'],
+            'gpu_telemetry_start': gpu_start,
+            'gpu_telemetry_end': telemetry(),
+            'benchmark_script_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+            'gpu': json.loads(run(gpu_binary,'info')) if gpu_binary else None,
+            'gpu_binary_sha256': hashlib.sha256(Path(gpu_binary).read_bytes()).hexdigest() if gpu_binary else None,
             'binary_sha256': hashlib.sha256(Path(binary).read_bytes()).hexdigest(),
         }
         result = {'metadata': metadata, 'hash_attempts_per_round': args.hashes,
@@ -183,6 +224,7 @@ def main():
                 'native_attempts_to_first_proof': winning_nonce - start + 1,
                 'classical_selection_seconds_excluded_from_latency': fixture_seconds},
             'simulator_receipts': simulator_receipts,
+            'gpu_receipts': gpu_receipts,
             'methodology': [
                 'Single logical CPU; background workloads not stopped. Median and min/max over alternating rounds.',
                 'Throughput: complete hard-target scan, same 268-byte header for both CPU paths. Native includes process startup; Python loop runs warm in process.',
@@ -190,7 +232,8 @@ def main():
                 'Fixture selection classically finds a winning window before measurement. These are conditional demo latencies, not expected network block times.',
                 'Simulator performs full classical window lookup then CPU statevector simulation; CPU miners stop at first proof. No quantum speedup or QPU hardware claim.',
                 'Python hashlib uses native OpenSSL hashing; this is not a pure Python SHA3 implementation.',
-                'No Vulkan, WebGPU, WASM or physical QPU mining backend is benchmarked. ML-KEM performance does not measure mining.',
+                'Vulkan, when explicitly enabled, reuses a fixed first-block SHA3 midstate; measured dispatch + fence wall time excludes context/pipeline creation. Kernel time uses Vulkan timestamps. Native baseline recomputes both SHA3 blocks.',
+                'Vulkan proof latency includes a new process/context/pipeline; driver caches may be warm. No WebGPU, WASM or physical QPU mining backend is benchmarked. ML-KEM performance does not measure mining.',
             ]}
         args.output.parent.mkdir(parents=True, exist_ok=True)
         with args.output.open('x') as out:
