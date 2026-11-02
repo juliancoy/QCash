@@ -41,11 +41,16 @@ Keep that key and all node homes out of source control and logs.
 
 Check services using `systemctl --user status qcash-testnet-node
 qcash-testnet-gateway`; inspect the private deployment receipt for source commit,
-binary digest and chain ID. Public portal `/api/org/qcash/network` checks are
+binary digest and chain ID. Public portal `/api/org/api/qcash/network` checks are
 read-only. Never run authenticated fixture tests against production.
 
 For rollback, stop the gateway, repoint the services to a retained compatible
 revision, and restart. Preserve node data and transport pins. Changing the chain
 configuration creates another network and must not be presented as a rollback.
+The native miner work interface and bounded local controller are documented in
+[`miners/README.md`](miners/README.md). The hosted loopback deployment does not
+publish a mining peer; its wallet gateway cannot serve mining templates. This
+addition does not open a public port or enable remote jobs on the hosted node.
+
 Portal migration 0130 has its own review, backup and restore rules in the
 OrgPortal repository; binary rollback does not reverse a database migration.

@@ -59,6 +59,9 @@ if(BUILD_TESTING)
   find_package(Python3 REQUIRED COMPONENTS Interpreter)
   add_test(NAME quantum-circuit-model COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/circuit_model_test.py)
   add_test(NAME quantum-resource-model COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/quantum_model_test.py)
+  add_test(NAME mining-worker COMMAND ${CMAKE_COMMAND} -E env QCASH_BINARY=$<TARGET_FILE:qcash>
+    ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/mining_worker_test.py)
+  set_tests_properties(mining-worker PROPERTIES TIMEOUT 120)
 endif()
 
 option(PQCOIN_FUZZ "Build Clang libFuzzer parser harness" OFF)

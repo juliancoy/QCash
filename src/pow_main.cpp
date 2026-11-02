@@ -11,6 +11,7 @@
 #include <mutex>
 #include <netdb.h>
 #include <openssl/pem.h>
+#include <openssl/rand.h>
 #include <openssl/ssl.h>
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
@@ -655,6 +656,16 @@ Bytes answer(Store &store, const Bytes &message) {
     put(out, store.pool.size(), 2);
     for (const auto &[_, raw] : store.pool)
       add(out, raw);
+  } else if (command == 8) {
+    const auto miner = r.digest();
+    r.end();
+    need(miner != Hash{}, "a nonzero reward address is required");
+    auto candidate =
+        store.chain.candidate(store.chain.tip(), miner, now(), store.pending());
+    need(RAND_bytes(candidate.extra_nonce.data(),
+                    static_cast<int>(candidate.extra_nonce.size())) == 1,
+         "work randomness failed");
+    add(out, p::encode_block(candidate));
   } else if (command == 3) {
     r.end();
     const auto text = status(store);
@@ -752,7 +763,8 @@ void node(Store &store, std::string_view address,
           need(store.accept(candidate));
           std::cout << status(store) << std::endl;
           next_mine = std::chrono::steady_clock::now() +
-                      std::chrono::seconds(std::max<std::uint64_t>(store.chain.config().spacing, mine_interval));
+                      std::chrono::seconds(std::max<std::uint64_t>(
+                          store.chain.config().spacing, mine_interval));
           candidate = store.chain.candidate(store.chain.tip(), *miner, now(),
                                             store.pending());
           revision = store.pool_revision;
@@ -770,9 +782,73 @@ int main(int argc, char **argv) {
          "usage: qcash init HOME BOOTSTRAP [--experimental-retarget] | "
          "wallet KEYFILE | mine HOME "
          "ADDRESS COUNT [TXFILE] | status HOME | balance HOME ADDRESS | node "
-         "HOME HOST:PORT [--peer HOST:PORT] [--mine-to ADDRESS] [--mine-interval SECONDS] | query HOME "
-         "HOST:PORT | submit HOME HOST:PORT BLOCKFILE");
+         "HOME HOST:PORT [--peer HOST:PORT] [--mine-to ADDRESS] "
+         "[--mine-interval SECONDS] | query HOME "
+         "HOST:PORT | submit HOME HOST:PORT BLOCKFILE | work HOME HOST:PORT "
+         "ADDRESS WORKFILE | "
+         "inspect-work WORKFILE | solve WORKFILE OUTPUTFILE ATTEMPTS | "
+         "complete-work WORKFILE EXTRA_NONCE NONCE OUTPUTFILE");
     const std::string command(argv[1]);
+    if (command == "inspect-work" || command == "solve" ||
+        command == "complete-work") {
+      need(argc == (command == "inspect-work" ? 3
+                    : command == "solve"      ? 5
+                                              : 6),
+           "usage: qcash inspect-work WORKFILE | solve WORKFILE OUTPUTFILE "
+           "ATTEMPTS | complete-work WORKFILE EXTRA_NONCE NONCE OUTPUTFILE");
+      auto block = p::decode_block(read(argv[2]));
+      need(block.target != Hash{}, "zero work target");
+      if (command == "inspect-work") {
+        const auto bytes = p::header(block);
+        std::cout << "{\"format\":\"qcash-work-v1\",\"chainId\":\""
+                  << devnet::hex(block.chain) << "\",\"parent\":\""
+                  << devnet::hex(block.parent) << "\",\"rewardAddress\":\""
+                  << devnet::hex(block.miner) << "\",\"target\":\""
+                  << devnet::hex(block.target) << "\",\"header\":\""
+                  << devnet::hex(bytes)
+                  << "\",\"nonceOffset\":" << bytes.size() - 8
+                  << ",\"extraNonceOffset\":" << bytes.size() - 40 << "}\n";
+        return 0;
+      }
+      const char *output = nullptr;
+      if (command == "solve") {
+        const auto budget = integer_argument(argv[4]);
+        need(budget > 0 && budget <= 100000000,
+             "attempts must be 1..100000000");
+        std::signal(SIGINT, stop);
+        std::signal(SIGTERM, stop);
+        std::uint64_t attempts = 0;
+        bool found = false;
+        while (attempts < budget && !stopping) {
+          const auto chunk = std::min<std::uint64_t>(2048, budget - attempts);
+          if (p::mine_batch(block, chunk)) {
+            found = true;
+            break;
+          }
+          attempts += chunk;
+        }
+        if (stopping) {
+          std::cout << "{\"status\":\"cancelled\"}\n";
+          return 130;
+        }
+        if (!found) {
+          std::cout << "{\"status\":\"exhausted\",\"attempts\":" << attempts
+                    << "}\n";
+          return 3;
+        }
+        output = argv[3];
+      } else {
+        block.extra_nonce = unhex(argv[3]);
+        block.nonce = integer_argument(argv[4]);
+        output = argv[5];
+      }
+      need(p::valid_work(block),
+           "backend solution does not satisfy SHA3 target");
+      create(output, p::encode_block(block));
+      std::cout << "{\"status\":\"solved\",\"blockId\":\""
+                << devnet::hex(p::id(block)) << "\"}\n";
+      return 0;
+    }
     if (command == "wallet") {
       need(argc == 3);
       auto key = signing_key();
@@ -808,8 +884,8 @@ int main(int argc, char **argv) {
     }
     if (command == "query" || command == "submit" ||
         command == "send-transfer" || command == "account-query" ||
-        command == "transaction-query") {
-      need(argc == (command == "query" ? 4 : 5));
+        command == "transaction-query" || command == "work") {
+      need(argc == (command == "query" ? 4 : command == "work" ? 6 : 5));
       const fs::path home(argv[2]);
       auto config = p::decode_config(read(home / "chain.bin"));
       p::Chain chain(config);
@@ -820,21 +896,32 @@ int main(int argc, char **argv) {
                              : command == "submit"        ? 2
                              : command == "send-transfer" ? 4
                              : command == "account-query" ? 5
+                             : command == "work"          ? 8
                                                           : 6;
       Bytes message{static_cast<unsigned char>(operation)};
       add(message, chain.context());
       if (command == "submit" || command == "send-transfer")
         add(message,
             read(argv[4], command == "send-transfer" ? 5472 : 1024 * 1024));
-      if (command == "account-query" || command == "transaction-query")
+      if (command == "account-query" || command == "transaction-query" ||
+          command == "work")
         add(message, unhex(argv[4]));
       auto result = request(ctx.get(), home, argv[3], message);
+      if (command == "work") {
+        const auto block = p::decode_block(result);
+        need(block.chain == chain.context() && block.miner == unhex(argv[4]) &&
+                 block.target != Hash{} &&
+                 block.target <= config.maximum_target,
+             "invalid work template identity or target");
+        create(argv[5], result);
+        std::cout << "{\"status\":\"work-exported\"}\n";
+        return 0;
+      }
       std::cout << std::string(result.begin(), result.end()) << '\n';
       return 0;
     }
     if (command == "trust") {
-      need(argc == 5,
-           "usage: qcash trust HOME HOST:PORT PEER_FINGERPRINT");
+      need(argc == 5, "usage: qcash trust HOME HOST:PORT PEER_FINGERPRINT");
       (void)endpoint(argv[3]);
       const auto fingerprint = unhex(argv[4]);
       const auto directory = fs::path(argv[2]) / "peer-pins";
@@ -902,7 +989,8 @@ int main(int argc, char **argv) {
           miner = unhex(argv[i + 1]);
         else if (std::string_view(argv[i]) == "--mine-interval") {
           mine_interval = integer_argument(argv[i + 1]);
-          need(mine_interval >= 1 && mine_interval <= 3600, "mining interval must be 1..3600 seconds");
+          need(mine_interval >= 1 && mine_interval <= 3600,
+               "mining interval must be 1..3600 seconds");
         } else
           need(false, "unknown node argument");
       }
